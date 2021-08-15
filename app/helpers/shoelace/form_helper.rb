@@ -102,7 +102,7 @@ module Shoelace
       def submit(value = nil, options = {})
         value, options = nil, value if value.is_a?(Hash)
 
-        @template.sl_submit_tag(value || submit_default_value, options)
+        @template.sl_submit_tag(value || submit_default_value, **options)
       end
     end
 
@@ -139,22 +139,39 @@ module Shoelace
       content
     end
 
+    # Creates a generic button element.
     def sl_button_tag(**attrs, &block)
       content_tag("sl-button", **attrs, &block)
     end
 
-    def sl_button_to(href, **attrs, &block)
-      sl_button_tag(href: href, **attrs, &block)
-    end
+    # Not providing this helper for now due to potentially untraceable HTML. E.g.
+    #
+    #   <a href="...">
+    #     <sl-button>...</sl-button>
+    #   </a>
+    #
+    # May be trackable and traceable by search bots and scrapers, but <sl-button href="...">...</sl-button> may not be.
+    #
+    # In the mean time, it is advisable to wrap a <sl-button> tag with an <a> tag.
+    #
+    # def sl_button_to(href, **attrs, &block)
+    #   sl_button_tag(href: href, **attrs, &block)
+    # end
 
-    def sl_submit_tag(value = 'Save changes', options = {})
+    # Creates a submit button with the text value as the caption, with the +submit+ attribute.
+    def sl_submit_tag(value = 'Save changes', **options)
       options = options.deep_stringify_keys
       tag_options = { "submit" => true, "type" => "primary" }.update(options)
       set_default_disable_with(value, tag_options)
 
-      content_tag 'sl-button', value, tag_options
+      content_tag('sl-button', value, tag_options)
     end
 
+    # Creates a shoelace text field; use these text fields to input smaller chunks of text like a username or a search query.
+    #
+    # For the properties available on this tag, please refer to the official documentation:
+    #   https://shoelace.style/components/input?id=properties
+    #
     def sl_text_field_tag(name, value = nil, **options, &block)
       content_tag('sl-input', '', { "type" => "text", "name" => name, "id" => sanitize_to_id(name), "value" => value }.update(options.stringify_keys), &block)
     end
@@ -172,6 +189,7 @@ module Shoelace
       #   sl_text_field_tag(name, value, options.merge(type: :email))
       # end
       eval <<-RUBY, nil, __FILE__, __LINE__ + 1
+        # Creates a text field of type “#{field_type}”.
         def sl_#{field_type}_field_tag(method, **options, &block)
           sl_text_field_tag(name, value, options.merge(type: :#{field_class}))
         end

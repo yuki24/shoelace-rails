@@ -30,5 +30,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "actionpack", ">= 5.2.0"
 
   spec.add_development_dependency "minitest", ">= 5.14.4"
+  spec.add_development_dependency "activemodel", ">= 5.2.0"
   spec.add_development_dependency "rails-dom-testing", ">= 2.0.3"
 end
