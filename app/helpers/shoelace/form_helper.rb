@@ -91,6 +91,27 @@ module Shoelace
       end
     end
 
+    class ShoelaceCheckBox < ActionView::Helpers::Tags::CheckBox
+      def render(&block)
+        options = @options.stringify_keys
+        options["value"]   = @checked_value
+        options["checked"] = true if input_checked?(options)
+
+        if options["multiple"]
+          add_default_name_and_id_for_value(@checked_value, options)
+          options.delete("multiple")
+        else
+          add_default_name_and_id(options)
+        end
+
+        if block_given?
+          @template_object.content_tag('sl-checkbox', '', options, &block)
+        else
+          @template_object.content_tag('sl-checkbox', @method_name.to_s.humanize, options)
+        end
+      end
+    end
+
     class ShoelaceFormBuilder < ActionView::Helpers::FormBuilder
       {
         email: :email,
@@ -129,6 +150,10 @@ module Shoelace
 
       def text_area(method, **options)
         ShoelaceTextArea.new(object_name, method, @template, options.with_defaults(object: @object, resize: 'auto')).render
+      end
+
+      def check_box(method, options = {}, checked_value = "1", unchecked_value = "0", &block)
+        ShoelaceCheckBox.new(object_name, method, @template, checked_value, unchecked_value, options.merge(object: @object)).render(&block)
       end
 
       def select(method, choices = nil, options: {}, html: {}, &block)

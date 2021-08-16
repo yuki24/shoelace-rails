@@ -175,6 +175,22 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#check_box" do
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.check_box(:name)
+        <sl-checkbox value="1" name="user[name]" id="user_name">Name</sl-checkbox>
+      HTML
+    end
+  end
+
+  test "#check_box with a block" do
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.check_box(:name) { "Maintainer Name" }
+        <sl-checkbox value="1" name="user[name]" id="user_name">Maintainer Name</sl-checkbox>
+      HTML
+    end
+  end
+
   test "#select" do
     users = {
       "Yuki Nishijima" => 1,
