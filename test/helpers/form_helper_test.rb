@@ -167,6 +167,110 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#select" do
+    users = {
+      "Yuki Nishijima" => 1,
+      "Matz" => 2,
+      "Koichi Sasada" => 3
+    }
+
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.select(:name, users)
+        <sl-select name="user[name]" id="user_name">
+          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
+          <sl-menu-item value="2">Matz</sl-menu-item>
+          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+        </sl-select>
+      HTML
+    end
+  end
+
+  test "#select with multiple" do
+    users = {
+      "Yuki Nishijima" => 1,
+      "Matz" => 2,
+      "Koichi Sasada" => 3
+    }
+
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.select(:name, users, html: { multiple: true })
+        <sl-select name="user[name][]" id="user_name" multiple="multiple">
+          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
+          <sl-menu-item value="2">Matz</sl-menu-item>
+          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+        </sl-select>
+      HTML
+    end
+  end
+
+  test "#select with grouped options" do
+    users = {
+      "Main maintainers" => [
+        ["Matz", 2],
+        ["Koichi Sasada", 3]
+      ],
+      "Default gem maintainers" => [
+        ["Yuki Nishijima", 1],
+      ]
+    }
+
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.select(:name, users)
+        <sl-select name="user[name]" id="user_name">
+          <sl-menu-label>Main maintainers</sl-menu-label>
+          <sl-menu-item value="2">Matz</sl-menu-item>
+          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+          <sl-menu-divider></sl-menu-divider>
+          <sl-menu-label>Default gem maintainers</sl-menu-label>
+          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
+        </sl-select>
+      HTML
+    end
+  end
+
+  test "#select with grouped options with a default value" do
+    users = {
+      "Main maintainers" => [
+        ["Matz", 2],
+        ["Koichi Sasada", 3]
+      ],
+      "Default gem maintainers" => [
+        ["Yuki Nishijima", 1],
+      ]
+    }
+
+    sl_form_for(User.new(name: "2"), url: "/") do |form|
+      assert_dom_equal <<~HTML, form.select(:name, users)
+        <sl-select name="user[name]" id="user_name">
+          <sl-menu-label>Main maintainers</sl-menu-label>
+          <sl-menu-item value="2" checked="checked">Matz</sl-menu-item>
+          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+          <sl-menu-divider></sl-menu-divider>
+          <sl-menu-label>Default gem maintainers</sl-menu-label>
+          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
+        </sl-select>
+      HTML
+    end
+  end
+
+  test "#collection_select" do
+    users = {
+      1 => "Yuki Nishijima",
+      2 => "Matz",
+      3 => "Koichi Sasada",
+    }
+
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.collection_select(:name, users, :first, :last)
+        <sl-select name="user[name]" id="user_name">
+          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
+          <sl-menu-item value="2">Matz</sl-menu-item>
+          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+        </sl-select>
+      HTML
+    end
+  end
+
   test "#submit" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.submit("Save")

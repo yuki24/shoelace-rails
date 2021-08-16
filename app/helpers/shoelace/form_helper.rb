@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shoelace
   module FormHelper
     class ShoelaceInputField < ActionView::Helpers::Tags::TextField
@@ -59,6 +61,36 @@ module Shoelace
       end
     end
 
+    class ShoelaceSelect < ActionView::Helpers::Tags::Select
+      def grouped_options_for_select(grouped_options, options)
+        @template_object.grouped_sl_options_for_select(grouped_options, options)
+      end
+
+      def options_for_select(container, options = nil)
+        @template_object.sl_options_for_select(container, options)
+      end
+
+      def select_content_tag(option_tags, _options, html_options)
+        html_options = html_options.stringify_keys
+        add_default_name_and_id(html_options)
+
+        content_tag("sl-select", option_tags, html_options)
+      end
+    end
+
+    class ShoelaceCollectionSelect < ActionView::Helpers::Tags::CollectionSelect
+      def options_from_collection_for_select(collection, value_method, text_method, selected = nil)
+        @template_object.sl_options_from_collection_for_select(collection, value_method, text_method)
+      end
+
+      def select_content_tag(option_tags, _options, html_options)
+        html_options = html_options.stringify_keys
+        add_default_name_and_id(html_options)
+
+        content_tag("sl-select", option_tags, html_options)
+      end
+    end
+
     class ShoelaceFormBuilder < ActionView::Helpers::FormBuilder
       {
         email: :email,
@@ -97,6 +129,13 @@ module Shoelace
 
       def text_area(method, **options)
         ShoelaceTextArea.new(object_name, method, @template, options.with_defaults(resize: 'auto')).render
+
+      def select(method, choices = nil, options: {}, html: {}, &block)
+        ShoelaceSelect.new(object_name, method, @template, choices, options.with_defaults(object: @object), html, &block).render
+      end
+
+      def collection_select(method, collection, value_method, text_method, options: {}, html: {}, &block)
+        ShoelaceCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html, &block).render
       end
 
       def submit(value = nil, options = {})
@@ -113,10 +152,11 @@ module Shoelace
       }
     }
 
+    DIVIDER_TAG = "<sl-menu-divider></sl-menu-divider>".html_safe
     OPENING_SL_FORM_TAG = '<sl-form'.html_safe
     CLOSING_SL_FORM_TAG = '</sl-form>'.html_safe
 
-    private_constant :DEFAULT_FORM_PARAMETERS, :OPENING_SL_FORM_TAG, :CLOSING_SL_FORM_TAG
+    private_constant :DEFAULT_FORM_PARAMETERS, :DIVIDER_TAG, :OPENING_SL_FORM_TAG, :CLOSING_SL_FORM_TAG
 
     def sl_form_for(*args, **options, &block)
       content = form_for(*args, **DEFAULT_FORM_PARAMETERS.deep_merge(options), &block)
@@ -174,6 +214,52 @@ module Shoelace
     #
     def sl_text_field_tag(name, value = nil, **options, &block)
       content_tag('sl-input', '', { "type" => "text", "name" => name, "id" => sanitize_to_id(name), "value" => value }.update(options.stringify_keys), &block)
+    end
+
+    def grouped_sl_options_for_select(grouped_options, options)
+      body = "".html_safe
+
+      grouped_options.each_with_index do |container, index|
+        label, values = container
+
+        body.safe_concat(DIVIDER_TAG) if index > 0
+        body.safe_concat("<sl-menu-label>#{label}</sl-menu-label>".html_safe) if label.present?
+        body.safe_concat(sl_options_for_select(values, options))
+      end
+
+      body
+    end
+
+    def sl_options_for_select(container, options = nil)
+      return container if String === container
+
+      selected, disabled = extract_selected_and_disabled(options).map { |r| Array(r).map(&:to_s) }
+
+      container.map do |element|
+        html_attributes = option_html_attributes(element)
+        text, value = option_text_and_value(element).map(&:to_s)
+
+        html_attributes[:checked] ||= selected.include?(value)
+        html_attributes[:disabled] ||= disabled.include?(value)
+        html_attributes[:value] = value
+
+        tag_builder.content_tag_string('sl-menu-item', text, html_attributes)
+      end.join("\n").html_safe
+    end
+
+    def sl_options_from_collection_for_select(collection, value_method, text_method, selected = nil)
+      options = collection.map do |element|
+        [value_for_collection(element, text_method), value_for_collection(element, value_method), option_html_attributes(element)]
+      end
+
+      selected, disabled = extract_selected_and_disabled(selected)
+
+      select_deselect = {
+        selected: extract_values_from_collection(collection, value_method, selected),
+        disabled: extract_values_from_collection(collection, value_method, disabled)
+      }
+
+      sl_options_for_select(options, select_deselect)
     end
 
     {
