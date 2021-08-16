@@ -74,20 +74,20 @@ module Shoelace
         html_options = html_options.stringify_keys
         add_default_name_and_id(html_options)
 
-        content_tag("sl-select", option_tags, html_options)
+        @template_object.content_tag("sl-select", option_tags, html_options)
       end
     end
 
     class ShoelaceCollectionSelect < ActionView::Helpers::Tags::CollectionSelect
       def options_from_collection_for_select(collection, value_method, text_method, selected = nil)
-        @template_object.sl_options_from_collection_for_select(collection, value_method, text_method)
+        @template_object.sl_options_from_collection_for_select(collection, value_method, text_method, selected)
       end
 
       def select_content_tag(option_tags, _options, html_options)
         html_options = html_options.stringify_keys
         add_default_name_and_id(html_options)
 
-        content_tag("sl-select", option_tags, html_options)
+        @template_object.content_tag("sl-select", option_tags, html_options)
       end
     end
 
@@ -249,7 +249,7 @@ module Shoelace
         label, values = container
 
         body.safe_concat(DIVIDER_TAG) if index > 0
-        body.safe_concat("<sl-menu-label>#{label}</sl-menu-label>".html_safe) if label.present?
+        body.safe_concat(content_tag("sl-menu-label", label)) if label.present?
         body.safe_concat(sl_options_for_select(values, options))
       end
 
