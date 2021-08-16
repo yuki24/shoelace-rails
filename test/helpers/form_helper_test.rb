@@ -127,6 +127,14 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#text_field with a default value" do
+    sl_form_for(User.new(name: "Yuki"), url: "/") do |form|
+      assert_dom_equal <<~HTML, form.text_field(:name)
+        <sl-input label="Name" type="text" name="user[name]" id="user_name" value="Yuki"></sl-input>
+      HTML
+    end
+  end
+
   test "#url_field" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.url_field(:name)

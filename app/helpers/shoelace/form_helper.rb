@@ -18,7 +18,7 @@ module Shoelace
 
         options["size"] = options["maxlength"] unless options.key?("size")
         options["type"] ||= field_type
-        options["invalid"] = options.fetch("invalid") { @object&.errors&.dig(@method_name)&.presence }
+        options["invalid"] = options.fetch("invalid") { @object.errors[@method_name].presence }
         add_default_name_and_id(options)
 
         @template_object.content_tag('sl-input', '', options, &block)
@@ -107,28 +107,29 @@ module Shoelace
         # end
         eval <<-RUBY, nil, __FILE__, __LINE__ + 1
           def #{field_type}_field(method, **options, &block)
-            ShoelaceInputField.new(:#{field_class}, object_name, method, @template, options.with_defaults(label: method.to_s.humanize)).render(&block)
+            ShoelaceInputField.new(:#{field_class}, object_name, method, @template, options.with_defaults(object: @object, label: method.to_s.humanize)).render(&block)
           end
         RUBY
       end
 
-      def color_field(method, options = {})
-        ShoelaceColorPicker.new(object_name, method, @template, options.with_defaults(value: "#ffffff")).render
+      def color_field(method, **options)
+        ShoelaceColorPicker.new(object_name, method, @template, options.with_defaults(object: @object, value: "#ffffff")).render
       end
       alias color_picker color_field
 
       def range_field(method, **options)
-        ShoelaceRange.new(object_name, method, @template, options).render
+        ShoelaceRange.new(object_name, method, @template, options.with_defaults(object: @object)).render
       end
       alias range range_field
 
       def switch_field(method, **options, &block)
-        ShoelaceSwitch.new(object_name, method, @template, options).render(&block)
+        ShoelaceSwitch.new(object_name, method, @template, options.with_defaults(object: @object)).render(&block)
       end
       alias switch switch_field
 
       def text_area(method, **options)
-        ShoelaceTextArea.new(object_name, method, @template, options.with_defaults(resize: 'auto')).render
+        ShoelaceTextArea.new(object_name, method, @template, options.with_defaults(object: @object, resize: 'auto')).render
+      end
 
       def select(method, choices = nil, options: {}, html: {}, &block)
         ShoelaceSelect.new(object_name, method, @template, choices, options.with_defaults(object: @object), html, &block).render
