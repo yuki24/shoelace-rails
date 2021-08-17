@@ -2,7 +2,7 @@
 
 module Shoelace
   module FormHelper
-    class ShoelaceInputField < ActionView::Helpers::Tags::TextField
+    class ShoelaceInputField < ActionView::Helpers::Tags::TextField #:nodoc:
       attr_reader :field_type
 
       def initialize(field_type, *args)
@@ -25,7 +25,7 @@ module Shoelace
       end
     end
 
-    class ShoelaceColorPicker < ActionView::Helpers::Tags::ColorField
+    class ShoelaceColorPicker < ActionView::Helpers::Tags::ColorField #:nodoc:
       def field_type; nil; end
 
       def tag(tag_name, *args, &block)
@@ -33,7 +33,7 @@ module Shoelace
       end
     end
 
-    class ShoelaceRange < ActionView::Helpers::Tags::NumberField
+    class ShoelaceRange < ActionView::Helpers::Tags::NumberField #:nodoc:
       def field_type; nil; end
 
       def tag(tag_name, *args, &block)
@@ -41,7 +41,7 @@ module Shoelace
       end
     end
 
-    class ShoelaceSwitch < ActionView::Helpers::Tags::TextField
+    class ShoelaceSwitch < ActionView::Helpers::Tags::TextField #:nodoc:
       def field_type; nil; end
 
       def render(&block)
@@ -53,7 +53,7 @@ module Shoelace
       end
     end
 
-    class ShoelaceTextArea < ActionView::Helpers::Tags::TextArea
+    class ShoelaceTextArea < ActionView::Helpers::Tags::TextArea #:nodoc:
       def content_tag(tag_name, content, options)
         options[:value] = content if content.present?
 
@@ -61,7 +61,7 @@ module Shoelace
       end
     end
 
-    class ShoelaceSelect < ActionView::Helpers::Tags::Select
+    class ShoelaceSelect < ActionView::Helpers::Tags::Select #:nodoc:
       def grouped_options_for_select(grouped_options, options)
         @template_object.grouped_sl_options_for_select(grouped_options, options)
       end
@@ -78,7 +78,7 @@ module Shoelace
       end
     end
 
-    class ShoelaceCollectionSelect < ActionView::Helpers::Tags::CollectionSelect
+    class ShoelaceCollectionSelect < ActionView::Helpers::Tags::CollectionSelect #:nodoc:
       def options_from_collection_for_select(collection, value_method, text_method, selected = nil)
         @template_object.sl_options_from_collection_for_select(collection, value_method, text_method, selected)
       end
@@ -91,7 +91,7 @@ module Shoelace
       end
     end
 
-    class ShoelaceCheckBox < ActionView::Helpers::Tags::CheckBox
+    class ShoelaceCheckBox < ActionView::Helpers::Tags::CheckBox #:nodoc:
       def render(&block)
         options = @options.stringify_keys
         options["value"]   = @checked_value
@@ -155,7 +155,7 @@ module Shoelace
       end
     end
 
-    class ShoelaceFormBuilder < ActionView::Helpers::FormBuilder
+    class ShoelaceFormBuilder < ActionView::Helpers::FormBuilder #:nodoc:
       {
         email: :email,
         number: :number,
