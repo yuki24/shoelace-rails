@@ -263,9 +263,11 @@ module Shoelace
     #     <sl-button>...</sl-button>
     #   </a>
     #
-    # May be trackable and traceable by search bots and scrapers, but <sl-button href="...">...</sl-button> may not be.
+    # may be trackable and traceable by search bots and scrapers, but:
     #
-    # In the mean time, it is advisable to wrap a <sl-button> tag with an <a> tag.
+    #   <sl-button href="...">...</sl-button>
+    #
+    # may not be. In the mean time, it is advisable to wrap a <sl-button> tag with an <a> tag.
     #
     # def sl_button_to(href, **attrs, &block)
     #   sl_button_tag(href: href, **attrs, &block)
