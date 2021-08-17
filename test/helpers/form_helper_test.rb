@@ -327,6 +327,24 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#collection_radio_buttons with a default value" do
+    users = {
+      1 => "Yuki Nishijima",
+      2 => "Matz",
+      3 => "Koichi Sasada",
+    }
+
+    sl_form_for(User.new(name: 1), url: "/") do |form|
+      assert_dom_equal <<~HTML, form.collection_radio_buttons(:name, users, :first, :last)
+        <sl-radio-group no-fieldset="true">
+          <sl-radio name="user[name]" value="1" id="user_name_1" checked="checked">Yuki Nishijima</sl-radio>
+          <sl-radio name="user[name]" value="2" id="user_name_2">Matz</sl-radio>
+          <sl-radio name="user[name]" value="3" id="user_name_3">Koichi Sasada</sl-radio>
+        </sl-radio-group>
+      HTML
+    end
+  end
+
   test "#submit" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.submit("Save")
