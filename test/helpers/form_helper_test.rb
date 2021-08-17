@@ -47,6 +47,12 @@ class FormHelperTest < ActionView::TestCase
     HTML
   end
 
+  test "#sl_radio_button" do
+    assert_dom_equal(<<~HTML, sl_radio_button(:user, :name, 'userid-314', checked: true) { "Yuki Nishijima" })
+      <sl-radio value="userid-314" checked="checked" name="user[name]" id="user_name_userid-314">Yuki Nishijima</sl-radio>
+    HTML
+  end
+
   test "#sl_form_tag" do
     assert_dom_equal(<<~HTML, sl_form_tag("/posts") { })
       <sl-form data-remote="true" action="/posts" accept-charset="UTF-8" method="post">
@@ -291,6 +297,24 @@ class FormHelperTest < ActionView::TestCase
           <sl-menu-item value="2">Matz</sl-menu-item>
           <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
         </sl-select>
+      HTML
+    end
+  end
+
+  test "#collection_radio_buttons" do
+    users = {
+      1 => "Yuki Nishijima",
+      2 => "Matz",
+      3 => "Koichi Sasada",
+    }
+
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.collection_radio_buttons(:name, users, :first, :last)
+        <sl-radio-group no-fieldset="true">
+          <sl-radio name="user[name]" value="1" id="user_name_1">Yuki Nishijima</sl-radio>
+          <sl-radio name="user[name]" value="2" id="user_name_2">Matz</sl-radio>
+          <sl-radio name="user[name]" value="3" id="user_name_3">Koichi Sasada</sl-radio>
+        </sl-radio-group>
       HTML
     end
   end

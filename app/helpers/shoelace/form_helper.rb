@@ -112,6 +112,49 @@ module Shoelace
       end
     end
 
+    class ShoelaceRadioButton < ActionView::Helpers::Tags::RadioButton #:nodoc:
+      def render(&block)
+        options = @options.stringify_keys
+        options["value"]   = @tag_value
+        options["checked"] = "checked" if input_checked?(options)
+        add_default_name_and_id_for_value(@tag_value, options)
+
+        @template_object.content_tag('sl-radio', '', options.except("type"), &block)
+      end
+    end
+
+    class ShoelaceCollectionRadioButtons < ActionView::Helpers::Tags::CollectionRadioButtons #:nodoc:
+      class RadioButtonBuilder < Builder # :nodoc:
+        def label(*)
+          text
+        end
+
+        def radio_button(extra_html_options = {}, &block)
+          html_options = extra_html_options.merge(@input_html_options)
+          html_options[:skip_default_ids] = false
+          @template_object.sl_radio_button(@object_name, @method_name, @value, html_options, &block)
+        end
+      end
+
+      def render(&block)
+        render_collection_for(RadioButtonBuilder, &block)
+      end
+
+      private
+
+      def render_collection(&block)
+        @template_object.content_tag('sl-radio-group', 'no-fieldset' => true) { super(&block) }
+      end
+
+      def hidden_field
+        ''
+      end
+
+      def render_component(builder)
+        builder.radio_button { builder.label }
+      end
+    end
+
     class ShoelaceFormBuilder < ActionView::Helpers::FormBuilder
       {
         email: :email,
@@ -162,6 +205,10 @@ module Shoelace
 
       def collection_select(method, collection, value_method, text_method, options: {}, html: {}, &block)
         ShoelaceCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html, &block).render
+      end
+
+      def collection_radio_buttons(method, collection, value_method, text_method, options: {}, html: {}, &block)
+        ShoelaceCollectionRadioButtons.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html).render(&block)
       end
 
       def submit(value = nil, options = {})
@@ -286,6 +333,10 @@ module Shoelace
       }
 
       sl_options_for_select(options, select_deselect)
+    end
+
+    def sl_radio_button(object_name, method, tag_value, options = {}, &block)
+      ShoelaceRadioButton.new(object_name, method, self, tag_value, options).render(&block)
     end
 
     {
