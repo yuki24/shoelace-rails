@@ -147,7 +147,7 @@ module Shoelace
       end
 
       def hidden_field
-        ''
+        ''.html_safe
       end
 
       def render_component(builder)
