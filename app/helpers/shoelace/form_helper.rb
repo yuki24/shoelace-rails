@@ -252,7 +252,7 @@ module Shoelace
       content
     end
 
-    # Creates a generic button element.
+    # Creates a generic +<sl-button>+ element.
     def sl_button_tag(**attrs, &block)
       content_tag("sl-button", **attrs, &block)
     end
@@ -282,7 +282,8 @@ module Shoelace
       content_tag('sl-button', value, tag_options)
     end
 
-    # Creates a shoelace text field; use these text fields to input smaller chunks of text like a username or a search query.
+    # Creates a shoelace text field; use these text fields to input smaller chunks of text like a username or a search
+    # query.
     #
     # For the properties available on this tag, please refer to the official documentation:
     #   https://shoelace.style/components/input?id=properties
@@ -291,6 +292,8 @@ module Shoelace
       content_tag('sl-input', '', { "type" => "text", "name" => name, "id" => sanitize_to_id(name), "value" => value }.update(options.stringify_keys), &block)
     end
 
+    # Returns a string of +<sl-menu-item>+ tags, like +options_for_select+, but prepends a +<sl-menu-label>+ tag to
+    # each group.
     def grouped_sl_options_for_select(grouped_options, options)
       body = "".html_safe
 
@@ -305,12 +308,15 @@ module Shoelace
       body
     end
 
-    def sl_options_for_select(container, options = nil)
-      return container if String === container
+    # Accepts an enumerable (hash, array, enumerable, your type) and returns a string of +sl-menu-item+ tags. Given
+    # an enumerable where the elements respond to +first+ and +last+ (such as a two-element array), the “lasts” serve
+    # as option values and the “firsts” as option text.
+    def sl_options_for_select(enumerable, options = nil)
+      return enumerable if String === enumerable
 
       selected, disabled = extract_selected_and_disabled(options).map { |r| Array(r).map(&:to_s) }
 
-      container.map do |element|
+      enumerable.map do |element|
         html_attributes = option_html_attributes(element)
         text, value = option_text_and_value(element).map(&:to_s)
 
@@ -322,6 +328,8 @@ module Shoelace
       end.join("\n").html_safe
     end
 
+    # Returns a string of +<sl-menu-item>+ tags compiled by iterating over the collection and assigning the result of
+    # a call to the +value_method+ as the option value and the +text_method+ as the option text.
     def sl_options_from_collection_for_select(collection, value_method, text_method, selected = nil)
       options = collection.map do |element|
         [value_for_collection(element, text_method), value_for_collection(element, value_method), option_html_attributes(element)]
@@ -337,6 +345,12 @@ module Shoelace
       sl_options_for_select(options, select_deselect)
     end
 
+    # Returns a +<sl-radio>+ tag for accessing a specified attribute (identified by method) on an object assigned to
+    # the template (identified by object). If the current value of method is +tag_value+ the radio button will be
+    # checked.
+    #
+    # To force the radio button to be checked pass checked: true in the options hash. You may pass HTML options there
+    # as well.
     def sl_radio_button(object_name, method, tag_value, options = {}, &block)
       ShoelaceRadioButton.new(object_name, method, self, tag_value, options).render(&block)
     end
