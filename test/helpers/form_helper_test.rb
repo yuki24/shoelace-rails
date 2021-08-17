@@ -77,6 +77,22 @@ class FormHelperTest < ActionView::TestCase
     HTML
   end
 
+  test "#text_field" do
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.text_field(:name)
+        <sl-input label="Name" type="text" name="user[name]" id="user_name"></sl-input>
+      HTML
+    end
+  end
+
+  test "#text_field with a default value" do
+    sl_form_for(User.new(name: "Yuki"), url: "/") do |form|
+      assert_dom_equal <<~HTML, form.text_field(:name)
+        <sl-input label="Name" type="text" name="user[name]" id="user_name" value="Yuki"></sl-input>
+      HTML
+    end
+  end
+
   test "#email_field" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.email_field(:name)
@@ -125,18 +141,10 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
-  test "#text_field" do
-    sl_form_for(User.new, url: "/") do |form|
-      assert_dom_equal <<~HTML, form.text_field(:name)
-        <sl-input label="Name" type="text" name="user[name]" id="user_name"></sl-input>
-      HTML
-    end
-  end
-
-  test "#text_field with a default value" do
+  test "#text_field with a block" do
     sl_form_for(User.new(name: "Yuki"), url: "/") do |form|
-      assert_dom_equal <<~HTML, form.text_field(:name)
-        <sl-input label="Name" type="text" name="user[name]" id="user_name" value="Yuki"></sl-input>
+      assert_dom_equal <<~HTML, form.text_field(:name) { 'slot' }
+        <sl-input label="Name" type="text" name="user[name]" id="user_name" value="Yuki">slot</sl-input>
       HTML
     end
   end
