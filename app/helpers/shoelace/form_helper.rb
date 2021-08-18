@@ -199,16 +199,16 @@ module Shoelace
         ShoelaceCheckBox.new(object_name, method, @template, checked_value, unchecked_value, options.merge(object: @object)).render(&block)
       end
 
-      def select(method, choices = nil, options: {}, html: {}, &block)
-        ShoelaceSelect.new(object_name, method, @template, choices, options.with_defaults(object: @object), html, &block).render
+      def select(method, choices = nil, options = {}, html_options = {}, &block)
+        ShoelaceSelect.new(object_name, method, @template, choices, options.with_defaults(object: @object), html_options, &block).render
       end
 
-      def collection_select(method, collection, value_method, text_method, options: {}, html: {}, &block)
-        ShoelaceCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html, &block).render
+      def collection_select(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
+        ShoelaceCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html_options, &block).render
       end
 
-      def collection_radio_buttons(method, collection, value_method, text_method, options: {}, html: {}, &block)
-        ShoelaceCollectionRadioButtons.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html).render(&block)
+      def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
+        ShoelaceCollectionRadioButtons.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html_options).render(&block)
       end
 
       def submit(value = nil, options = {})

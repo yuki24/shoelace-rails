@@ -231,7 +231,7 @@ class FormHelperTest < ActionView::TestCase
     }
 
     sl_form_for(User.new, url: "/") do |form|
-      assert_dom_equal <<~HTML, form.select(:name, users, html: { multiple: true })
+      assert_dom_equal <<~HTML, form.select(:name, users, {}, { multiple: true })
         <sl-select name="user[name][]" id="user_name" multiple="multiple">
           <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
           <sl-menu-item value="2">Matz</sl-menu-item>
