@@ -1,38 +1,96 @@
-# Shoelace::Rails
+# Shoelace Rails
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/shoelace/rails`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+The `shoelace-rails` gem adds useful helper methods for https://shoelace.style, the design system.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'shoelace-rails'
+gem 'shoelace-rails', git: "https://github.com/yuki24/shoelace-rails.git"
 ```
 
 And then execute:
 
-    $ bundle install
+```
+$ bundle install
+```
 
-Or install it yourself as:
+## Form Helpers
 
-    $ gem install shoelace-rails
+Normally, we use Rails form helpers such as `form_for`, `form_with` and `form_tag`. This gem provides drop-in
+replacements for them, such as `sl_form_for`, `sl_form_with` and `sl_form_tag`. For example, this code:
 
-## Usage
+```erb
+<%= sl_form_for @user do |form| &>
+  <%# Text input: https://shoelace.style/components/input %>
+  <%= form.text_field :name %>
+  <%= form.password_field :password, placeholder: "Password Toggle", 'toggle-password': true %>
 
-TODO: Write usage instructions here
+  <%# Radio buttons: https://shoelace.style/components/color-picker %>
+  <%= form.color_field :color %>
+
+  <%# Radio buttons: https://shoelace.style/components/radio %>
+  <%= form.collection_radio_buttons :status, { id_1: "Option 1", id_2: "Option 2", id_3: "Option 3" }, :first, :last %>
+
+  <%# Select: https://shoelace.style/components/select %>
+  <%= form.collection_select :tag, { id_1: "Option 1", id_2: "Option 2", id_3: "Option 3" }, :first, :last, {}, { placeholder: "Select one" } %>
+
+  <%= form.submit %>
+<% end %>
+```
+
+will produce:
+
+```html
+<sl-form class="new_user" id="new_user" data-remote="true" action="/" accept-charset="UTF-8" method="post">
+  <sl-input label="Name" type="text" name="user[name]" id="user_name"></sl-input>
+  <sl-input label="Password" type="password" name="user[password]" id="user_password"></sl-input>
+  <sl-color-picker value="#ffffff" name="user[color]" id="user_color"></sl-color-picker>
+
+  <sl-radio-group no-fieldset="true">
+    <sl-radio value="id_1" name="user[status]" id="user_status_id_1">Option 1</sl-radio>
+    <sl-radio value="id_2" name="user[status]" id="user_status_id_2">Option 2</sl-radio>
+    <sl-radio value="id_3" name="user[status]" id="user_status_id_3">Option 3</sl-radio>
+  </sl-radio-group>
+
+  <sl-select placeholder="Select one" name="user[tag]" id="user_tag">
+    <sl-menu-item value="id_1">Option 1</sl-menu-item>
+    <sl-menu-item value="id_2">Option 2</sl-menu-item>
+    <sl-menu-item value="id_3">Option 3</sl-menu-item>
+  </sl-select>
+
+  <sl-button submit="true" type="primary" data-disable-with="Create User">Create User</sl-button>
+</sl-form>
+```
+
+## Javascript
+
+### Integration with Webpack
+
+Coming soon...
+
+### `rails-ujs` and Turbolinks Support
+
+Coming soon...
+
+### Hotwire Support
+
+Coming soon...
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+ 1. Run `bundle install`
+ 2. Make a change and add test coverage
+ 3. Run `bundle rails test`
+ 4. Make a commit and push it to GitHub
+ 5. Send us a pull request
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/shoelace-rails. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/shoelace-rails/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/shoelace-rails. This project is
+intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the
+[code of conduct](https://github.com/[USERNAME]/shoelace-rails/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -40,4 +98,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Shoelace::Rails project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/shoelace-rails/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Shoelace::Rails project's codebases, issue trackers, chat rooms and mailing lists is
+expected to follow the [code of conduct](https://github.com/[USERNAME]/shoelace-rails/blob/master/CODE_OF_CONDUCT.md).
