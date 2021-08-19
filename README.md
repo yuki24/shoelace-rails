@@ -22,7 +22,7 @@ Normally, we use Rails form helpers such as `form_for`, `form_with` and `form_ta
 replacements for them, such as `sl_form_for`, `sl_form_with` and `sl_form_tag`. For example, this code:
 
 ```erb
-<%= sl_form_for @user do |form| &>
+<%= sl_form_for @user do |form| %>
   <%# Text input: https://shoelace.style/components/input %>
   <%= form.text_field :name %>
   <%= form.password_field :password, placeholder: "Password Toggle", 'toggle-password': true %>
