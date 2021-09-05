@@ -64,19 +64,40 @@ will produce:
 </sl-form>
 ```
 
-## Javascript
+## Setting up Shoelace
 
-### Integration with Webpack
+The official documentation for [Integrating with Rails](https://shoelace.style/tutorials/integrating-with-rails) is a
+great place to start with. It is recommended to follow the official guide before setting up the Shoelace Rails UJS.
 
-Coming soon...
+### Handling form submission
 
-### `rails-ujs` and Turbolinks Support
+By default, native `<form>` elements will not recognize Shoelace form controls. The `<sl-form>` component solves this
+problem by serializing both Shoelace form controls and native form controls when the form is submitted. Unfortunately,
+it would not work with the `rails-ujs`, and you would have to handle form submissions on your own. The Shoelace
+Rails UJS solves this problem by providing bindings that are similar to the original rails UJS.
 
-Coming soon...
+```sh
+yarn add @yuki24/shoelace-rails --registry https://npm.pkg.github.com/
+```
+
+Once it is added to the project's `package.json`, add the following code to the `application.js`, or the entrypoint
+file of your project:
+
+```js
+import "@shoelace-style/shoelace"
+import { setBasePath } from "@shoelace-style/shoelace"
+import { startUjs, startTurbolinks, getDefaultAssetPath } from "@yuki24/shoelace-rails"
+
+startUjs()
+startTurbolinks(Turbolinks)
+setBasePath(getDefaultAssetPath())
+```
+
+You are all set! Now form submissions should be handled automatically.
 
 ### Hotwire Support
 
-Coming soon...
+The Hotwire support is actively being worked on and will be in beta soon.
 
 ## Development
 
