@@ -51,6 +51,8 @@ export const addShadowDomSupportToTurbolinks = (turbolinksController) => {
   }
 }
 
+// Turbolinks does not automatically handle form responses. This creates a handler that does it.
+// From https://github.com/turbolinks/turbolinks/issues/85#issuecomment-299617076
 export const handleResponse = (turbolinksInstance) => {
   return (event: CustomEvent<[XMLHttpRequest, string]>) => {
     const [xhr, _status] = event.detail
