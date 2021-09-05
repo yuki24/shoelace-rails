@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "dist/types",
+    "esModuleInterop": true,
+    "lib": [ "dom", "dom.iterable", "esnext" ],
+    "module": "es2015",
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "rootDir": "src",
+    "strict": false,
+    "target": "es2017",
+    "noEmit": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [ "dist", "src/tests/fixtures" ]
+}
+
