@@ -10,3 +10,6 @@ Gemfile.lock
 node_modules
 dist
 .npmrc
+
+test/dummy_app/log
+test/dummy_app/tmp
