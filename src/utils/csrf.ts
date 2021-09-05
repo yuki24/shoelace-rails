@@ -28,6 +28,6 @@ export const refreshCSRFTokens = () => {
   const param = csrfParam()
 
   if (token != null && param != null) {
-    return $('form input[name="' + param + '"]').forEach((input) => (input.value = token))
+    return $('sl-form input[name="' + param + '"]').forEach((input) => (input.value = token))
   }
 }
