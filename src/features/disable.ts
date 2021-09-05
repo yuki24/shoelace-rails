@@ -1,3 +1,5 @@
+// This code was heavily inspired by the rails-ujs project.
+// Copyright (c) 2007-2021 Rails Core team.
 import { buttonDisableSelector, formDisableSelector, formEnableSelector, formSubmitSelector } from "../selectors"
 import { getData, matches, setData } from "../utils/dom"
 import { stopEverything } from "../utils/event"

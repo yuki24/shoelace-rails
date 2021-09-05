@@ -1,3 +1,5 @@
+// This code was heavily inspired by the rails-ujs project.
+// Copyright (c) 2007-2021 Rails Core team.
 const $ = (selector) => Array.prototype.slice.call(document.querySelectorAll(selector))
 
 // Up-to-date Cross-Site Request Forgery token

@@ -1,3 +1,5 @@
+// This code was heavily inspired by the rails-ujs project.
+// Copyright (c) 2007-2021 Rails Core team.
 export const buttonClickSelector = {
   selector: "sl-button[data-remote]:not([form]), sl-button[data-confirm]:not([form])",
   exclude: "sl-form sl-button",

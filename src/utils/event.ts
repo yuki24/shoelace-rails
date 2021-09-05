@@ -1,3 +1,5 @@
+// This code was heavily inspired by the rails-ujs project.
+// Copyright (c) 2007-2021 Rails Core team.
 import { matches } from "./dom"
 
 // Triggers a custom event on an element and returns false if the event result is false

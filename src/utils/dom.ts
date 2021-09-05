@@ -1,3 +1,5 @@
+// This code was heavily inspired by the rails-ujs project.
+// Copyright (c) 2007-2021 Rails Core team.
 const elementPrototype = Element.prototype as any
 
 const m: (this: Element, selector: string) => boolean =
