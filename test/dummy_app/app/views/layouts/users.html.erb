@@ -6,12 +6,29 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <style>
+      body {
+        font-family: var(--sl-font-sans);
+        font-size: var(--sl-font-size-medium);
+        font-weight: var(--sl-font-weight-normal);
+        letter-spacing: var(--sl-letter-spacing-normal);
+        color: var(--sl-color-gray-800);
+        line-height: var(--sl-line-height-normal);
+      }
+
+      sl-form div {
+        margin-bottom: 2em;
+      }
+    </style>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.49/dist/themes/light.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.49/dist/shoelace.js"></script>
     <%= javascript_pack_tag 'application' %>
   </head>
 
   <body>
-    <%= yield %>
+    <div style="width: 950px; margin: auto">
+      <%= yield %>
+    </div>
   </body>
 </html>

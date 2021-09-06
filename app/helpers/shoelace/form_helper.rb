@@ -143,7 +143,7 @@ module Shoelace
       private
 
       def render_collection(&block)
-        @template_object.content_tag('sl-radio-group', 'no-fieldset' => true) { super(&block) }
+        @template_object.content_tag('sl-radio-group', 'label' => @method_name.to_s.humanize) { super(&block) }
       end
 
       def hidden_field

@@ -84,13 +84,14 @@ Once it is added to the project's `package.json`, add the following code to the 
 file of your project:
 
 ```js
-import "@shoelace-style/shoelace"
-import { setBasePath } from "@shoelace-style/shoelace"
-import { startUjs, startTurbolinks, getDefaultAssetPath } from "@yuki24/shoelace-rails"
+import Turbolinks from "turbolinks"
+import { startUjs, startTurbolinks } from "@yuki24/shoelace-rails"
 
 startUjs()
+
+// Important! Turboinks.start() needs to be called before calling the startTurbolinks function:
+Turbolinks.start()
 startTurbolinks(Turbolinks)
-setBasePath(getDefaultAssetPath())
 ```
 
 You are all set! Now form submissions should be handled automatically.

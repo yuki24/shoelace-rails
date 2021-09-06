@@ -3,5 +3,12 @@ class User
   include ActiveModel::Attributes
 
   attribute :name
-  validates :name, presence: true
+  attribute :description
+  attribute :color
+  attribute :score
+  attribute :current_city
+  attribute :previous_city
+  attribute :past_cities
+  attribute :remember_me
+  attribute :subscribe_to_emails
 end

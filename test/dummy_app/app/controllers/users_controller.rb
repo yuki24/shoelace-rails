@@ -30,6 +30,6 @@ class UsersController < ActionController::Base
   private
 
   def user_params
-    params.fetch(:user, {})
+    params.require(:user).permit!
   end
 end
