@@ -2,6 +2,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative "../config/environment"
 require "rails/test_help"
 require "action_dispatch/system_testing/server"
+require "shoelace/testing"
 
 class ActiveSupport::TestCase
   parallelize workers: :number_of_processors
@@ -42,6 +43,8 @@ end
 Capybara::Node::Element.include ShadowRootSupport
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  include Shoelace::Testing
+
   driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
 
   def shadow_fill_in(shadow_host, *locators, with:, currently_with: nil, fill_options: {}, **find_options)

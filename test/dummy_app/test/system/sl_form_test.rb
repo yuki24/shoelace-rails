@@ -6,29 +6,12 @@ class SlFormTest < ApplicationSystemTestCase
     shadow_fill_in 'sl-input[label="Name"]', with: "Yuki Nishijima"
     shadow_fill_in 'sl-range[name="user[score]"]', with: "50"
 
-    # sl_select from: "label"
-    find('sl-radio', text: "New York").click
+    find('sl-radio', text: "New York").click # Selecting a radio button does not work...
 
-    # sl_select (single)
-    find('sl-select[placeholder="Select one"]').click
-    within find('sl-select[placeholder="Select one"]') do
-      find('sl-menu-item', text: "Tokyo").click
-    end
-
-    # sl_select (multiple)
-    find('sl-select[placeholder="Select two or more"]').click
-    within find('sl-select[placeholder="Select two or more"]') do
-      find('sl-menu-item', text: "Tokyo").click
-      find('sl-menu-item', text: "New York").click
-    end
-    find('sl-select[placeholder="Select two or more"]').click
-
-    # sl_check
-    find("sl-checkbox").click
-
-    # sl_toggle
-    find("sl-switch").click
-
+    sl_select "Tokyo", from: "Select one"
+    sl_multi_select "Tokyo", "New York", from: "Select two or more"
+    sl_check "Remember me"
+    sl_toggle "Subscribe to emails"
     shadow_fill_in 'sl-textarea[name="user[description]"]', "textarea", with: "I am a human."
 
     find("sl-button", text: "Create User").click
