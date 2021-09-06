@@ -122,7 +122,7 @@ rollup@^2.56.2:
   optionalDependencies:
     fsevents "~2.3.2"
 
-turbolinks@^5.2.0:
+turbolinks@5.x:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/turbolinks/-/turbolinks-5.2.0.tgz#e6877a55ea5c1cb3bb225f0a4ae303d6d32ff77c"
   integrity sha512-pMiez3tyBo6uRHFNNZoYMmrES/IaGgMhQQM+VFF36keryjb5ms0XkVpmKHkfW/4Vy96qiGW3K9bz0tF5sK9bBw==
