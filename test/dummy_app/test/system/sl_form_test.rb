@@ -1,8 +1,11 @@
 require "test_helper"
 
 class SlFormTest < ApplicationSystemTestCase
-  test "It can submit a form with a POST method" do
+  setup do
     visit new_user_path
+  end
+
+  test "It can submit a form with a POST method" do
     shadow_fill_in 'sl-input[label="Name"]', with: "Yuki Nishijima"
     shadow_fill_in 'sl-range[name="user[score]"]', with: "50"
 
@@ -26,5 +29,11 @@ class SlFormTest < ApplicationSystemTestCase
     assert_text 'Past Cities: ["tokyo", "new_york"]'
     assert_text "Remember Me: 1"
     assert_text "Subscribe To Emails: 1"
+  end
+
+  test "It can handle an error form submission" do
+    find("sl-button", text: "Create User").click
+
+    assert_text "Name can't be blank"
   end
 end

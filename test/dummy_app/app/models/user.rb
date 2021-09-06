@@ -11,4 +11,6 @@ class User
   attribute :past_cities
   attribute :remember_me
   attribute :subscribe_to_emails
+
+  validates :name, presence: true
 end

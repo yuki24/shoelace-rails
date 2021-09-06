@@ -17,14 +17,14 @@ class UsersController < ActionController::Base
   def create
     @user = User.new(user_params)
 
-    render 'show'
+    render(@user.valid? ? 'show' : 'form')
   end
 
   # PATCH/PUT /users/1
   def update
     @user = User.new(user_params)
 
-    render 'show'
+    render(@user.valid? ? 'show' : 'form')
   end
 
   private
