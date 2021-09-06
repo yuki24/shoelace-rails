@@ -45,7 +45,7 @@ Capybara::Node::Element.include ShadowRootSupport
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include Shoelace::Testing
 
-  driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
+  driven_by :selenium, using: ENV["NO_HEADLESS"] ? :chrome : :headless_chrome, screen_size: [1400, 1400]
 
   def shadow_fill_in(shadow_host, *locators, with:, currently_with: nil, fill_options: {}, **find_options)
     shadow_host = shadow_host.respond_to?(:to_capybara_node) ? shadow_host.to_capybara_node : find(shadow_host)

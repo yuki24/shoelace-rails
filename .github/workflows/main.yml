@@ -1,16 +1,71 @@
-name: Ruby
+name: Build
 
-on: [push,pull_request]
+on:
+  - push
+  - pull_request
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  unit:
+    strategy:
+      matrix:
+        ruby_version:
+          - '3.0'
+          - '2.7'
+          - '2.6'
+          - '2.5'
+          - 'jruby-9.2.17.0'
+        gemfile:
+          - gemfiles/rails_61.gemfile
+          - gemfiles/rails_60.gemfile
+          - gemfiles/rails_52.gemfile
+          # - gemfiles/rails_51.gemfile
+          # - gemfiles/rails_50.gemfile
+          # - gemfiles/rails_edge.gemfile
+        exclude:
+          - ruby_version: '3.0'
+            gemfile: gemfiles/rails_52.gemfile
+          - ruby_version: '3.0'
+            gemfile: gemfiles/rails_51.gemfile
+          - ruby_version: '3.0'
+            gemfile: gemfiles/rails_50.gemfile
+          - ruby_version: '2.7'
+            gemfile: gemfiles/rails_52.gemfile
+          - ruby_version: '2.7'
+            gemfile: gemfiles/rails_51.gemfile
+          - ruby_version: '2.7'
+            gemfile: gemfiles/rails_50.gemfile
+          # - ruby_version: '2.6'
+          #   gemfile: gemfiles/rails_edge.gemfile
+          # - ruby_version: '2.5'
+          #   gemfile: gemfiles/rails_edge.gemfile
+    runs-on: ubuntu-18.04
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 3.0.1
-        bundler-cache: true
-    - name: Run the default task
-      run: bundle exec rake
+      - uses: actions/checkout@v2
+      - name: Install curl
+        run: sudo apt-get install curl libcurl4-openssl-dev
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby_version }}
+          bundler-cache: true
+      - run: bundle exec rake test
+
+  system:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.2
+          bundler-cache: true
+      - name: Install dependencies
+        run: |
+          rm -rf node_modules &&
+          yarn install &&
+          yarn add tslib &&
+          bundle
+      - name: Run the system test in the dummy app
+        run: rake test:system

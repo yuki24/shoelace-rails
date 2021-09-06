@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = "The shoelace-rails gem adds useful view helper methods for using Shoalace Web Components."
   spec.homepage      = "https://github.com/yuki24/shoelace-rails"
   spec.license       = "MIT"
-  spec.required_ruby_version = ">= 2.6.0"
+  spec.required_ruby_version = ">= 2.5.0"
 
   spec.metadata["homepage_uri"]    = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/yuki24/shoelace-rails"
@@ -29,7 +29,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "actionview", ">= 5.2.0"
   spec.add_dependency "actionpack", ">= 5.2.0"
 
+  spec.add_development_dependency "activemodel", ">= 5.0.0"
+  spec.add_development_dependency "appraisal"
   spec.add_development_dependency "minitest", ">= 5.14.4"
-  spec.add_development_dependency "activemodel", ">= 5.2.0"
   spec.add_development_dependency "rails-dom-testing", ">= 2.0.3"
 end

@@ -15,3 +15,4 @@ test/dummy_app/log
 test/dummy_app/tmp
 test/dummy_app/public/
 .pryrc
+gemfiles/*.lock
