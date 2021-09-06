@@ -318,7 +318,7 @@ class FormHelperTest < ActionView::TestCase
 
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.collection_radio_buttons(:name, users, :first, :last)
-        <sl-radio-group no-fieldset="true">
+        <sl-radio-group label="Name">
           <sl-radio name="user[name]" value="1" id="user_name_1">Yuki Nishijima</sl-radio>
           <sl-radio name="user[name]" value="2" id="user_name_2">Matz</sl-radio>
           <sl-radio name="user[name]" value="3" id="user_name_3">Koichi Sasada</sl-radio>
@@ -336,7 +336,7 @@ class FormHelperTest < ActionView::TestCase
 
     sl_form_for(User.new(name: 1), url: "/") do |form|
       assert_dom_equal <<~HTML, form.collection_radio_buttons(:name, users, :first, :last)
-        <sl-radio-group no-fieldset="true">
+        <sl-radio-group label="Name">
           <sl-radio name="user[name]" value="1" id="user_name_1" checked="checked">Yuki Nishijima</sl-radio>
           <sl-radio name="user[name]" value="2" id="user_name_2">Matz</sl-radio>
           <sl-radio name="user[name]" value="3" id="user_name_3">Koichi Sasada</sl-radio>
