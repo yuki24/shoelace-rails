@@ -9,4 +9,16 @@ Rake::TestTask.new(:test) do |t|
   t.test_files = FileList["test/**/*_test.rb"].exclude("test/dummy_app/**/*")
 end
 
-task default: :test
+namespace :test do
+  task :system do
+    sh <<~CMD
+      yarn build &&
+      cd test/dummy_app &&
+      yarn &&
+      bundle &&
+      rake test:system
+    CMD
+  end
+end
+
+task default: [:test, :'test:system']
