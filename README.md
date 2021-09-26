@@ -77,7 +77,7 @@ it would not work with the `rails-ujs`, and you would have to handle form submis
 Rails UJS solves this problem by providing bindings that are similar to the original rails UJS.
 
 ```sh
-yarn add @yuki24/shoelace-rails --registry https://npm.pkg.github.com/
+yarn add @yuki24/shoelace-rails
 ```
 
 Once it is added to the project's `package.json`, add the following code to the `application.js`, or the entrypoint
