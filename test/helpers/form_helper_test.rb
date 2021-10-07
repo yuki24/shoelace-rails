@@ -77,6 +77,30 @@ class FormHelperTest < ActionView::TestCase
     HTML
   end
 
+  test "#sl_turbo_form_tag" do
+    assert_dom_equal(<<~HTML, sl_turbo_form_tag("/posts") { })
+      <sl-turbo-form action="/posts" accept-charset="UTF-8" method="post">
+        <input name="utf8" type="hidden" value="&#x2713;" />
+      </sl-turbo-form>
+    HTML
+  end
+
+  test "#sl_turbo_form_with" do
+    assert_dom_equal(<<~HTML, sl_turbo_form_with(url: "/") {})
+      <sl-turbo-form action="/" accept-charset="UTF-8" data-remote="true" method="post">
+        <input name="utf8" type="hidden" value="&#x2713;" />
+      </sl-turbo-form>
+    HTML
+  end
+
+  test "#sl_turbo_form_for" do
+    assert_dom_equal(<<~HTML, sl_turbo_form_for(User.new, url: "/") { })
+      <sl-turbo-form class="new_user" id="new_user" action="/" accept-charset="UTF-8" method="post">
+        <input name="utf8" type="hidden" value="&#x2713;" />
+      </sl-turbo-form>
+    HTML
+  end
+
   test "#text_field" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.text_field(:name)

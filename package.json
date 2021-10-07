@@ -28,14 +28,17 @@
     "types": "tsc --noEmit false --emitDeclarationOnly true --outDir dist/types"
   },
   "devDependencies": {
+    "@hotwired/turbo": "^7.0.1",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-typescript": "^8.2.5",
+    "@shoelace-style/shoelace": "^2.0.0-beta.52",
     "prettier": "^2.3.2",
     "rollup": "^2.56.2",
     "turbolinks": "5.x",
     "typescript": "^4.3.5"
   },
   "peerDependencies": {
+    "@hotwired/turbo": "7.x",
     "turbolinks": "5.x"
   },
   "prettier": {

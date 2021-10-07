@@ -1,0 +1,44 @@
+<% locations = { tokyo: "Tokyo", new_york: "New York", london: "London" } %>
+<%= sl_turbo_form_for(@user) do |form| %>
+  <div>
+    <%= form.text_field :name do %>
+      <span slot="help-text" style="color: rgb(var(--sl-color-danger-600));">
+        <%= @user.errors.full_messages_for(:name).first %>
+      </span>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.color_field :color %>
+  </div>
+
+  <div>
+    <%= form.range_field :score, min: 0, max: 100, step: 1 %>
+  </div>
+
+  <div>
+    <%= form.collection_radio_buttons :current_city, locations, :first, :last %>
+  </div>
+
+  <div>
+    <%= form.collection_select :previous_city, locations, :first, :last, {}, { placeholder: "Select one" } %>
+  </div>
+
+  <div>
+    <%= form.collection_select :past_cities, locations, :first, :last, {}, { placeholder: "Select two or more", multiple: true, clearable: true } %>
+  </div>
+
+  <div>
+    <%= form.check_box :remember_me %>
+  </div>
+
+  <div>
+    <%= form.switch_field :subscribe_to_emails, value: "1" %>
+  </div>
+
+  <div>
+    <%= form.text_area :description %>
+  </div>
+
+  <%= form.submit %>
+<% end %>

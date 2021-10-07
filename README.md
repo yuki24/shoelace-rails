@@ -16,24 +16,129 @@ And then execute:
 $ bundle install
 ```
 
-## Form Helpers
+## Setting up Shoelace
+
+The official documentation for [Integrating with Rails](https://shoelace.style/tutorials/integrating-with-rails) is a
+great place to start with. It is recommended to follow the official guide before setting up the Shoelace Rails UJS.
+
+## Javascript Setup
+
+By default, native `<form>` elements will not recognize Shoelace form controls. The `<sl-form>` component solves this
+problem by serializing both Shoelace form controls and native form controls when the form is submitted. Unfortunately,
+it would not work with the `rails-ujs`, and you would have to handle form submissions on your own. The Shoelace
+Rails UJS solves this problem by providing bindings that are similar to the original rails UJS.
+
+```sh
+yarn add @yuki24/shoelace-rails
+```
+
+Next, we need to add Shoelace's assets to the final build output. To do this, modify `config/webpack/environment.js`
+to look like this.
+
+```js
+const { environment } = require('@rails/webpacker')
+
+// Shoelace config
+const path = require('path')
+const CopyPlugin = require('copy-webpack-plugin')
+
+// Add shoelace assets to webpack's build process
+environment.plugins.append(
+  'CopyPlugin',
+  new CopyPlugin({
+    patterns: [
+      {
+        from: path.resolve(
+          __dirname,
+          '../../node_modules/@shoelace-style/shoelace/dist/assets'
+        ),
+        to: path.resolve(__dirname, '../../public/packs/js/assets')
+      }
+    ]
+  })
+)
+
+module.exports = environment
+```
+
+### Turbolinks 5 & Rails UJS
+
+Add the following code to the `application.js`, or the entrypoint
+file of your project:
+
+```js
+import Turbolinks from "turbolinks"
+import { setBasePath } from "@shoelace-style/shoelace"
+import { startUjs, startTurbolinks, getDefaultAssetPath } from "@yuki24/shoelace-rails"
+
+// Important! Turboinks.start() needs to be called before calling the startTurbolinks function:
+Turbolinks.start()
+
+startUjs()
+startTurbolinks(Turbolinks)
+setBasePath(getDefaultAssetPath())
+```
+
+Normally, we use Rails form helpers such as `form_for`, `form_with` and `form_tag`. This gem provides drop-in
+replacements for them, such as `sl_form_for`, `sl_form_with` and `sl_form_tag`:
+
+```erb
+<%= sl_form_for @user do |form| %>
+  ...
+<% end %>
+```
+
+This makes sure that all shoelace forms can work with Turbolinks just like the normal `form_for` works with it. 
+
+### Hotwire
+
+```js
+import "@hotwired/turbo-rails"
+import { setBasePath } from "@shoelace-style/shoelace"
+import { startTurbo, getDefaultAssetPath } from "@yuki24/shoelace-rails"
+
+startTurbo()
+setBasePath(getDefaultAssetPath())
+```
+
+#### Turbo
+
+```erb
+<%= sl_turbo_form_for @user do |form| %>
+  ...
+<% end %>
+```
+
+#### Stimulus
+
+Both Shoelace and Stimulus.js are built on top of the web standards, and no custom code is required to use
+Stimulus.js with Shoelace.
+
+#### Strada
+
+We have not investigated how much of effort is required to support Strada as it's not widely used in the community
+yet.
+
+## Browser Support
+
+## View Helpers
 
 Normally, we use Rails form helpers such as `form_for`, `form_with` and `form_tag`. This gem provides drop-in
 replacements for them, such as `sl_form_for`, `sl_form_with` and `sl_form_tag`. For example, this code:
 
 ```erb
 <%= sl_form_for @user do |form| %>
-  <%# Text input: https://shoelace.style/components/input %>
+  <%  # Text input: https://shoelace.style/components/input %>
   <%= form.text_field :name %>
   <%= form.password_field :password, placeholder: "Password Toggle", 'toggle-password': true %>
 
-  <%# Radio buttons: https://shoelace.style/components/color-picker %>
+  <%  # Radio buttons: https://shoelace.style/components/color-picker %>
   <%= form.color_field :color %>
 
-  <%# Radio buttons: https://shoelace.style/components/radio %>
+  <%  # Radio buttons: https://shoelace.style/components/radio %>
   <%= form.collection_radio_buttons :status, { id_1: "Option 1", id_2: "Option 2", id_3: "Option 3" }, :first, :last %>
 
-  <%# Select: https://shoelace.style/components/select %>
+  <%  # Select: https://shoelace.style/components/select %>
   <%= form.collection_select :tag, { id_1: "Option 1", id_2: "Option 2", id_3: "Option 3" }, :first, :last, {}, { placeholder: "Select one" } %>
 
   <%= form.submit %>
@@ -63,42 +168,6 @@ will produce:
   <sl-button submit="true" type="primary" data-disable-with="Create User">Create User</sl-button>
 </sl-form>
 ```
-
-## Setting up Shoelace
-
-The official documentation for [Integrating with Rails](https://shoelace.style/tutorials/integrating-with-rails) is a
-great place to start with. It is recommended to follow the official guide before setting up the Shoelace Rails UJS.
-
-### Handling form submission
-
-By default, native `<form>` elements will not recognize Shoelace form controls. The `<sl-form>` component solves this
-problem by serializing both Shoelace form controls and native form controls when the form is submitted. Unfortunately,
-it would not work with the `rails-ujs`, and you would have to handle form submissions on your own. The Shoelace
-Rails UJS solves this problem by providing bindings that are similar to the original rails UJS.
-
-```sh
-yarn add @yuki24/shoelace-rails
-```
-
-Once it is added to the project's `package.json`, add the following code to the `application.js`, or the entrypoint
-file of your project:
-
-```js
-import Turbolinks from "turbolinks"
-import { startUjs, startTurbolinks } from "@yuki24/shoelace-rails"
-
-startUjs()
-
-// Important! Turboinks.start() needs to be called before calling the startTurbolinks function:
-Turbolinks.start()
-startTurbolinks(Turbolinks)
-```
-
-You are all set! Now form submissions should be handled automatically.
-
-### Hotwire Support
-
-The Hotwire support is actively being worked on and will be in beta soon.
 
 ## Development
 

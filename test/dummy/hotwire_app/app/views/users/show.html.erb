@@ -1,0 +1,7 @@
+<% @user.attributes.each do |attribute_name, value| %>
+  <div>
+    <%= attribute_name.titleize %>: <%= value %>
+  </div>
+<% end %>
+
+<%= link_to 'Edit', edit_user_path(id: 1) %>

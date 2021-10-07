@@ -225,11 +225,17 @@ module Shoelace
       }
     }
 
+    DEFAULT_TURBO_FORM_PARAMETERS = {
+      builder: ShoelaceFormBuilder,
+    }
+
     DIVIDER_TAG = "<sl-menu-divider></sl-menu-divider>".html_safe
     OPENING_SL_FORM_TAG = '<sl-form'.html_safe
     CLOSING_SL_FORM_TAG = '</sl-form>'.html_safe
+    OPENING_SL_TURBO_FORM_TAG = '<sl-turbo-form'.html_safe
+    CLOSING_SL_TURBO_FORM_TAG = '</sl-turbo-form>'.html_safe
 
-    private_constant :DEFAULT_FORM_PARAMETERS, :DIVIDER_TAG, :OPENING_SL_FORM_TAG, :CLOSING_SL_FORM_TAG
+    private_constant :DEFAULT_FORM_PARAMETERS, :DIVIDER_TAG, :OPENING_SL_FORM_TAG, :CLOSING_SL_FORM_TAG, :OPENING_SL_TURBO_FORM_TAG, :CLOSING_SL_TURBO_FORM_TAG
 
     def sl_form_for(*args, **options, &block)
       content = form_for(*args, **DEFAULT_FORM_PARAMETERS.deep_merge(options), &block)
@@ -249,6 +255,27 @@ module Shoelace
       content = form_tag(url_for_options, options.with_defaults(DEFAULT_FORM_PARAMETERS.except(:builder)), &block)
       content[0, 5]  = OPENING_SL_FORM_TAG
       content[-7, 7] = CLOSING_SL_FORM_TAG
+      content
+    end
+
+    def sl_turbo_form_for(*args, **options, &block)
+      content = form_for(*args, **DEFAULT_TURBO_FORM_PARAMETERS.deep_merge(options), &block)
+      content[0, 5]  = OPENING_SL_TURBO_FORM_TAG
+      content[-7, 7] = CLOSING_SL_TURBO_FORM_TAG
+      content
+    end
+
+    def sl_turbo_form_with(**args, &block)
+      content = form_with(**args, **DEFAULT_TURBO_FORM_PARAMETERS.except(:data), &block)
+      content[0, 5]  = OPENING_SL_TURBO_FORM_TAG
+      content[-7, 7] = CLOSING_SL_TURBO_FORM_TAG
+      content
+    end
+
+    def sl_turbo_form_tag(url_for_options = {}, options = {}, &block)
+      content = form_tag(url_for_options, options.with_defaults(DEFAULT_TURBO_FORM_PARAMETERS.except(:builder)), &block)
+      content[0, 5]  = OPENING_SL_TURBO_FORM_TAG
+      content[-7, 7] = CLOSING_SL_TURBO_FORM_TAG
       content
     end
 

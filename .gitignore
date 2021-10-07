@@ -15,5 +15,9 @@ test/dummy/turbolinks_app/yarn.lock
 test/dummy/turbolinks_app/log/
 test/dummy/turbolinks_app/tmp/
 test/dummy/turbolinks_app/public/
+test/dummy/hotwire_app/yarn.lock
+test/dummy/hotwire_app/log/
+test/dummy/hotwire_app/tmp/
+test/dummy/hotwire_app/public/
 .pryrc
 gemfiles/*.lock
