@@ -11,8 +11,9 @@ node_modules
 dist
 .npmrc
 
-test/dummy_app/log
-test/dummy_app/tmp
-test/dummy_app/public/
+test/dummy/turbolinks_app/yarn.lock
+test/dummy/turbolinks_app/log/
+test/dummy/turbolinks_app/tmp/
+test/dummy/turbolinks_app/public/
 .pryrc
 gemfiles/*.lock
