@@ -25,6 +25,7 @@
     "clean": "rm -fr dist",
     "prettier-project": "yarn run prettier-write 'src/**/*.{ts,tsx,js,jsx}'",
     "prettier-write": "yarn run prettier --write",
+    "publish": "yarn clean && yarn build && npm ppublish --access publish",
     "types": "tsc --noEmit false --emitDeclarationOnly true --outDir dist/types"
   },
   "devDependencies": {
