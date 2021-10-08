@@ -23,10 +23,11 @@ great place to start with. It is recommended to follow the official guide before
 
 ## Javascript Setup
 
-By default, native `<form>` elements will not recognize Shoelace form controls. The `<sl-form>` component solves this
-problem by serializing both Shoelace form controls and native form controls when the form is submitted. Unfortunately,
-it would not work with the `rails-ujs`, and you would have to handle form submissions on your own. The Shoelace
-Rails UJS solves this problem by providing bindings that are similar to the original rails UJS.
+Because of how Shoelace is built (for a good reason), the native `<form>` element does not recognize Shoelace form
+controls. The `<sl-form>` component solves this problem by serializing both Shoelace and native form controls when
+the form is submitted. Unfortunately, it would not work with the `rails-ujs` dependency, and form submissions would
+need to be handled with custom Javascript. The Shoelace Rails UJS solves this problem by providing a binding that are
+similar to the original rails UJS.
 
 ```sh
 yarn add @yuki24/shoelace-rails
@@ -48,10 +49,7 @@ environment.plugins.append(
   new CopyPlugin({
     patterns: [
       {
-        from: path.resolve(
-          __dirname,
-          '../../node_modules/@shoelace-style/shoelace/dist/assets'
-        ),
+        from: path.resolve(__dirname, '../../node_modules/@shoelace-style/shoelace/dist/assets'),
         to: path.resolve(__dirname, '../../public/packs/js/assets')
       }
     ]
@@ -61,10 +59,10 @@ environment.plugins.append(
 module.exports = environment
 ```
 
-### Turbolinks 5 & Rails UJS
+### Turbolinks 5
 
-Add the following code to the `application.js`, or the entrypoint
-file of your project:
+If you are using the traditional Turbolinks 5, import the `startUjs` and `startTurbolinks` functions to activate
+Shoelace UJS in the `application.js`, or the entrypoint file of your project:
 
 ```js
 import Turbolinks from "turbolinks"
@@ -79,8 +77,8 @@ startTurbolinks(Turbolinks)
 setBasePath(getDefaultAssetPath())
 ```
 
-Normally, we use Rails form helpers such as `form_for`, `form_with` and `form_tag`. This gem provides drop-in
-replacements for them, such as `sl_form_for`, `sl_form_with` and `sl_form_tag`:
+When rendering a form, form helpers such as `form_for`, `form_with` and `form_tag` are normally used. This gem
+provides drop-in replacements to them, such as `sl_form_for`, `sl_form_with` and `sl_form_tag`:
 
 ```erb
 <%= sl_form_for @user do |form| %>
@@ -88,9 +86,12 @@ replacements for them, such as `sl_form_for`, `sl_form_with` and `sl_form_tag`:
 <% end %>
 ```
 
-This makes sure that all shoelace forms can work with Turbolinks just like the normal `form_for` works with it. 
+Form submission that originate from the form rendered by the form helper are automatically handled by the Shoelace UJS.
 
 ### Hotwire
+
+If you are using Hotwire and Turbo, import the `startTurbo` function in the `application.js`, or the entrypoint file
+of your project:
 
 ```js
 import "@hotwired/turbo-rails"
@@ -103,11 +104,17 @@ setBasePath(getDefaultAssetPath())
 
 #### Turbo
 
+When the `startTurbo()` function is called, it defines a special custom element called `<sl-turbo-form>`. THis takes
+care of handling the form submission while ensuring the compatibility with Turbo. In order to generate a form,
+call the `sl_turbo_form_for` method:
+
 ```erb
 <%= sl_turbo_form_for @user do |form| %>
   ...
 <% end %>
 ```
+
+There are also `sl_turbo_form_with` and `sl_turbo_form_tag` in case you need to render a form in different scenarios.
 
 #### Stimulus
 
@@ -119,12 +126,9 @@ Stimulus.js with Shoelace.
 We have not investigated how much of effort is required to support Strada as it's not widely used in the community
 yet.
 
-## Browser Support
-
 ## View Helpers
 
-Normally, we use Rails form helpers such as `form_for`, `form_with` and `form_tag`. This gem provides drop-in
-replacements for them, such as `sl_form_for`, `sl_form_with` and `sl_form_tag`. For example, this code:
+As explained above, this gem provides drop-in replacements to. Here is a short example of how the form helper works:
 
 ```erb
 <%= sl_form_for @user do |form| %>
@@ -145,7 +149,7 @@ replacements for them, such as `sl_form_for`, `sl_form_with` and `sl_form_tag`. 
 <% end %>
 ```
 
-will produce:
+And this code will produce:
 
 ```html
 <sl-form class="new_user" id="new_user" data-remote="true" action="/" accept-charset="UTF-8" method="post">
