@@ -1,0 +1,24 @@
+{
+  "name": "app",
+  "private": true,
+  "babel": {
+    "presets": [
+      "./node_modules/@rails/webpacker/package/babel/preset.js"
+    ]
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "dependencies": {
+    "@hotwired/turbo-rails": "^7.0.1",
+    "@rails/webpacker": "^6.0.0-rc.5",
+    "@yuki24/shoelace-rails": "file:./../../../shoelace-rails",
+    "turbolinks": "^5.2.0",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0"
+  },
+  "devDependencies": {
+    "@webpack-cli/serve": "^1.5.2",
+    "webpack-dev-server": "^4.1.0"
+  }
+}
