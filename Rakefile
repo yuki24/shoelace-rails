@@ -11,13 +11,15 @@ end
 
 namespace :test do
   task :system do
-    sh <<~CMD
-      yarn build &&
-      cd test/dummy_app &&
-      yarn &&
-      bundle &&
-      rake test:system
-    CMD
+    Bundler.with_original_env do
+      sh <<~CMD
+        yarn build &&
+        cd test/dummy_app &&
+        yarn &&
+        bundle &&
+        rails test:system
+      CMD
+    end
   end
 end
 
