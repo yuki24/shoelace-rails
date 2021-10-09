@@ -69,3 +69,38 @@ jobs:
           bundle
       - name: Run the system test in the dummy app
         run: rake test:system
+
+#  browser_tests:
+#    runs-on: ubuntu-18.04
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Set up Ruby
+#        uses: ruby/setup-ruby@v1
+#        with:
+#          ruby-version: 3.0.2
+#          bundler-cache: true
+#      - name: Install dependencies
+#        run: |
+#          rm -rf node_modules &&
+#          yarn install &&
+#          yarn add tslib &&
+#          bundle
+#      - name: 'BrowserStack Env Setup'
+#        uses: 'browserstack/github-actions/setup-env@master'
+#        with:
+#          username:  ${{ secrets.BROWSERSTACK_USERNAME }}
+#          access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+#      - name: 'Start BrowserStackLocal Tunnel'
+#        uses: 'browserstack/github-actions/setup-local@master'
+#        with:
+#          local-testing: 'start'
+#          local-logging-level: 'all-logs'
+#          local-identifier: 'random'
+#      - name: Run the system test in the dummy app
+#        run: rake test:system
+#        env:
+#          BROWSERSTACK_URL:  ${{ secrets.BROWSERSTACK_URL }}
+#      - name: 'Stop BrowserStackLocal'
+#        uses: 'browserstack/github-actions/setup-local@master'
+#        with:
+#          local-testing: 'stop'

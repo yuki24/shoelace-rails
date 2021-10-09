@@ -45,7 +45,33 @@ Capybara::Node::Element.include ShadowRootSupport
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include Shoelace::Testing
 
-  driven_by :selenium, using: ENV["NO_HEADLESS"] ? :chrome : :headless_chrome, screen_size: [1400, 1400]
+  if ENV['BROWSERSTACK_URL'].present?
+    browserstack_url = URI(ENV['BROWSERSTACK_URL'])
+    browserstack_url.user = ENV['BROWSERSTACK_USERNAME'] if ENV['BROWSERSTACK_USERNAME']
+    browserstack_url.password = ENV['BROWSERSTACK_ACCESS_KEY'] if ENV['BROWSERSTACK_ACCESS_KEY']
+
+    os, os_version, browser, browser_version =
+      ENV.fetch('TARGET_BROWSER', 'Windows, 10, Edge, latest').split(", ")
+
+    caps = Selenium::WebDriver::Remote::Capabilities.new(
+      name: "Shoelace Rails",
+      server: browserstack_url.host,
+      user: browserstack_url.user,
+      key: browserstack_url.password,
+      os: os,
+      os_version: os_version,
+      browser: browser,
+      browser_version: browser_version,
+      "browserstack.local": true,
+      "browserstack.debug": true,
+      "browserstack.networkLogs": true,
+      "browserstack.console": "errors",
+    )
+
+    driven_by :selenium, using: :remote, options: { url: browserstack_url.to_s, capabilities: caps }
+  else
+    driven_by :selenium, using: ENV["NO_HEADLESS"] ? :chrome : :headless_chrome, screen_size: [1400, 1400]
+  end
 
   def shadow_fill_in(shadow_host, *locators, with:, currently_with: nil, fill_options: {}, **find_options)
     shadow_host = shadow_host.respond_to?(:to_capybara_node) ? shadow_host.to_capybara_node : find(shadow_host)
