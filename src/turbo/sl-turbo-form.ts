@@ -27,7 +27,7 @@ export class SlTurboFormElement extends HTMLElement {
   private readonly form: HTMLFormElement
 
   static get observedAttributes() {
-    return ["action", "method", "enctype"]
+    return ["action", "method", "enctype", "accept-charset", "data"]
   }
 
   constructor() {
