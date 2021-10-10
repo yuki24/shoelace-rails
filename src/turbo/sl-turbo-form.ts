@@ -20,7 +20,7 @@ const isOnSafari = () => /Apple Computer/.test(navigator.vendor)
 
 const cloneAttributes = (target, source) =>
   [...source.attributes]
-    .filter(({ nodeName }) => nodeName !== "id" || nodeName !== "class")
+    .filter(({ nodeName }) => !(['id', 'class'].includes(nodeName)))
     .forEach(({ nodeName, nodeValue }) => target.setAttribute(nodeName, nodeValue))
 
 export class SlTurboFormElement extends HTMLElement {
