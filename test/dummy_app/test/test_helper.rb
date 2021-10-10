@@ -70,7 +70,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
     driven_by :selenium, using: :remote, options: { url: browserstack_url.to_s, capabilities: caps }
   else
-    driven_by :selenium, using: ENV["NO_HEADLESS"] ? :chrome : :headless_chrome, screen_size: [1400, 1400]
+    driven_by :selenium, using: (ENV["JS_DRIVER"] || :headless_chrome).downcase.to_sym, screen_size: [1400, 1400]
   end
 
   def shadow_fill_in(shadow_host, *locators, with:, currently_with: nil, fill_options: {}, **find_options)

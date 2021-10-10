@@ -1,8 +1,22 @@
+interface SlForm extends HTMLElement {
+  getFormData: () => FormData
+}
+
+interface FormDataEvent extends Event {
+  formData: FormData
+}
+
+interface SubmitEvent extends CustomEvent {
+  submitter: Element
+}
+
 const SHADOW_DOM_TEMPLATE = `
   <sl-form>
     <slot></slot>
   </sl-form>
 `
+
+const isOnSafari = () => /Apple Computer/.test(navigator.vendor)
 
 const cloneAttributes = (target, source) =>
   [...source.attributes]
@@ -42,14 +56,12 @@ export class SlTurboFormElement extends HTMLElement {
     this.removeEventListener("formdata", this.handleFormData)
   }
 
-  // @ts-ignore
   handleFormData = (event: FormDataEvent) => {
     const { formData, target } = event
 
     if (this.form === target) {
-      const slForm = this.shadowRoot.querySelector("sl-form")
+      const slForm = this.shadowRoot.querySelector("sl-form") as SlForm
 
-      // @ts-ignore
       for (const [key, value] of slForm.getFormData().entries()) {
         formData.append(key, value)
       }
@@ -57,7 +69,22 @@ export class SlTurboFormElement extends HTMLElement {
   }
 
   handleSubmit = (event: CustomEvent) => {
-    event.stopPropagation()
-    this.form.dispatchEvent(new CustomEvent("submit", { bubbles: true }))
+    event.stopImmediatePropagation()
+    const submitter = document.activeElement
+    const submitEvent = new CustomEvent("submit", { bubbles: true, cancelable: true }) as SubmitEvent
+    if (isOnSafari()) {
+      Object.defineProperty(submitEvent, "submitter", { get: () => submitter })
+    } else {
+      submitEvent.submitter = submitter
+    }
+
+    const cancelled = this.form.dispatchEvent(submitEvent)
+    if (cancelled) {
+      if (isOnSafari()) {
+        new FormData(this.form)
+      }
+
+      this.form.submit()
+    }
   }
 }
