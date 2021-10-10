@@ -1,7 +1,3 @@
-<%  content_for :javascript do %>
-  <%= javascript_pack_tag 'turbolinks' %>
-<% end %>
-
 <% locations = { tokyo: "Tokyo", new_york: "New York", london: "London" } %>
 <%= sl_form_for(@user, url: turbolinks_forms_path) do |form| %>
   <div>

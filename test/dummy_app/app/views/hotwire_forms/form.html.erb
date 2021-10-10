@@ -1,7 +1,3 @@
-<%  content_for :javascript do %>
-  <%= javascript_pack_tag 'hotwire' %>
-<% end %>
-
 <% locations = { tokyo: "Tokyo", new_york: "New York", london: "London" } %>
 <%= sl_turbo_form_for(@user, url: hotwire_forms_path) do |form| %>
   <div>
