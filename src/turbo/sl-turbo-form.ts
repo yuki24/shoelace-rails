@@ -21,8 +21,6 @@ const cloneAttributes = (target, source) =>
     .filter(({ nodeName }) => !["id", "class"].includes(nodeName))
     .forEach(({ nodeName, nodeValue }) => target.setAttribute(nodeName, nodeValue))
 
-const isOnSafari = () => /Apple Computer/.test(navigator.vendor)
-
 const findSubmitterFromClickTarget = (target: EventTarget | null): HTMLElement => {
   const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null
 
@@ -66,19 +64,13 @@ export class SlTurboFormElement extends HTMLElement {
   }
 
   connectedCallback() {
-    if (isOnSafari()) {
-      this.addEventListener("click", this.clickCaptured, true)
-    }
-
+    this.addEventListener("click", this.clickCaptured, true)
     this.addEventListener("sl-submit", this.handleSubmit)
     this.addEventListener("formdata", this.handleFormData)
   }
 
   disconnectedCallback() {
-    if (isOnSafari()) {
-      this.removeEventListener("click", this.clickCaptured, true)
-    }
-
+    this.removeEventListener("click", this.clickCaptured, true)
     this.removeEventListener("sl-submit", this.handleSubmit)
     this.removeEventListener("formdata", this.handleFormData)
   }
@@ -99,12 +91,15 @@ export class SlTurboFormElement extends HTMLElement {
   handleSubmit = (event: CustomEvent) => {
     event.stopImmediatePropagation()
     const submitEvent = new CustomEvent("submit", { bubbles: true, cancelable: true }) as SubmitEvent
+    let submitter = document.activeElement
 
-    if (isOnSafari()) {
-      const submitter = submittersByForm.get(this.form)
+    // The behaviour of the `document.activeElement` is inconsistent so we have to check if the element is the body
+    // tag or not. For more retails, see https://zellwk.com/blog/inconsistent-button-behavior/
+    if (submitter instanceof HTMLBodyElement) {
+      submitter = submittersByForm.get(this.form)
       Object.defineProperty(submitEvent, "submitter", { get: () => submitter })
     } else {
-      submitEvent.submitter = document.activeElement
+      submitEvent.submitter = submitter
     }
 
     const cancelled = this.form.dispatchEvent(submitEvent)
