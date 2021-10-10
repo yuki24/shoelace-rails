@@ -8,7 +8,7 @@ class ActiveSupport::TestCase
   parallelize workers: :number_of_processors
 end
 
-ActionDispatch::SystemTesting::Server.silence_puma = true
+Capybara.server = :webrick
 
 class Capybara::Node::ShadowRoot < Capybara::Node::Element
   def host
