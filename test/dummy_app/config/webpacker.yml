@@ -29,5 +29,5 @@ development:
 
 test:
   <<: *default
-  compile: true
+  compile: false
   public_output_path: packs-test
