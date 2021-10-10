@@ -14,12 +14,6 @@ interface SubmitEvent extends CustomEvent {
   submitter: Element
 }
 
-const SHADOW_DOM_TEMPLATE = `
-  <sl-form>
-    <slot></slot>
-  </sl-form>
-`
-
 const submittersByForm: WeakMap<HTMLFormElement, HTMLElement> = new WeakMap()
 
 const cloneAttributes = (target, source) =>
@@ -45,6 +39,12 @@ export class SlTurboFormElement extends HTMLElement {
   private readonly form: HTMLFormElement
   private called: boolean
 
+  static template = `
+    <sl-form>
+      <slot></slot>
+    </sl-form>
+  `
+
   static get observedAttributes() {
     return ["action", "method", "enctype", "accept-charset", "data"]
   }
@@ -55,7 +55,7 @@ export class SlTurboFormElement extends HTMLElement {
     // The <sl-form> component needs to be rendered within the shadow DOM so we can safely use the <slot>, which
     // should contain shoelace form controls.
     const shadowRoot = this.attachShadow({ mode: "open" })
-    shadowRoot.innerHTML = SHADOW_DOM_TEMPLATE
+    shadowRoot.innerHTML = SlTurboFormElement.template
 
     // The normal <form> element needs to be rendered within the light DOM so we can emit a custom 'submit' event
     // with appropriate formdata, target, etc.
