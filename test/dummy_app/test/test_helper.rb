@@ -62,11 +62,20 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       os_version: os_version,
       browser: browser,
       browser_version: browser_version,
-      "browserstack.local": true,
-      "browserstack.debug": true,
-      "browserstack.networkLogs": true,
       "browserstack.console": "errors",
+      # "browserstack.debug": true,
+      "browserstack.local": true,
+      "browserstack.networkLogs": true,
     )
+
+    # Running multiple sessions with browserstack-local is not stable, so setting it to 1 for now.
+    parallelize workers: 1
+
+    # Safari has some limitations due to their security models so we have to stick with localhost:3000.
+    if browser.downcase == 'safari'
+      Capybara.app_host = "http://localhost"
+      Capybara.server_port = 3000
+    end
 
     driven_by :selenium, using: :remote, options: { url: browserstack_url.to_s, capabilities: caps }
   else
