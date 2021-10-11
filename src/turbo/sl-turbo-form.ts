@@ -90,17 +90,9 @@ export class SlTurboFormElement extends HTMLElement {
 
   handleSubmit = (event: CustomEvent) => {
     event.stopImmediatePropagation()
+    const submitter = submittersByForm.get(this.form)
     const submitEvent = new CustomEvent("submit", { bubbles: true, cancelable: true }) as SubmitEvent
-    let submitter = document.activeElement
-
-    // The behaviour of the `document.activeElement` is inconsistent so we have to check if the element is the body
-    // tag or not. For more retails, see https://zellwk.com/blog/inconsistent-button-behavior/
-    if (submitter instanceof HTMLBodyElement) {
-      submitter = submittersByForm.get(this.form)
-      Object.defineProperty(submitEvent, "submitter", { get: () => submitter })
-    } else {
-      submitEvent.submitter = submitter
-    }
+    Object.defineProperty(submitEvent, "submitter", { get: () => submitter })
 
     const cancelled = this.form.dispatchEvent(submitEvent)
     if (cancelled) {
