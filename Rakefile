@@ -17,8 +17,7 @@ namespace :test do
         cd test/dummy_app &&
         yarn &&
         bundle &&
-        ./bin/webpack &&
-        rails test:system
+        rails webpacker:compile test:system
       CMD
     end
   end
