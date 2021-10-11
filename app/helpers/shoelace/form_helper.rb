@@ -26,10 +26,18 @@ module Shoelace
     end
 
     class ShoelaceColorPicker < ActionView::Helpers::Tags::ColorField #:nodoc:
+      RGB_VALUE_REGEX = /#[0-9a-fA-F]{6}/
+
       def field_type; nil; end
 
       def tag(tag_name, *args, &block)
         tag_name.to_s == 'input' ? content_tag('sl-color-picker', '', *args, &block) : super
+      end
+
+      private
+
+      def validate_color_string(string)
+        string.downcase if RGB_VALUE_REGEX.match?(string)
       end
     end
 
@@ -177,7 +185,7 @@ module Shoelace
       end
 
       def color_field(method, **options)
-        ShoelaceColorPicker.new(object_name, method, @template, options.with_defaults(object: @object, value: "#ffffff")).render
+        ShoelaceColorPicker.new(object_name, method, @template, options.with_defaults(object: @object)).render
       end
       alias color_picker color_field
 
