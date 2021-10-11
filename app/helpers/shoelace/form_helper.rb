@@ -74,7 +74,7 @@ module Shoelace
         html_options = html_options.stringify_keys
         add_default_name_and_id(html_options)
 
-        @template_object.content_tag("sl-select", option_tags, html_options)
+        @template_object.content_tag("sl-select", option_tags, **html_options, value: value)
       end
     end
 
@@ -87,7 +87,7 @@ module Shoelace
         html_options = html_options.stringify_keys
         add_default_name_and_id(html_options)
 
-        @template_object.content_tag("sl-select", option_tags, html_options)
+        @template_object.content_tag("sl-select", option_tags, **html_options, value: value)
       end
     end
 

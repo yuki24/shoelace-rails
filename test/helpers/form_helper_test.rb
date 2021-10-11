@@ -303,7 +303,7 @@ class FormHelperTest < ActionView::TestCase
 
     sl_form_for(User.new(name: "2"), url: "/") do |form|
       assert_dom_equal <<~HTML, form.select(:name, users)
-        <sl-select name="user[name]" id="user_name">
+        <sl-select name="user[name]" id="user_name" value="2">
           <sl-menu-label>Main maintainers</sl-menu-label>
           <sl-menu-item value="2" checked="checked">Matz</sl-menu-item>
           <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
@@ -327,6 +327,24 @@ class FormHelperTest < ActionView::TestCase
         <sl-select name="user[name]" id="user_name">
           <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
           <sl-menu-item value="2">Matz</sl-menu-item>
+          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+        </sl-select>
+      HTML
+    end
+  end
+
+  test "#collection_select with a defalut value" do
+    users = {
+      1 => "Yuki Nishijima",
+      2 => "Matz",
+      3 => "Koichi Sasada",
+    }
+
+    sl_form_for(User.new(name: "2"), url: "/") do |form|
+      assert_dom_equal <<~HTML, form.collection_select(:name, users, :first, :last)
+        <sl-select name="user[name]" id="user_name" value="2">
+          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
+          <sl-menu-item value="2" checked="checked">Matz</sl-menu-item>
           <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
         </sl-select>
       HTML
