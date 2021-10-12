@@ -80,9 +80,10 @@ module Shoelace
 
       def select_content_tag(option_tags, _options, html_options)
         html_options = html_options.stringify_keys
+        html_options['value']= value
         add_default_name_and_id(html_options)
 
-        @template_object.content_tag("sl-select", option_tags, **html_options, value: value)
+        @template_object.content_tag("sl-select", option_tags, html_options)
       end
     end
 
@@ -93,9 +94,10 @@ module Shoelace
 
       def select_content_tag(option_tags, _options, html_options)
         html_options = html_options.stringify_keys
+        html_options['value']= value
         add_default_name_and_id(html_options)
 
-        @template_object.content_tag("sl-select", option_tags, **html_options, value: value)
+        @template_object.content_tag("sl-select", option_tags, html_options)
       end
     end
 
