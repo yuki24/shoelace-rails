@@ -34,8 +34,8 @@ Add the following lines to the `app/assets/stylesheets/application.css` if you n
 
 ```scss
 /*
- *= require "@shoelace-style/shoelace/dist/themes/light.css
- *= require "@shoelace-style/shoelace/dist/themes/dark.css
+ *= require @shoelace-style/shoelace/dist/themes/light.css
+ *= require @shoelace-style/shoelace/dist/themes/dark.css
  */
 ```
 
