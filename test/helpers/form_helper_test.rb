@@ -282,7 +282,7 @@ class FormHelperTest < ActionView::TestCase
           <sl-menu-label>Main maintainers</sl-menu-label>
           <sl-menu-item value="2">Matz</sl-menu-item>
           <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
-          <sl-menu-divider></sl-menu-divider>
+          <sl-divider></sl-divider>
           <sl-menu-label>Default gem maintainers</sl-menu-label>
           <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
         </sl-select>
@@ -307,7 +307,7 @@ class FormHelperTest < ActionView::TestCase
           <sl-menu-label>Main maintainers</sl-menu-label>
           <sl-menu-item value="2" checked="checked">Matz</sl-menu-item>
           <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
-          <sl-menu-divider></sl-menu-divider>
+          <sl-divider></sl-divider>
           <sl-menu-label>Default gem maintainers</sl-menu-label>
           <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
         </sl-select>

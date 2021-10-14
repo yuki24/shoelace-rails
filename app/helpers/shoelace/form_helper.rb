@@ -239,7 +239,7 @@ module Shoelace
       builder: ShoelaceFormBuilder,
     }
 
-    DIVIDER_TAG = "<sl-menu-divider></sl-menu-divider>".html_safe
+    DIVIDER_TAG = "<sl-divider></sl-divider>".html_safe
     OPENING_SL_FORM_TAG = '<sl-form'.html_safe
     CLOSING_SL_FORM_TAG = '</sl-form>'.html_safe
     OPENING_SL_TURBO_FORM_TAG = '<sl-turbo-form'.html_safe
