@@ -1,12 +1,9 @@
 ENV['RAILS_ENV'] ||= 'test'
+
 require_relative "../config/environment"
 require "rails/test_help"
 require "action_dispatch/system_testing/server"
 require "shoelace/testing"
-
-class ActiveSupport::TestCase
-  parallelize workers: :number_of_processors
-end
 
 Capybara.server = :webrick
 
@@ -47,6 +44,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
     driven_by :selenium, using: :remote, options: { url: browserstack_url.to_s, capabilities: caps }
   else
+    parallelize workers: :number_of_processors
+
     driven_by :selenium, using: (ENV["JS_DRIVER"] || :headless_chrome).downcase.to_sym, screen_size: [1400, 1400]
   end
 
