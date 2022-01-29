@@ -31,13 +31,13 @@ class FormHelperTest < ActionView::TestCase
 
   test "#sl_submit_tag" do
     assert_dom_equal <<~HTML, sl_submit_tag("Save")
-      <sl-button submit="true" type="primary" data-disable-with="Save">Save</sl-button>
+      <sl-button submit="true" variant="primary" data-disable-with="Save">Save</sl-button>
     HTML
   end
 
   test "#sl_submit_tag with onclick" do
     assert_dom_equal <<~HTML, sl_submit_tag("Save", onclick: "alert('hello!')", data: { disable_with: "Saving..." })
-      <sl-button submit="true" type="primary" onclick="alert(&#39;hello!&#39;)" data-disable-with="Saving...">Save</sl-button>
+      <sl-button submit="true" variant="primary" onclick="alert(&#39;hello!&#39;)" data-disable-with="Saving...">Save</sl-button>
     HTML
   end
 
@@ -390,7 +390,7 @@ class FormHelperTest < ActionView::TestCase
   test "#submit" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.submit("Save")
-        <sl-button submit="true" type="primary" data-disable-with="Save">Save</sl-button>
+        <sl-button submit="true" variant="primary" data-disable-with="Save">Save</sl-button>
       HTML
     end
   end
