@@ -313,7 +313,7 @@ module Shoelace
     # Creates a submit button with the text value as the caption, with the +submit+ attribute.
     def sl_submit_tag(value = 'Save changes', **options)
       options = options.deep_stringify_keys
-      tag_options = { "submit" => true, "type" => "primary" }.update(options)
+      tag_options = { "submit" => true, "variant" => "primary" }.update(options)
       set_default_disable_with(value, tag_options)
 
       content_tag('sl-button', value, tag_options)
