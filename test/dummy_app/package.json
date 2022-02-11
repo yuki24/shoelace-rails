@@ -11,6 +11,7 @@
   ],
   "dependencies": {
     "@hotwired/turbo-rails": "^7.0.1",
+    "@rails/ujs": "^7.0.2",
     "@rails/webpacker": "^6.0.0-rc.5",
     "@yuki24/shoelace-rails": "file:./../../../shoelace-rails",
     "turbolinks": "^5.2.0",

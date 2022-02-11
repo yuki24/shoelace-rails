@@ -24,7 +24,7 @@ class HotwireFormsController < ActionController::Base
     @user = User.new(user_params)
 
     if @user.valid?
-      session[:user] = user_params
+      session[:user] = user_params.to_h
       redirect_to hotwire_form_path(1)
     else
       render 'form', status: 422

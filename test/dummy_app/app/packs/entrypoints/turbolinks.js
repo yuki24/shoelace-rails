@@ -1,6 +1,5 @@
 import Turbolinks from "turbolinks"
-import { startUjs, startTurbolinks } from "@yuki24/shoelace-rails"
+import Rails from '@rails/ujs'
 
 Turbolinks.start()
-startUjs()
-startTurbolinks(Turbolinks)
+Rails.start()
