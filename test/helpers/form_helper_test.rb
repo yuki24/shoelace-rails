@@ -31,13 +31,13 @@ class FormHelperTest < ActionView::TestCase
 
   test "#sl_submit_tag" do
     assert_dom_equal <<~HTML, sl_submit_tag("Save")
-      <sl-button submit="true" variant="primary" data-disable-with="Save">Save</sl-button>
+      <sl-button type="submit" variant="primary" data-disable-with="Save">Save</sl-button>
     HTML
   end
 
   test "#sl_submit_tag with onclick" do
     assert_dom_equal <<~HTML, sl_submit_tag("Save", onclick: "alert('hello!')", data: { disable_with: "Saving..." })
-      <sl-button submit="true" variant="primary" onclick="alert(&#39;hello!&#39;)" data-disable-with="Saving...">Save</sl-button>
+      <sl-button type="submit" variant="primary" onclick="alert(&#39;hello!&#39;)" data-disable-with="Saving...">Save</sl-button>
     HTML
   end
 
@@ -55,7 +55,7 @@ class FormHelperTest < ActionView::TestCase
 
   test "#sl_form_tag" do
     assert_dom_equal(<<~HTML, sl_form_tag("/posts") { })
-      <sl-form data-remote="true" action="/posts" accept-charset="UTF-8" method="post">
+      <form data-remote="true" action="/posts" accept-charset="UTF-8" method="post">
         <input name="utf8" type="hidden" value="&#x2713;" />
       </sl-form>
     HTML
@@ -63,7 +63,7 @@ class FormHelperTest < ActionView::TestCase
 
   test "#sl_form_with" do
     assert_dom_equal(<<~HTML, sl_form_with(url: "/") {})
-      <sl-form action="/" accept-charset="UTF-8" data-remote="true" method="post">
+      <form action="/" accept-charset="UTF-8" data-remote="true" method="post">
         <input name="utf8" type="hidden" value="&#x2713;" />
       </sl-form>
     HTML
@@ -71,7 +71,7 @@ class FormHelperTest < ActionView::TestCase
 
   test "#sl_form_for" do
     assert_dom_equal(<<~HTML, sl_form_for(User.new, url: "/") { })
-      <sl-form class="new_user" id="new_user" data-remote="true" action="/" accept-charset="UTF-8" method="post">
+      <form class="new_user" id="new_user" action="/" accept-charset="UTF-8" method="post">
         <input name="utf8" type="hidden" value="&#x2713;" />
       </sl-form>
     HTML
@@ -79,25 +79,25 @@ class FormHelperTest < ActionView::TestCase
 
   test "#sl_turbo_form_tag" do
     assert_dom_equal(<<~HTML, sl_turbo_form_tag("/posts") { })
-      <sl-turbo-form action="/posts" accept-charset="UTF-8" method="post">
+      <form action="/posts" accept-charset="UTF-8" method="post">
         <input name="utf8" type="hidden" value="&#x2713;" />
-      </sl-turbo-form>
+      </form>
     HTML
   end
 
   test "#sl_turbo_form_with" do
     assert_dom_equal(<<~HTML, sl_turbo_form_with(url: "/") {})
-      <sl-turbo-form action="/" accept-charset="UTF-8" data-remote="true" method="post">
+      <form action="/" accept-charset="UTF-8" data-remote="true" method="post">
         <input name="utf8" type="hidden" value="&#x2713;" />
-      </sl-turbo-form>
+      </form>
     HTML
   end
 
   test "#sl_turbo_form_for" do
     assert_dom_equal(<<~HTML, sl_turbo_form_for(User.new, url: "/") { })
-      <sl-turbo-form class="new_user" id="new_user" action="/" accept-charset="UTF-8" method="post">
+      <form class="new_user" id="new_user" action="/" accept-charset="UTF-8" method="post">
         <input name="utf8" type="hidden" value="&#x2713;" />
-      </sl-turbo-form>
+      </form>
     HTML
   end
 
@@ -390,7 +390,7 @@ class FormHelperTest < ActionView::TestCase
   test "#submit" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.submit("Save")
-        <sl-button submit="true" variant="primary" data-disable-with="Save">Save</sl-button>
+        <sl-button type="submit" variant="primary" data-disable-with="Save">Save</sl-button>
       HTML
     end
   end
