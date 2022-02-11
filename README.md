@@ -4,9 +4,9 @@ The `shoelace-rails` gem adds useful helper methods for [Shoelace.style](https:/
 
 ## Installation
 
-This document assumes that you use the [webpacker](https://github.com/rails/webpacker) gem. You may have to tweak the
-examples here if you do not use it. However, the principle here should be the same regardless of the JS bundler you
-use.
+This document assumes that you use the [`webpacker`](https://github.com/rails/webpacker) or
+the [`jsbundling-rails`](https://github.com/rails/jsbundling-rails) gem. You may have to tweak the examples here if
+you do not use it. However, the principle here should be the same regardless of the JS bundler you use.
 
 Add this line to your application's Gemfile:
 
@@ -23,7 +23,7 @@ $ bundle install
 Additionally, you need to add the following npm packages:
 
 ```sh
-yarn add @shoelace-style/shoelace @yuki24/shoelace-rails copy-webpack-plugin
+$ yarn add @shoelace-style/shoelace copy-webpack-plugin
 ```
 
 ## Set up CSS
@@ -50,8 +50,32 @@ import "@shoelace-style/shoelace/dist/themes/dark.css" // Optional dark mode
 
 ## Set up Javascript
 
-Add the code below so Shoelace's assets (mostly icons) will be copied to the final build output. This is required for
-both Turbolinks and Hotwire.
+In order to use Shoelace the icons need to be copied to the `public/assets` directory so they will show pu properly.
+
+If you are using the `jsbundling-rails` gem and have `webpack.config.js` in the top level directory of your project, Add th
+e configuration for the `CopyPlugin`:
+
+```js
+// webpack.config.js
+const CopyPlugin = require("copy-webpack-plugin")
+const path = require('path')
+
+module.exports = {
+  ...,
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "node_modules/@shoelace-style/shoelace/dist/assets"),
+          to: path.resolve(__dirname, "public/assets"),
+        },
+      ],
+    }),
+  ],
+}
+```
+
+If you are using the `webpacker` gem, you could add the same configuration but to `config/webpack/environment.js`:
 
 ```js
 // config/webpack/environment.js
@@ -75,63 +99,13 @@ environment.plugins.append(
 module.exports = environment
 ```
 
-### Turbolinks 5
+Finally, import the shoelace dependency in the entrypoint file:
 
-If you are using [the traditional Turbolinks 5](https://github.com/turbolinks/turbolinks), import the `startUjs` and
-`startTurbolinks` functions to activate Shoelace UJS in the `app/packs/entrypoints/application.js`, or the entrypoint
-file of your project:
-
-```js
-import Turbolinks from "turbolinks"
-import { setBasePath } from "@shoelace-style/shoelace"
-import { startUjs, startTurbolinks, getDefaultAssetPath } from "@yuki24/shoelace-rails"
-
-// Important! Turboinks.start() needs to be called before calling the startTurbolinks function:
-Turbolinks.start()
-
-startUjs()
-startTurbolinks(Turbolinks)
-setBasePath(getDefaultAssetPath())
+```
+import "@shoelace-style/shoelace"
 ```
 
-This gem provides form helpers called `sl_form_for`, `sl_form_with` and `sl_form_tag`. When rendering a form, try
-using one of them just like you normally use `form_for`:
-
-```erb
-<%= sl_form_for @user do |form| %>
-  ...
-<% end %>
-```
-
-Once the Shoelace UJS is activated and the form is rendered by `sl_form_for` (or any equivalent form helper), form
-submission should automatically be handled and you should be able to start buildgin an app like you normally do on
-Rails.
-
-### Hotwire
-
-If you are using [Hotwire](https://hotwired.dev/), import the `startTurbo` function in the
-`app/packs/entrypoints/application.js`, or the entrypoint file of your project:
-
-```js
-import "@hotwired/turbo-rails"
-import { setBasePath } from "@shoelace-style/shoelace"
-import { startTurbo, getDefaultAssetPath } from "@yuki24/shoelace-rails"
-
-startTurbo()
-setBasePath(getDefaultAssetPath())
-```
-
-Unlike the Turbolinks support, you have to use the other form helper, called `sl_turbo_form_for`:
-
-```erb
-<%= sl_turbo_form_for @user do |form| %>
-  ...
-<% end %>
-```
-
-There are also corresponding `sl_turbo_form_with` and `sl_turbo_form_tag` methods in case you need to render a form
-in different scenarios. You can still use methods like `sl_form_for`, but the `sl-submit` event is not automatically
-handled.
+That's it!
 
 ## View Helpers
 
@@ -179,60 +153,6 @@ And this code will produce:
   <sl-button submit="true" type="primary" data-disable-with="Create User">Create User</sl-button>
 </sl-form>
 ```
-
-## How it works
-
-[Shoelace.style](https://shoelace.style/) is built of top of the
-[Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components) API, which provides a way to
-[your own HTML elements](https://html.spec.whatwg.org/multipage/custom-elements.html) and use them in any framework,
-or even in a static HTML.
-
-This is a great way to build a design system, but it also comes with a few challenges. One notable challenge is form
-submissions. Because of how Shoelace is built (for a good reason), the native `<form>` element does not recognize
-Shoelace form controls like `<sl-input>`. The library solves this problem by providing a bridge that connects Shoelace
-with Turbolinks and Hotwire.
-
-### How Turbolinks support works
-
-Simply put, the Rails UJS is just [a bunch of custom event handlers](https://github.com/rails/rails/blob/c2b701e33470adb1fab15c5e68957facdb26ebb1/actionview/app/assets/javascripts/rails-ujs/start.coffee#L34-L71).
-Because of the reasons described above, the normal form `submit` event is not emitted by the `<sl-form>` element.
-Aside from that, the commonly used technique of making a POST/DELETE request with `data-confirm="You are you sure?""`
-only targets the `<a>` and `<button>` tags, and it does not work with Shoelace elements like `<sl-button>`. Here are
-how these problems are addressed: 
-
-1. **Form submission**: when a button within the form is clicked, Shoelace emits a `sl-submit`
-   event with access to [the `formdata` object](https://developer.mozilla.org/en-US/docs/Web/API/FormData). The
-   Shoelace UJS [captures this event](https://github.com/yuki24/shoelace-rails/blob/92b7502c267189ef89087c1e2a633bd47f8bce9b/src/turbolinks/start.ts#L26-L28)
-   and [does the same thing as Rails UJS](https://github.com/yuki24/shoelace-rails/blob/92b7502c267189ef89087c1e2a633bd47f8bce9b/src/turbolinks/features/remote.ts#L13-L76).
-3. **Event listeners for Shoelace elements**: the Shoelace UJS adds an event listener that is similar to the original
-Rails UJS, but [specifically targets the `<sl-button>` element](https://github.com/yuki24/shoelace-rails/blob/92b7502c267189ef89087c1e2a633bd47f8bce9b/src/turbolinks/start.ts#L20-L24).
-
-Turbolinks is actually mostly compatible with Shoelace. The only notable addition is support for links within a
-[Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM). This may not necessarily
-eb an issue specifically with Shoelace, and other implementations that use the Shadow DOM may benefit from
-[this fix](https://github.com/yuki24/shoelace-rails/blob/92b7502c267189ef89087c1e2a633bd47f8bce9b/src/turbolinks/turbolinks.ts#L36-L52).
-
-### How Hotwire support works
-
-As explained above, the normal form `submit` events are not emitted. On the other hand, Hotwire is a complete write
-of Turbolinks, and the hacks for Turbolinks 5 may not work for Hotwire. Thankfully, Hotwire has received a lot of
-improvements, and the amount of hacks required to make it work on Rails was very minimal, most notably:
-
-  1. All link transitions work with Turbo Drive with no extra code.
-  2. Stimulus.js is fully compatible with [synthetic events](https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events),
-     which Shoelace also uses to emit its events.
-
-Rails UJS is no longer a dependency and form submission is now also handled by Hotwire Turbo, which leaves us in a
-quite good place to make Shoelace work with Rails. That means all we have to do is to translate the `sl-submit` event
-in to the `submit` event.
-
-In order to simulate a normal form submission performed by a form, the `startTurbo()` function defines a custom
-element called [`<sl-turbo-form>`](https://github.com/yuki24/shoelace-rails/blob/main/src/turbo/sl-turbo-form.ts).
-This element internally maintains two things: a `<sl-form>` element [rendered in the element's Shadow DOM](https://github.com/yuki24/shoelace-rails/blob/31711035c4b190a58fec2eaefafb88e8fa022ba4/src/turbo/sl-turbo-form.ts#L41-L43),
-and a `<form>` tag rendered in [the light DOM](https://github.com/yuki24/shoelace-rails/blob/31711035c4b190a58fec2eaefafb88e8fa022ba4/src/turbo/sl-turbo-form.ts#L60-L63).
-When the `sl-submit` event is captured, the element will populate the `form` element in the light DOM with the
-`formdata` provided by the `sl_submit` event, and emits an synthetic `submit` event. Once this is fired, everything
-will be handled by Hotwire Turbo.
 
 ## Development
 
