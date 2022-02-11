@@ -101,7 +101,7 @@ module.exports = environment
 
 Finally, import the shoelace dependency in the entrypoint file:
 
-```
+```js
 import "@shoelace-style/shoelace"
 ```
 
