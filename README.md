@@ -11,7 +11,7 @@ you do not use it. However, the principle here should be the same regardless of 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'shoelace-rails', git: "https://github.com/yuki24/shoelace-rails.git"
+gem 'shoelace-rails'
 ```
 
 And then execute:
