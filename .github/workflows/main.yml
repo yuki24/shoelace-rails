@@ -30,6 +30,7 @@ jobs:
       - run: bundle exec rake test
 
   system:
+    needs: unit
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -46,6 +47,39 @@ jobs:
           bundle
       - name: Run the system test in the dummy app
         run: rake test:system
+
+  rails_edge:
+    needs: system
+    runs-on: ubuntu-18.04
+    env:
+      BUNDLE_GEMFILE: gemfiles/rails_edge.gemfile
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1
+          bundler-cache: true
+      - run: bundle exec rake test || echo "Rails edge test is done."
+
+  ruby_edge:
+    needs: system
+    strategy:
+      matrix:
+        gemfile:
+          - gemfiles/rails_edge.gemfile
+          - gemfiles/rails_70.gemfile
+    runs-on: ubuntu-18.04
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 'ruby-head'
+          bundler-cache: true
+      - run: bundle exec rake || echo "Ruby edge test is done."
 
 #  browser_tests:
 #    runs-on: ubuntu-18.04
