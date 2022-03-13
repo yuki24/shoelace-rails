@@ -6,7 +6,6 @@ source "https://rubygems.org"
 gemspec
 
 gem "rake", "~> 13.0"
-gem "activemodel"
 
 # Need this PR: https://github.com/rails/rails-dom-testing/pull/84 for easier DOM testing:
 gem 'rails-dom-testing', git: "https://github.com/rails/rails-dom-testing.git", ref: "8f5acdfc"
