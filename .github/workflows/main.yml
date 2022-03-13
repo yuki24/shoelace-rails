@@ -22,8 +22,6 @@ jobs:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
       - uses: actions/checkout@v2
-      - name: Install curl
-        run: sudo apt-get install curl libcurl4-openssl-dev
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
