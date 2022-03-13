@@ -6,7 +6,7 @@ require_relative '../../app/helpers/shoelace/form_helper'
 class FormHelperTest < ActionView::TestCase
   include Shoelace::FormHelper
 
-  AUTOCOMPLETE_ATTRIBUTE = ActionView::VERSION::STRING > '7.0.0' ? 'autocomplete="off"' : ''
+  AUTOCOMPLETE_ATTRIBUTE = ActionView::VERSION::STRING >= '6.1.0' ? 'autocomplete="off"' : ''
 
   test "#sl_text_field_tag with name and value" do
     assert_dom_equal <<~HTML, sl_text_field_tag('name', 'Your name')
