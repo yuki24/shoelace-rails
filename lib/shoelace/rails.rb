@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 require_relative "rails/version"
-require_relative "engine" if defined?(::Rails::Railtie)
+
+if defined?(::Rails::Railtie)
+  require_relative "engine"
+  require_relative "railtie"
+end
 
 module Shoelace
   module Rails
