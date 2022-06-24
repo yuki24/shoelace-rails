@@ -4,10 +4,6 @@ The `shoelace-rails` gem adds useful helper methods for [Shoelace.style](https:/
 
 ## Installation
 
-This document assumes that you use the [`webpacker`](https://github.com/rails/webpacker) or
-the [`jsbundling-rails`](https://github.com/rails/jsbundling-rails) gem. You may have to tweak the examples here if
-you do not use it. However, the principle here should be the same regardless of the JS bundler you use.
-
 Add this line to your application's Gemfile:
 
 ```ruby
