@@ -133,7 +133,7 @@ As explained above, this gem provides drop-in replacements to. Here is a short e
 And this code will produce:
 
 ```html
-<sl-form class="new_user" id="new_user" data-remote="true" action="/" accept-charset="UTF-8" method="post">
+<form class="new_user" id="new_user" data-remote="true" action="/" accept-charset="UTF-8" method="post">
   <sl-input label="Name" type="text" name="user[name]" id="user_name"></sl-input>
   <sl-input label="Password" type="password" name="user[password]" id="user_password"></sl-input>
   <sl-color-picker value="#ffffff" name="user[color]" id="user_color"></sl-color-picker>
@@ -151,7 +151,7 @@ And this code will produce:
   </sl-select>
 
   <sl-button submit="true" type="primary" data-disable-with="Create User">Create User</sl-button>
-</sl-form>
+</form>
 ```
 
 ## Development
