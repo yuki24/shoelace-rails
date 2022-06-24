@@ -23,7 +23,7 @@ $ bundle install
 Additionally, you need to add the following npm packages:
 
 ```sh
-$ yarn add @shoelace-style/shoelace copy-webpack-plugin
+$ yarn add @shoelace-style/shoelace
 ```
 
 ## Set up CSS
@@ -50,62 +50,23 @@ import "@shoelace-style/shoelace/dist/themes/dark.css" // Optional dark mode
 
 ## Set up Javascript
 
-In order to use Shoelace the icons need to be copied to the `public/assets` directory so they will show pu properly.
-
-If you are using the `jsbundling-rails` gem and have `webpack.config.js` in the top level directory of your project, Add th
-e configuration for the `CopyPlugin`:
-
-```js
-// webpack.config.js
-const CopyPlugin = require("copy-webpack-plugin")
-const path = require('path')
-
-module.exports = {
-  ...,
-  plugins: [
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, "node_modules/@shoelace-style/shoelace/dist/assets"),
-          to: path.resolve(__dirname, "public/assets"),
-        },
-      ],
-    }),
-  ],
-}
-```
-
-If you are using the `webpacker` gem, you could add the same configuration but to `config/webpack/environment.js`:
-
-```js
-// config/webpack/environment.js
-const { environment } = require('@rails/webpacker')
-const path = require('path')
-const CopyPlugin = require('copy-webpack-plugin')
-
-// Add shoelace icons to webpack's build process
-environment.plugins.append(
-  'CopyPlugin',
-  new CopyPlugin({
-    patterns: [
-      {
-        from: path.resolve(__dirname, '../../node_modules/@shoelace-style/shoelace/dist/assets'),
-        to: path.resolve(__dirname, '../../public/packs/js/assets')
-      }
-    ]
-  })
-)
-
-module.exports = environment
-```
-
-Finally, import the shoelace dependency in the entrypoint file:
+In this README, it is assumed that you are using a JS bundler such as `webpack` or `esbuild`. In order to define all
+the custome elements,  import the shoelace dependency in the entrypoint file:
 
 ```js
 import "@shoelace-style/shoelace"
 ```
 
 That's it!
+
+### Shoelace Icons
+
+Shoelace icons are automatically set up to load properly, so you don't need to add any extra code. More specifically,
+
+ * In development, the icons are served by the `ActionDispatch::Static` middleware, directly from the
+   `node_modules/@shoelace-style/shoelace/dist/assets/icons` directory.
+ * In production, the icon files are automatically copied into the `public/assets` directory as part of the
+   `assets:precompile` rake task.
 
 ## View Helpers
 
