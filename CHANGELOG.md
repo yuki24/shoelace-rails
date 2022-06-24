@@ -1,4 +1,6 @@
-## v0.2.0
+## [v0.2.0](https://github.com/yuki24/shoelace-rails/tree/v0.2.0)
+
+_<sup>released at 2022-06-24 05:14:01 UTC</sup>_
 
 #### Features
 
