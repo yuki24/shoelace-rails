@@ -23,17 +23,27 @@ module Shoelace
 
   class Railtie < ::Rails::Railtie #:nodoc:
     config.shoelace = ActiveSupport::OrderedOptions.new
-    config.shoelace.use_sl_form_tag = false
-    config.shoelace.dist_path       = "node_modules/@shoelace-style/shoelace/dist"
+
+    # Path to the shoelace assets.
+    config.shoelace.dist_path = "node_modules/@shoelace-style/shoelace/dist"
+
+    # Class name that is added to a form input when the corresponding attribute has an `ActiveModel` error.
+    config.shoelace.invalid_input_class_name = nil
 
     initializer "shoelace.use_rack_middleware" do |app|
       icon_dir = File.join(app.paths["public"].first, "assets/icons")
 
       if !Dir.exist?(icon_dir)
-        path    = app.root.join(config.shoelace.dist_path).to_s
+        path    = app.root.join(app.config.shoelace.dist_path).to_s
         headers = app.config.public_file_server.headers || {}
 
         app.config.middleware.insert_after ActionDispatch::Static, Shoelace::AssetProvider, path, index: "index.html", headers: headers
+      end
+    end
+
+    initializer "shoelace.form_helper" do |app|
+      ActiveSupport.on_load :action_view do
+        Shoelace::FormHelper.invalid_input_class_name = app.config.shoelace.invalid_input_class_name
       end
     end
 
