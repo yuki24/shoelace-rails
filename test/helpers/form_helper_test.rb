@@ -56,14 +56,6 @@ class FormHelperTest < ActionView::TestCase
     HTML
   end
 
-  test "#sl_form_tag" do
-    assert_dom_equal(<<~HTML, sl_form_tag("/posts") { })
-      <form data-remote="true" action="/posts" accept-charset="UTF-8" method="post">
-        <input name="utf8" type="hidden" value="&#x2713;" #{AUTOCOMPLETE_ATTRIBUTE} />
-      </sl-form>
-    HTML
-  end
-
   test "#sl_form_with" do
     assert_dom_equal(<<~HTML, sl_form_with(url: "/") {})
       <form action="/" accept-charset="UTF-8" data-remote="true" method="post">
@@ -77,30 +69,6 @@ class FormHelperTest < ActionView::TestCase
       <form class="new_user" id="new_user" action="/" accept-charset="UTF-8" method="post">
         <input name="utf8" type="hidden" value="&#x2713;" #{AUTOCOMPLETE_ATTRIBUTE} />
       </sl-form>
-    HTML
-  end
-
-  test "#sl_turbo_form_tag" do
-    assert_dom_equal(<<~HTML, sl_turbo_form_tag("/posts") { })
-      <form action="/posts" accept-charset="UTF-8" method="post">
-        <input name="utf8" type="hidden" value="&#x2713;" #{AUTOCOMPLETE_ATTRIBUTE} />
-      </form>
-    HTML
-  end
-
-  test "#sl_turbo_form_with" do
-    assert_dom_equal(<<~HTML, sl_turbo_form_with(url: "/") {})
-      <form action="/" accept-charset="UTF-8" data-remote="true" method="post">
-        <input name="utf8" type="hidden" value="&#x2713;" #{AUTOCOMPLETE_ATTRIBUTE} />
-      </form>
-    HTML
-  end
-
-  test "#sl_turbo_form_for" do
-    assert_dom_equal(<<~HTML, sl_turbo_form_for(User.new, url: "/") { })
-      <form class="new_user" id="new_user" action="/" accept-charset="UTF-8" method="post">
-        <input name="utf8" type="hidden" value="&#x2713;" #{AUTOCOMPLETE_ATTRIBUTE} />
-      </form>
     HTML
   end
 
