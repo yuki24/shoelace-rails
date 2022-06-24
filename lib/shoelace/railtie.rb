@@ -36,5 +36,9 @@ module Shoelace
         app.config.middleware.insert_after ActionDispatch::Static, Shoelace::AssetProvider, path, index: "index.html", headers: headers
       end
     end
+
+    rake_tasks do
+      load "tasks/shoelace.rake"
+    end
   end
 end
