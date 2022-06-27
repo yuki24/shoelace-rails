@@ -66,10 +66,15 @@ module Shoelace
     end
 
     class ShoelaceTextArea < ActionView::Helpers::Tags::TextArea #:nodoc:
-      def content_tag(tag_name, content, options)
-        options[:value] = content if content.present?
+      def render(&block)
+        options = @options.stringify_keys
+        add_default_name_and_id(options)
 
-        tag_name.to_s == 'textarea' ? super('sl-textarea', '', options) : super
+        if size = options.delete("size")
+          options["cols"], options["rows"] = size.split("x") if size.respond_to?(:split)
+        end
+
+        @template_object.content_tag("sl-textarea", options.delete("value") { value_before_type_cast }, options, &block)
       end
     end
 
@@ -205,8 +210,8 @@ module Shoelace
       end
       alias switch switch_field
 
-      def text_area(method, **options)
-        ShoelaceTextArea.new(object_name, method, @template, options.with_defaults(object: @object, resize: 'auto')).render
+      def text_area(method, **options, &block)
+        ShoelaceTextArea.new(object_name, method, @template, options.with_defaults(object: @object, resize: 'auto')).render(&block)
       end
 
       def check_box(method, options = {}, checked_value = "1", unchecked_value = "0", &block)

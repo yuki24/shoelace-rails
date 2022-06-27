@@ -184,6 +184,20 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#text_area with a block" do
+    sl_form_for(User.new, url: "/") do |form|
+      expected = <<~HTML
+        <sl-textarea resize="auto" name="user[name]" id="user_name">
+          <div slot="help-text">Name can not be blank.</div>
+        </sl-textarea>
+      HTML
+
+      assert_dom_equal(expected, form.text_area(:name) {
+        content_tag(:div, "Name can not be blank.", slot: "help-text")
+      })
+    end
+  end
+
   test "#check_box" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.check_box(:name)
