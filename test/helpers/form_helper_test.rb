@@ -232,6 +232,42 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#select with a custom value" do
+    users = {
+      "Yuki Nishijima" => 1,
+      "Matz" => 2,
+      "Koichi Sasada" => 3
+    }
+
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.select(:name, users, {}, { value: 3 })
+        <sl-select value="3" name="user[name]" id="user_name">
+          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
+          <sl-menu-item value="2">Matz</sl-menu-item>
+          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+        </sl-select>
+      HTML
+    end
+  end
+
+  test "#select with custom selected and disabled values" do
+    users = {
+      "Yuki Nishijima" => 1,
+      "Matz" => 2,
+      "Koichi Sasada" => 3
+    }
+
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.select(:name, users, selected: 3, disabled: 1)
+        <sl-select name="user[name]" id="user_name">
+          <sl-menu-item value="1" disabled="disabled">Yuki Nishijima</sl-menu-item>
+          <sl-menu-item value="2">Matz</sl-menu-item>
+          <sl-menu-item value="3" checked="checked">Koichi Sasada</sl-menu-item>
+        </sl-select>
+      HTML
+    end
+  end
+
   test "#select with multiple" do
     users = {
       "Yuki Nishijima" => 1,
@@ -286,7 +322,7 @@ class FormHelperTest < ActionView::TestCase
       ]
     }
 
-    sl_form_for(User.new(name: "2"), url: "/") do |form|
+    sl_form_for(User.new(name: 2), url: "/") do |form|
       assert_dom_equal <<~HTML, form.select(:name, users)
         <sl-select name="user[name]" id="user_name" value="2">
           <sl-menu-label>Main maintainers</sl-menu-label>
