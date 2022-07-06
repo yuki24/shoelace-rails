@@ -163,6 +163,14 @@ class FormHelperTest < ActionView::TestCase
   test "#range_field" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.range_field(:name)
+        <sl-range label="Name" name="user[name]" id="user_name"></sl-range>
+      HTML
+    end
+  end
+
+  test "#range_field without a label" do
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.range_field(:name, label: nil)
         <sl-range name="user[name]" id="user_name"></sl-range>
       HTML
     end
@@ -179,6 +187,14 @@ class FormHelperTest < ActionView::TestCase
   test "#text_area" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.text_area(:name)
+        <sl-textarea label="Name" resize="auto" name="user[name]" id="user_name"></sl-textarea>
+      HTML
+    end
+  end
+
+  test "#text_area without a label" do
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.text_area(:name, label: nil)
         <sl-textarea resize="auto" name="user[name]" id="user_name"></sl-textarea>
       HTML
     end
@@ -187,7 +203,7 @@ class FormHelperTest < ActionView::TestCase
   test "#text_area with a block" do
     sl_form_for(User.new, url: "/") do |form|
       expected = <<~HTML
-        <sl-textarea resize="auto" name="user[name]" id="user_name">
+        <sl-textarea label="Name" resize="auto" name="user[name]" id="user_name">
           <div slot="help-text">Name can not be blank.</div>
         </sl-textarea>
       HTML

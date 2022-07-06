@@ -201,7 +201,7 @@ module Shoelace
       alias color_picker color_field
 
       def range_field(method, **options)
-        ShoelaceRange.new(object_name, method, @template, options.with_defaults(object: @object)).render
+        ShoelaceRange.new(object_name, method, @template, options.with_defaults(object: @object, label: method.to_s.humanize)).render
       end
       alias range range_field
 
@@ -211,7 +211,7 @@ module Shoelace
       alias switch switch_field
 
       def text_area(method, **options, &block)
-        ShoelaceTextArea.new(object_name, method, @template, options.with_defaults(object: @object, resize: 'auto')).render(&block)
+        ShoelaceTextArea.new(object_name, method, @template, options.with_defaults(object: @object, label: method.to_s.humanize, resize: 'auto')).render(&block)
       end
 
       def check_box(method, options = {}, checked_value = "1", unchecked_value = "0", &block)
@@ -219,11 +219,11 @@ module Shoelace
       end
 
       def select(method, choices = nil, options = {}, html_options = {}, &block)
-        ShoelaceSelect.new(object_name, method, @template, choices, options.with_defaults(object: @object), html_options, &block).render
+        ShoelaceSelect.new(object_name, method, @template, choices, options.with_defaults(object: @object, label: method.to_s.humanize), html_options, &block).render
       end
 
       def collection_select(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-        ShoelaceCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html_options, &block).render
+        ShoelaceCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object, label: method.to_s.humanize), html_options, &block).render
       end
 
       def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
