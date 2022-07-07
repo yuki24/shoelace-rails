@@ -12,6 +12,9 @@ namespace :shoelace do
   end
 end
 
+# Make sure `yarn install` is run before running `shoelace:icons:copy`.
+Rake::Task["shoelace:icons:copy"].enhance(["javascript:build"])
+
 if Rake::Task.task_defined?("assets:precompile")
   Rake::Task["assets:precompile"].enhance(["shoelace:icons:copy"])
 end
