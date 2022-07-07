@@ -220,11 +220,11 @@ module Shoelace
       end
 
       def select(method, choices = nil, options = {}, html_options = {}, &block)
-        ShoelaceSelect.new(object_name, method, @template, choices, options.with_defaults(object: @object, label: method.to_s.humanize), html_options, &block).render
+        ShoelaceSelect.new(object_name, method, @template, choices, options.with_defaults(object: @object), html_options.with_defaults(label: method.to_s.humanize), &block).render
       end
 
       def collection_select(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-        ShoelaceCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object, label: method.to_s.humanize), html_options, &block).render
+        ShoelaceCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html_options.with_defaults(label: method.to_s.humanize), &block).render
       end
 
       def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
