@@ -192,6 +192,22 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#text_area with a value" do
+    sl_form_for(User.new(name: "Yuki Nishijima"), url: "/") do |form|
+      assert_dom_equal <<~HTML, form.text_area(:name)
+        <sl-textarea label="Name" resize="auto" value="Yuki Nishijima" name="user[name]" id="user_name"></sl-textarea>
+      HTML
+    end
+  end
+
+  test "#text_area with an one-off value" do
+    sl_form_for(User.new(name: "Yuki Nishijima"), url: "/") do |form|
+      assert_dom_equal <<~HTML, form.text_area(:name, value: "Yuki")
+        <sl-textarea label="Name" resize="auto" value="Yuki" name="user[name]" id="user_name"></sl-textarea>
+      HTML
+    end
+  end
+
   test "#text_area without a label" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.text_area(:name, label: nil)

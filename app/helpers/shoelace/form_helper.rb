@@ -68,13 +68,14 @@ module Shoelace
     class ShoelaceTextArea < ActionView::Helpers::Tags::TextArea #:nodoc:
       def render(&block)
         options = @options.stringify_keys
+        options["value"] = options.fetch("value") { value_before_type_cast }
         add_default_name_and_id(options)
 
         if size = options.delete("size")
           options["cols"], options["rows"] = size.split("x") if size.respond_to?(:split)
         end
 
-        @template_object.content_tag("sl-textarea", options.delete("value") { value_before_type_cast }, options, &block)
+        @template_object.content_tag("sl-textarea", '', options, &block)
       end
     end
 
