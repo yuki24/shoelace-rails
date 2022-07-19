@@ -216,6 +216,14 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#text_area with a size" do
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.text_area(:name, size: "small")
+        <sl-textarea label="Name" resize="auto" size="small" name="user[name]" id="user_name"></sl-textarea>
+      HTML
+    end
+  end
+
   test "#text_area with a block" do
     sl_form_for(User.new, url: "/") do |form|
       expected = <<~HTML
