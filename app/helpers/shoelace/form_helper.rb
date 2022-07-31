@@ -120,10 +120,18 @@ module Shoelace
           add_default_name_and_id(options)
         end
 
-        if block_given?
-          @template_object.content_tag('sl-checkbox', '', options, &block)
+        include_hidden = options.delete("include_hidden") { true }
+
+        sl_checkbox_tag = if block_given?
+                            @template_object.content_tag('sl-checkbox', '', options, &block)
+                          else
+                            @template_object.content_tag('sl-checkbox', @method_name.to_s.humanize, options)
+                          end
+
+        if include_hidden
+          hidden_field_for_checkbox(options) + sl_checkbox_tag
         else
-          @template_object.content_tag('sl-checkbox', @method_name.to_s.humanize, options)
+          sl_checkbox_tag
         end
       end
     end
