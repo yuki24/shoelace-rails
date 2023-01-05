@@ -1,28 +1,28 @@
-## v0.3.0
+## [v0.3.0](https://github.com/yuki24/shoelace-rails/tree/v0.3.0)
 
-_<sup>released at 2023-01-05 08:47:12 UTC</sup>_
+_<sup>released at 2023-01-05 08:49:23 UTC</sup>_
 
 #### Features
 
-- No longer requires the `sl-form` component (`4fdbfa15`)
-- The `#text_area` method now accepts a block (`5092dc1c`)
-- Allow overriding the value attribute for `<sl-select>` (`1f38be73`)
-- Auto-display labels whenever possible (`c1e3a950`)
-- `<sl-select>` now always has a label by default (`f9fb5f0c`)
-- Support Ruby 3.2 (`b286cbc1`)
-- Add `#sl_button_to` (`e1bdedba`)
-- Add `#sl_icon_tag` (`8a2187a2`)
-- Add `#sl_avatar_tag` (`77dccdb2`)
-- Allow using the `Shoelace::FormBuilder` in a cleaner way (`43dea330`)
+- No longer requires the `sl-form` component ([<tt>4fdbfa1</tt>](https://github.com/yuki24/shoelace-rails/commit/4fdbfa15fa10db9e7240378ca34ebcc494d18f1a))
+- The `#text_area` method now accepts a block ([<tt>5092dc1</tt>](https://github.com/yuki24/shoelace-rails/commit/5092dc1cbc7e8e74552451450804baa378ab1f11))
+- Allow overriding the value attribute for `<sl-select>` ([<tt>1f38be7</tt>](https://github.com/yuki24/shoelace-rails/commit/1f38be73e3335c10e846393ebcf5155d155b00b2))
+- Auto-display labels whenever possible ([<tt>c1e3a95</tt>](https://github.com/yuki24/shoelace-rails/commit/c1e3a950c3e8ac4238ed3e83e4d87467a68eb91f))
+- `<sl-select>` now always has a label by default ([<tt>f9fb5f0</tt>](https://github.com/yuki24/shoelace-rails/commit/f9fb5f0cd74d179241be51510fa1c306481946c9))
+- Support Ruby 3.2 ([<tt>b286cbc</tt>](https://github.com/yuki24/shoelace-rails/commit/b286cbc18930218ab5c82bd8648a51e9c6ce53db))
+- Add `#sl_button_to` ([<tt>e1bdedb</tt>](https://github.com/yuki24/shoelace-rails/commit/e1bdedba4656d89a82c78641644490085da1fa37))
+- Add `#sl_icon_tag` ([<tt>8a2187a</tt>](https://github.com/yuki24/shoelace-rails/commit/8a2187a2800771512fccf2c8231378a77be59df4))
+- Add `#sl_avatar_tag` ([<tt>77dccdb</tt>](https://github.com/yuki24/shoelace-rails/commit/77dccdb24cfc014bd997ffb66ad89ff95afb3ef7))
+- Allow using the `Shoelace::FormBuilder` in a cleaner way ([<tt>43dea33</tt>](https://github.com/yuki24/shoelace-rails/commit/43dea3309c3e0cf9d9b43b6957f6e54ad9497c9f))
 
 #### Bug Fixes
 
-- Fixes a bug where the gem rake tasks are not loaded (`115bfb3d`)
-- Fixes a bug where values are not properly passed in to `<sl-textarea>` (`3d163845`)
-- Make sure yarn install is always executed before copying shoelace assets (`98018a27`)
-- Fixes a bug where the `@object` needs to respond to `#errors` (`bb981ed0`)
-- Fixes a bug where the `size` attr is ignored by the `#text_area` method (`8bc4c378`)
-- Fixes a bug where unchecked checkbox values are not captured (`dc658bea`)
+- Fixes a bug where the gem rake tasks are not loaded ([<tt>115bfb3</tt>](https://github.com/yuki24/shoelace-rails/commit/115bfb3d81ca19b5b922a5fb32f46adb1d6e8544))
+- Fixes a bug where values are not properly passed in to `<sl-textarea>` ([<tt>3d16384</tt>](https://github.com/yuki24/shoelace-rails/commit/3d16384554bd4a6143e28e483f8d6bee8fb2e073))
+- Make sure yarn install is always executed before copying shoelace assets ([<tt>98018a2</tt>](https://github.com/yuki24/shoelace-rails/commit/98018a27a29ddc9ff2c2fa066bbe986709803a1d))
+- Fixes a bug where the `@object` needs to respond to `#errors` ([<tt>bb981ed</tt>](https://github.com/yuki24/shoelace-rails/commit/bb981ed05825707cef89d70a7d1699c12cd0ba9b))
+- Fixes a bug where the `size` attr is ignored by the `#text_area` method ([<tt>8bc4c37</tt>](https://github.com/yuki24/shoelace-rails/commit/8bc4c3784a458e7fc9c18a143578b2cbf588e9e7))
+- Fixes a bug where unchecked checkbox values are not captured ([<tt>dc658be</tt>](https://github.com/yuki24/shoelace-rails/commit/dc658bea9fc4d4205dacdfe133b091c5a5edf14c))
 
 ## [v0.2.0](https://github.com/yuki24/shoelace-rails/tree/v0.2.0)
 
