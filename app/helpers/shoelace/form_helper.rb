@@ -260,21 +260,14 @@ module Shoelace
       content_tag("sl-button", **attrs, &block)
     end
 
-    # Not providing this helper for now due to potentially untraceable HTML. E.g.
-    #
-    #   <a href="...">
-    #     <sl-button>...</sl-button>
-    #   </a>
-    #
-    # may be trackable and traceable by search bots and scrapers, but:
-    #
-    #   <sl-button href="...">...</sl-button>
-    #
-    # may not be. In the mean time, it is advisable to wrap a <sl-button> tag with an <a> tag.
-    #
-    # def sl_button_to(href, **attrs, &block)
-    #   sl_button_tag(href: href, **attrs, &block)
-    # end
+    # Creates an <sl-button> tag with the href value as the caption.
+    def sl_button_to(body, href = nil, **attrs, &block)
+      if block_given? && href.nil?
+        sl_button_tag(href: body, **attrs, &block)
+      else
+        sl_button_tag(href: href) { body }
+      end
+    end
 
     # Creates a submit button with the text value as the caption, with the +submit+ attribute.
     def sl_submit_tag(value = 'Save changes', **options)
