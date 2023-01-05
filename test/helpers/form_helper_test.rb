@@ -240,19 +240,34 @@ class FormHelperTest < ActionView::TestCase
 
   test "#check_box" do
     sl_form_for(User.new, url: "/") do |form|
-      assert_dom_equal <<~HTML, form.check_box(:name)
-        <input name="user[name]" type="hidden" value="0" autocomplete="off" />
-        <sl-checkbox value="1" name="user[name]" id="user_name">Name</sl-checkbox>
-      HTML
+      if ActionView::VERSION::STRING >= '6.1.0'
+        assert_dom_equal <<~HTML, form.check_box(:name)
+          <input name="user[name]" type="hidden" value="0" autocomplete="off" />
+          <sl-checkbox value="1" name="user[name]" id="user_name">Name</sl-checkbox>
+        HTML
+      else
+        assert_dom_equal <<~HTML, form.check_box(:name)
+          <input name="user[name]" type="hidden" value="0" />
+          <sl-checkbox value="1" name="user[name]" id="user_name">Name</sl-checkbox>
+        HTML
+      end
     end
   end
 
   test "#check_box with a block" do
     sl_form_for(User.new, url: "/") do |form|
-      assert_dom_equal <<~HTML, form.check_box(:name) { "Maintainer Name" }
-        <input name="user[name]" type="hidden" value="0" autocomplete="off" />
-        <sl-checkbox value="1" name="user[name]" id="user_name">Maintainer Name</sl-checkbox>
-      HTML
+      puts ActionView::VERSION::STRING
+      if ActionView::VERSION::STRING >= '6.1.0'
+        assert_dom_equal <<~HTML, form.check_box(:name) { "Maintainer Name" }
+          <input name="user[name]" type="hidden" value="0" autocomplete="off" />
+          <sl-checkbox value="1" name="user[name]" id="user_name">Maintainer Name</sl-checkbox>
+        HTML
+      else
+        assert_dom_equal <<~HTML, form.check_box(:name) { "Maintainer Name" }
+          <input name="user[name]" type="hidden" value="0" />
+          <sl-checkbox value="1" name="user[name]" id="user_name">Maintainer Name</sl-checkbox>
+        HTML
+      end
     end
   end
 
