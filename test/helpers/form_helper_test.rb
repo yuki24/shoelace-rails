@@ -256,7 +256,6 @@ class FormHelperTest < ActionView::TestCase
 
   test "#check_box with a block" do
     sl_form_for(User.new, url: "/") do |form|
-      puts ActionView::VERSION::STRING
       if ActionView::VERSION::STRING >= '6.1.0'
         assert_dom_equal <<~HTML, form.check_box(:name) { "Maintainer Name" }
           <input name="user[name]" type="hidden" value="0" autocomplete="off" />
