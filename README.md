@@ -66,7 +66,11 @@ Shoelace icons are automatically set up to load properly, so you don't need to a
 
 ## View Helpers
 
-As explained above, this gem provides drop-in replacements to. Here is a short example of how the form helper works:
+As explained above, this gem provides drop-in replacements to Rails view helpers.
+
+### Form Helpers
+
+The `sl_form_with` or `sl_form_for` method could be used to generate a form with the Shoelace components:
 
 ```erb
 <%= sl_form_for @user do |form| %>
@@ -109,6 +113,81 @@ And this code will produce:
 
   <sl-button submit="true" type="primary" data-disable-with="Create User">Create User</sl-button>
 </form>
+```
+
+#### Using The `sl-select` component with `multiple`
+
+TDB
+
+#### Using the Shoelace FormBuilder with other gems
+
+Sometimes you want to use the Shoelace FormBuilder with other gems, such as [ransack](https://github.com/activerecord-hackery/ransack).
+In this case, you can not use the `sl_form_for` or `sl_form_with` methods in tandem with `ransack`, but you can use
+the `Shoelace::FormBuilder` with e.g. [the `search_form_for` method](https://activerecord-hackery.github.io/ransack/getting-started/simple-mode/#form-helper):
+
+```erb
+<%= search_form_for @q, builder: Shoelace::FormBuilder do |form| %>
+  ...
+<% end %>
+```
+
+### Tag Helpers
+
+#### `#sl_avatar_tag`
+
+The `@sl_avatar_tag` method behaves just like the `image_tag` method.
+
+```erb
+<%= sl_avatar_tag "/path/to/image.jpg" %>
+```
+
+Will produce:
+
+```html
+<sl-avatar image="/path/to/image.jpg"></sl-avatar>
+```
+
+#### `#sl_button_to`
+
+The `sl_button_to` method behaves just like the `link_to` method. Note that this is slightly different from the
+built-in `button_to` method.
+
+Without a block:
+
+```erb
+<%= sl_button_to "Next Page", "/components?page=2" %>
+```
+
+```html
+<sl-button href="/components?page=2">
+  Next Page
+</sl-button>
+```
+
+With a block:
+
+```erb
+<%= sl_button_to "/components?page=2" do %>
+  Next Page 
+<% end %>
+```
+
+```html
+<sl-button href="/components?page=2">
+ Next Page
+</sl-button>
+```
+
+#### `#sl_icon_tag`
+
+The `sl_icon_tag` method takes the `name` attribute value as the first argument:
+
+```erb
+<%= sl_icon_tag "apple" %>
+```
+
+```html
+<sl-icon name="apple"></sl-icon>
 ```
 
 ## Development
