@@ -1,5 +1,5 @@
 appraise "rails_edge" do
-  git "https://github.com/rails/rails.git" do
+  git "https://github.com/rails/rails.git", branch: "main" do
     gem "rails"
     gem "railties"
     gem "activesupport"
