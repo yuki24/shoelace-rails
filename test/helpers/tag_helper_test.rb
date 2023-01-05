@@ -25,4 +25,14 @@ class TagHelperTest < ActionView::TestCase
       <sl-button>Next</sl-button>
     HTML
   end
+
+  test "#sl_icon_tag"do
+    assert_dom_equal <<~HTML, sl_icon_tag("0-circle-fill")
+      <sl-icon name="0-circle-fill"></sl-icon>
+    HTML
+
+    assert_dom_equal <<~HTML, sl_icon_tag("0-circle-fill", slot: "icon")
+      <sl-icon name="0-circle-fill" slot="icon"></sl-icon>
+    HTML
+  end
 end

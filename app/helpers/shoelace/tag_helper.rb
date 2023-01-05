@@ -15,5 +15,9 @@ module Shoelace
         sl_button_tag(href: href) { body }
       end
     end
+
+    def sl_icon_tag(name, **attrs)
+      tag.sl_icon(name: name, **attrs)
+    end
   end
 end
