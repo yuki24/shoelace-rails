@@ -19,5 +19,9 @@ module Shoelace
     def sl_icon_tag(name, **attrs)
       tag.sl_icon(name: name, **attrs)
     end
+
+    def sl_avatar_tag(source, **attrs, &block)
+      tag.sl_avatar(image: source, **attrs, &block)
+    end
   end
 end

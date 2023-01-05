@@ -35,4 +35,16 @@ class TagHelperTest < ActionView::TestCase
       <sl-icon name="0-circle-fill" slot="icon"></sl-icon>
     HTML
   end
+
+  test "#sl_avatar_tag"do
+    assert_dom_equal <<~HTML, sl_avatar_tag("/path/to/image.jpg")
+      <sl-avatar image="/path/to/image.jpg"></sl-avatar>
+    HTML
+
+    assert_dom_equal(<<~HTML, sl_avatar_tag("/path/to/image.jpg") { "Body" })
+      <sl-avatar image="/path/to/image.jpg">
+        Body
+      </sl-avatar>
+    HTML
+  end
 end
