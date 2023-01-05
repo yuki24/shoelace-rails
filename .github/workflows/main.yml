@@ -20,11 +20,11 @@ jobs:
         exclude:
           - ruby_version: 'jruby-9.3.3.0'
             gemfile: gemfiles/rails_70.gemfile
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -34,9 +34,9 @@ jobs:
 
   system:
     needs: unit
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -53,11 +53,11 @@ jobs:
 
   rails_edge:
     needs: system
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     env:
       BUNDLE_GEMFILE: gemfiles/rails_edge.gemfile
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -72,11 +72,11 @@ jobs:
         gemfile:
           - gemfiles/rails_edge.gemfile
           - gemfiles/rails_70.gemfile
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -85,9 +85,9 @@ jobs:
       - run: bundle exec rake || echo "Ruby edge test is done."
 
 #  browser_tests:
-#    runs-on: ubuntu-18.04
+#    runs-on: ubuntu-22.04
 #    steps:
-#      - uses: actions/checkout@v2
+#      - uses: actions/checkout@v3
 #      - name: Set up Ruby
 #        uses: ruby/setup-ruby@v1
 #        with:
