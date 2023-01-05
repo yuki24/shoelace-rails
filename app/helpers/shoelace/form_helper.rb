@@ -357,4 +357,6 @@ module Shoelace
       RUBY
     end
   end
+
+  FormBuilder = ShoelaceFormBuilder
 end
