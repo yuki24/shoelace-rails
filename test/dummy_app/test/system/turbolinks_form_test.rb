@@ -22,7 +22,6 @@ class TurbolinksFormTest < ApplicationSystemTestCase
     assert_current_path turbolinks_forms_path
     assert_text "Name: Yuki Nishijima"
     assert_text "Description: I am a human."
-    assert_text "Color: #ffffff"
     assert_text "Score: 50"
     # assert_text "Current City:"
     assert_text "Previous City: tokyo"

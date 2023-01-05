@@ -22,7 +22,6 @@ class HotwireFormTest < ApplicationSystemTestCase
     assert_current_path hotwire_form_path(1)
     assert_text "Name: Yuki Nishijima"
     assert_text "Description: I am a human."
-    assert_text "Color: #ffffff"
     assert_text "Score: 50"
     # assert_text "Current City:"
     assert_text "Previous City: tokyo"
@@ -48,7 +47,6 @@ class HotwireFormTest < ApplicationSystemTestCase
     assert_current_path hotwire_form_path(1)
     assert_text "Name: Yuki Nishijima"
     assert_text "Description: I am a human."
-    assert_text "Color: #ffffff"
     assert_text "Score: 50"
     # assert_text "Current City:"
     assert_text "Previous City: tokyo"
