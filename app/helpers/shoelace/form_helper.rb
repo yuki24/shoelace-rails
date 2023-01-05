@@ -358,5 +358,5 @@ module Shoelace
     end
   end
 
-  FormBuilder = ShoelaceFormBuilder
+  FormBuilder = FormHelper::ShoelaceFormBuilder
 end

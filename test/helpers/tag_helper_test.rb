@@ -17,8 +17,16 @@ class TagHelperTest < ActionView::TestCase
       <sl-button href="/next">Next</sl-button>
     HTML
 
+    assert_dom_equal <<~HTML, sl_button_to("Next", "/next", class: "mt-1")
+      <sl-button href="/next" class="mt-1">Next</sl-button>
+    HTML
+
     assert_dom_equal(<<~HTML, sl_button_to("/next") { "Next" })
       <sl-button href="/next">Next</sl-button>
+    HTML
+
+    assert_dom_equal(<<~HTML, sl_button_to("/next", class: "mt-1") { "Next" })
+      <sl-button href="/next" class="mt-1">Next</sl-button>
     HTML
 
     assert_dom_equal <<~HTML, sl_button_to("Next")
@@ -41,8 +49,8 @@ class TagHelperTest < ActionView::TestCase
       <sl-avatar image="/path/to/image.jpg"></sl-avatar>
     HTML
 
-    assert_dom_equal(<<~HTML, sl_avatar_tag("/path/to/image.jpg") { "Body" })
-      <sl-avatar image="/path/to/image.jpg">
+    assert_dom_equal(<<~HTML, sl_avatar_tag("/path/to/image.jpg", slot: "trigger") { "Body" })
+      <sl-avatar image="/path/to/image.jpg" slot="trigger">
         Body
       </sl-avatar>
     HTML

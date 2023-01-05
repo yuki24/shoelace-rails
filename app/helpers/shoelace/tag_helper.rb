@@ -9,10 +9,10 @@ module Shoelace
 
     # Creates an <sl-button> tag with the href value as the caption.
     def sl_button_to(body, href = nil, **attrs, &block)
-      if block_given? && href.nil?
-        sl_button_tag(href: body, **attrs, &block)
+      if block_given?
+        sl_button_tag(href: body, **(href || {}), **attrs, &block)
       else
-        sl_button_tag(href: href) { body }
+        sl_button_tag(href: href, **attrs) { body }
       end
     end
 
