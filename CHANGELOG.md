@@ -1,12 +1,14 @@
-## v0.4.0
+## [v0.4.0](https://github.com/yuki24/shoelace-rails/tree/v0.4.0)
+
+_<sup>released at 2023-01-07 07:23:50 UTC</sup>_
 
 #### 🚨 Breaking Changes
 
- - No longer works with 2.0.0-beta.88 and below.
+- No longer works with `2.0.0-beta.88` and below.
 
 #### ⭐️ Features
 
- - Support Shoelace.style 2.0.0-beta.88
+- Support Shoelace.style `2.0.0-beta.88`.
 
 ## [v0.3.0](https://github.com/yuki24/shoelace-rails/tree/v0.3.0)
 
