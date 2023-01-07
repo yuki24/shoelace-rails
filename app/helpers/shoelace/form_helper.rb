@@ -274,7 +274,7 @@ module Shoelace
       content_tag('sl-input', '', { "type" => "text", "name" => name, "id" => sanitize_to_id(name), "value" => value }.update(options.stringify_keys), &block)
     end
 
-    # Returns a string of +<sl-menu-item>+ tags, like +options_for_select+, but prepends a +<sl-menu-label>+ tag to
+    # Returns a string of +<sl-option>+ tags, like +options_for_select+, but prepends a +<small>+ tag to
     # each group.
     def grouped_sl_options_for_select(grouped_options, options)
       body = "".html_safe
@@ -283,14 +283,14 @@ module Shoelace
         label, values = container
 
         body.safe_concat(DIVIDER_TAG) if index > 0
-        body.safe_concat(content_tag("sl-menu-label", label)) if label.present?
+        body.safe_concat(content_tag("small", label)) if label.present?
         body.safe_concat(sl_options_for_select(values, options))
       end
 
       body
     end
 
-    # Accepts an enumerable (hash, array, enumerable, your type) and returns a string of +sl-menu-item+ tags. Given
+    # Accepts an enumerable (hash, array, enumerable, your type) and returns a string of +sl-option+ tags. Given
     # an enumerable where the elements respond to +first+ and +last+ (such as a two-element array), the “lasts” serve
     # as option values and the “firsts” as option text.
     def sl_options_for_select(enumerable, options = nil)
@@ -306,11 +306,11 @@ module Shoelace
         html_attributes[:disabled] ||= disabled.include?(value)
         html_attributes[:value] = value
 
-        tag_builder.content_tag_string('sl-menu-item', text, html_attributes)
+        tag_builder.content_tag_string('sl-option', text, html_attributes)
       end.join("\n").html_safe
     end
 
-    # Returns a string of +<sl-menu-item>+ tags compiled by iterating over the collection and assigning the result of
+    # Returns a string of +<sl-option>+ tags compiled by iterating over the collection and assigning the result of
     # a call to the +value_method+ as the option value and the +text_method+ as the option text.
     def sl_options_from_collection_for_select(collection, value_method, text_method, selected = nil)
       options = collection.map do |element|

@@ -7,7 +7,7 @@ module Shoelace
       select_element.click
 
       within select_element do
-        find('sl-menu-item', text: option_text).click
+        find('sl-option', text: option_text).click
       end
 
       select_element
@@ -19,7 +19,7 @@ module Shoelace
       select_element.click
       within select_element do
         options_to_select.each do |option_text|
-          find('sl-menu-item', text: option_text).click
+          find('sl-option', text: option_text).click
         end
       end
 

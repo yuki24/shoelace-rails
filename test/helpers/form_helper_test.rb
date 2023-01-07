@@ -282,9 +282,9 @@ class FormHelperTest < ActionView::TestCase
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.select(:name, users)
         <sl-select label="Name" name="user[name]" id="user_name">
-          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
-          <sl-menu-item value="2">Matz</sl-menu-item>
-          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+          <sl-option value="1">Yuki Nishijima</sl-option>
+          <sl-option value="2">Matz</sl-option>
+          <sl-option value="3">Koichi Sasada</sl-option>
         </sl-select>
       HTML
     end
@@ -300,9 +300,9 @@ class FormHelperTest < ActionView::TestCase
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.select(:name, users, {}, { value: 3 })
         <sl-select label="Name" value="3" name="user[name]" id="user_name">
-          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
-          <sl-menu-item value="2">Matz</sl-menu-item>
-          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+          <sl-option value="1">Yuki Nishijima</sl-option>
+          <sl-option value="2">Matz</sl-option>
+          <sl-option value="3">Koichi Sasada</sl-option>
         </sl-select>
       HTML
     end
@@ -318,9 +318,9 @@ class FormHelperTest < ActionView::TestCase
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.select(:name, users, selected: 3, disabled: 1)
         <sl-select label="Name" name="user[name]" id="user_name">
-          <sl-menu-item value="1" disabled="disabled">Yuki Nishijima</sl-menu-item>
-          <sl-menu-item value="2">Matz</sl-menu-item>
-          <sl-menu-item value="3" checked="checked">Koichi Sasada</sl-menu-item>
+          <sl-option value="1" disabled="disabled">Yuki Nishijima</sl-option>
+          <sl-option value="2">Matz</sl-option>
+          <sl-option value="3" checked="checked">Koichi Sasada</sl-option>
         </sl-select>
       HTML
     end
@@ -336,9 +336,9 @@ class FormHelperTest < ActionView::TestCase
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.select(:name, users, {}, { multiple: true })
         <sl-select label="Name" name="user[name][]" id="user_name" multiple="multiple">
-          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
-          <sl-menu-item value="2">Matz</sl-menu-item>
-          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+          <sl-option value="1">Yuki Nishijima</sl-option>
+          <sl-option value="2">Matz</sl-option>
+          <sl-option value="3">Koichi Sasada</sl-option>
         </sl-select>
       HTML
     end
@@ -358,12 +358,12 @@ class FormHelperTest < ActionView::TestCase
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.select(:name, users)
         <sl-select label="Name" name="user[name]" id="user_name">
-          <sl-menu-label>Main maintainers</sl-menu-label>
-          <sl-menu-item value="2">Matz</sl-menu-item>
-          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+          <small>Main maintainers</small>
+          <sl-option value="2">Matz</sl-option>
+          <sl-option value="3">Koichi Sasada</sl-option>
           <sl-divider></sl-divider>
-          <sl-menu-label>Default gem maintainers</sl-menu-label>
-          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
+          <small>Default gem maintainers</small>
+          <sl-option value="1">Yuki Nishijima</sl-option>
         </sl-select>
       HTML
     end
@@ -383,12 +383,12 @@ class FormHelperTest < ActionView::TestCase
     sl_form_for(User.new(name: 2), url: "/") do |form|
       assert_dom_equal <<~HTML, form.select(:name, users)
         <sl-select label="Name" name="user[name]" id="user_name" value="2">
-          <sl-menu-label>Main maintainers</sl-menu-label>
-          <sl-menu-item value="2" checked="checked">Matz</sl-menu-item>
-          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+          <small>Main maintainers</small>
+          <sl-option value="2" checked="checked">Matz</sl-option>
+          <sl-option value="3">Koichi Sasada</sl-option>
           <sl-divider></sl-divider>
-          <sl-menu-label>Default gem maintainers</sl-menu-label>
-          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
+          <small>Default gem maintainers</small>
+          <sl-option value="1">Yuki Nishijima</sl-option>
         </sl-select>
       HTML
     end
@@ -404,9 +404,9 @@ class FormHelperTest < ActionView::TestCase
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.collection_select(:name, users, :first, :last)
         <sl-select label="Name" name="user[name]" id="user_name">
-          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
-          <sl-menu-item value="2">Matz</sl-menu-item>
-          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+          <sl-option value="1">Yuki Nishijima</sl-option>
+          <sl-option value="2">Matz</sl-option>
+          <sl-option value="3">Koichi Sasada</sl-option>
         </sl-select>
       HTML
     end
@@ -422,9 +422,9 @@ class FormHelperTest < ActionView::TestCase
     sl_form_for(User.new(name: "2"), url: "/") do |form|
       assert_dom_equal <<~HTML, form.collection_select(:name, users, :first, :last)
         <sl-select label="Name" name="user[name]" id="user_name" value="2">
-          <sl-menu-item value="1">Yuki Nishijima</sl-menu-item>
-          <sl-menu-item value="2" checked="checked">Matz</sl-menu-item>
-          <sl-menu-item value="3">Koichi Sasada</sl-menu-item>
+          <sl-option value="1">Yuki Nishijima</sl-option>
+          <sl-option value="2" checked="checked">Matz</sl-option>
+          <sl-option value="3">Koichi Sasada</sl-option>
         </sl-select>
       HTML
     end
