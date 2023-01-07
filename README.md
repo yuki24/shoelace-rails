@@ -2,6 +2,11 @@
 
 The `shoelace-rails` gem adds useful helper methods for [Shoelace.style](https://shoelace.style), the design system.
 
+## Compatibility with Shoelace
+
+* **For Shoelace version >= 2.0.0-beta.88, use the gem version `0.4.0` or above**.
+* For Shoelace version <= 2.0.0-beta.87, use the gem version `0.3.0`.
+
 ## Installation
 
 Add this line to your application's Gemfile:
