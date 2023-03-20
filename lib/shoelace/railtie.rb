@@ -3,6 +3,9 @@
 require 'action_dispatch/middleware/static'
 
 module Shoelace
+  mattr_accessor :invalid_input_class_name
+  self.invalid_input_class_name = nil
+
   # The only reason this class exists is to clarify that we have a custom static file server after
   # `ActionDispatch::Static`. We could just use `ActionDispatch::Static` directly, but it would make the result of
   # `rake middleware` more difficult to understand, as the output would look like:
@@ -43,7 +46,7 @@ module Shoelace
 
     initializer "shoelace.form_helper" do |app|
       ActiveSupport.on_load :action_view do
-        Shoelace::FormHelper.invalid_input_class_name = app.config.shoelace.invalid_input_class_name
+        Shoelace.invalid_input_class_name = app.config.shoelace.invalid_input_class_name
       end
     end
 

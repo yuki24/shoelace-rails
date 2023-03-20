@@ -2,9 +2,6 @@
 
 module Shoelace
   module FormHelper
-    mattr_accessor :invalid_input_class_name
-    self.invalid_input_class_name = nil
-
     class ShoelaceInputField < ActionView::Helpers::Tags::TextField #:nodoc:
       attr_reader :field_type
 
@@ -21,7 +18,7 @@ module Shoelace
 
         options["size"] = options["maxlength"] unless options.key?("size")
         options["type"] ||= field_type
-        options["class"] ||= [options["class"], Shoelace::FormHelper.invalid_input_class_name].compact.join(" ") if @object.respond_to?(:errors) && @object.errors[@method_name].present?
+        options["class"] ||= [options["class"], Shoelace.invalid_input_class_name].compact.join(" ") if @object.respond_to?(:errors) && @object.errors[@method_name].present?
 
         add_default_name_and_id(options)
 
