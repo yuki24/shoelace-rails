@@ -19,4 +19,6 @@ end
 
 if Rake::Task.task_defined?("assets:precompile")
   Rake::Task["assets:precompile"].enhance(["shoelace:icons:copy"])
+else
+  Rake::Task.define_task('assets:precompile' => ['shoelace:icons:copy'])
 end
