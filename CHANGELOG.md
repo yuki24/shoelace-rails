@@ -1,3 +1,12 @@
+## v0.4.1
+
+_<sup>released at 2023-03-21 05:01:50 UTC</sup>_
+
+#### 🐞Bug Fixes
+
+- Fixes a bug where `FormHelper` may not be defined when someone loads `ActionView` too early (d91ed3b595c01ce2dfc471b12b14311e0660d3d7)
+- Fixes a bug where the Shoelace rake tasks blow up when the project does not depend on Sprockets or Propshaft (0e64cd6dc38a037171be04eaf1d3f59c3c8529eb, 75adf831b1faa7f5d1faeed26e672d4bc89b9513)
+
 ## [v0.4.0](https://github.com/yuki24/shoelace-rails/tree/v0.4.0)
 
 _<sup>released at 2023-01-07 07:23:50 UTC</sup>_

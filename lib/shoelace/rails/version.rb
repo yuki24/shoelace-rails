@@ -2,6 +2,6 @@
 
 module Shoelace
   module Rails
-    VERSION = "0.5.0-alpha"
+    VERSION = "0.4.1"
   end
 end
