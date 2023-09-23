@@ -31,5 +31,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "appraisal"
   spec.add_development_dependency "minitest", ">= 5.14.4"
-  spec.add_development_dependency "rails-dom-testing", ">= 2.0.3"
+  spec.add_development_dependency "rails-dom-testing", ">= 2.2.0"
 end

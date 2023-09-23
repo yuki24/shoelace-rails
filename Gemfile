@@ -6,4 +6,3 @@ source "https://rubygems.org"
 gemspec
 
 gem "rake", "~> 13.0"
-gem 'rails-dom-testing', ">= 2.2.0"
