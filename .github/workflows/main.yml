@@ -22,6 +22,8 @@ jobs:
           - gemfiles/rails_60.gemfile
         exclude:
           - ruby_version: 'jruby-9.3'
+            gemfile: gemfiles/rails_71.gemfile
+          - ruby_version: 'jruby-9.3'
             gemfile: gemfiles/rails_70.gemfile
     runs-on: ubuntu-22.04
     env:
