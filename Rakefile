@@ -6,22 +6,7 @@ require "rake/testtask"
 Rake::TestTask.new(:test) do |t|
   t.libs << "test"
   t.libs << "lib"
-  t.test_files = FileList["test/**/*_test.rb"].exclude("test/dummy_app/**/*")
+  t.test_files = FileList["test/**/*_test.rb"]
 end
 
-namespace :test do
-  task :system do
-    Bundler.with_original_env do
-      sh <<~CMD
-        yarn build &&
-        cd test/dummy_app &&
-        yarn &&
-        bundle &&
-        RAILS_ENV=test rails webpacker:compile
-        rails test:system
-      CMD
-    end
-  end
-end
-
-task default: [:test, :'test:system']
+task default: [:test]
