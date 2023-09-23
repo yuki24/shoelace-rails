@@ -9,6 +9,6 @@ git "https://github.com/rails/rails.git", branch: "main" do
 end
 
 gem "rake", "~> 13.0"
-gem "rails-dom-testing", git: "https://github.com/rails/rails-dom-testing.git", ref: "8f5acdfc"
+gem "rails-dom-testing", ">= 2.2.0"
 
 gemspec path: "../"
