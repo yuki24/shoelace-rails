@@ -7,9 +7,9 @@ appraise "rails_edge" do
 end
 
 appraise "rails_71" do
-  gem "rails", "~> 7.1.0.rc2"
-  gem "railties", "~> 7.1.0.rc2"
-  gem "activesupport", "~> 7.1.0.rc2"
+  gem "rails", "~> 7.1.0"
+  gem "railties", "~> 7.1.0"
+  gem "activesupport", "~> 7.1.0"
 end
 
 appraise "rails_70" do
