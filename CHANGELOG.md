@@ -1,3 +1,14 @@
+## v0.5.0
+
+_<sup>released at 2023-03-21 04:03:27 UTC</sup>_
+
+#### ⭐️ Features
+
+- Add support for Ruby 3.3 (`399f25567f964d0ea2e250eba6db28a2bcd038a3`)
+- Add support for Rails 7.1 (#4)
+- Add `#grouped_collection_select` (`2b91023d51e1d0a218f2102232241afa82aaf872`)
+- Make the `<sl-radio>` form helpers compatible with Shoelace [2.0.0-beta.80](https://shoelace.style/resources/changelog#id_2_0_0-beta_80) and above (`ef9a8345f2c5c921847aef15e19cf64a471d6473`)
+
 ## [v0.4.1](https://github.com/yuki24/shoelace-rails/tree/v0.4.1)
 
 _<sup>released at 2023-03-21 04:03:27 UTC</sup>_
