@@ -151,8 +151,8 @@ module Shoelace
       def render(&block)
         options = @options.stringify_keys
         options["value"]   = @tag_value
-        options["checked"] = "checked" if input_checked?(options)
         add_default_name_and_id_for_value(@tag_value, options)
+        options.delete("name")
 
         @template_object.content_tag('sl-radio', '', options.except("type"), &block)
       end
@@ -178,7 +178,11 @@ module Shoelace
       private
 
       def render_collection(&block)
-        @template_object.content_tag('sl-radio-group', 'label' => @method_name.to_s.humanize) { super(&block) }
+        html_options = @html_options.stringify_keys
+        html_options["value"] = value
+        add_default_name_and_id(html_options)
+
+        @template_object.content_tag('sl-radio-group', html_options.with_defaults(label: @method_name.humanize)) { super(&block) }
       end
 
       def hidden_field

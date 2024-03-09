@@ -46,7 +46,7 @@ class FormHelperTest < ActionView::TestCase
 
   test "#sl_radio_button" do
     assert_dom_equal(<<~HTML, sl_radio_button(:user, :name, 'userid-314', checked: true) { "Yuki Nishijima" })
-      <sl-radio value="userid-314" checked="checked" name="user[name]" id="user_name_userid-314">Yuki Nishijima</sl-radio>
+      <sl-radio value="userid-314" checked="checked" id="user_name_userid-314">Yuki Nishijima</sl-radio>
     HTML
   end
 
@@ -468,10 +468,10 @@ class FormHelperTest < ActionView::TestCase
 
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.collection_radio_buttons(:name, users, :first, :last)
-        <sl-radio-group label="Name">
-          <sl-radio name="user[name]" value="1" id="user_name_1">Yuki Nishijima</sl-radio>
-          <sl-radio name="user[name]" value="2" id="user_name_2">Matz</sl-radio>
-          <sl-radio name="user[name]" value="3" id="user_name_3">Koichi Sasada</sl-radio>
+        <sl-radio-group label="Name" name="user[name]" id="user_name">
+          <sl-radio value="1" id="user_name_1">Yuki Nishijima</sl-radio>
+          <sl-radio value="2" id="user_name_2">Matz</sl-radio>
+          <sl-radio value="3" id="user_name_3">Koichi Sasada</sl-radio>
         </sl-radio-group>
       HTML
     end
@@ -486,10 +486,10 @@ class FormHelperTest < ActionView::TestCase
 
     sl_form_for(User.new(name: 1), url: "/") do |form|
       assert_dom_equal <<~HTML, form.collection_radio_buttons(:name, users, :first, :last)
-        <sl-radio-group label="Name">
-          <sl-radio name="user[name]" value="1" id="user_name_1" checked="checked">Yuki Nishijima</sl-radio>
-          <sl-radio name="user[name]" value="2" id="user_name_2">Matz</sl-radio>
-          <sl-radio name="user[name]" value="3" id="user_name_3">Koichi Sasada</sl-radio>
+        <sl-radio-group label="Name" name="user[name]" value="1" id="user_name">
+          <sl-radio value="1" id="user_name_1">Yuki Nishijima</sl-radio>
+          <sl-radio value="2" id="user_name_2">Matz</sl-radio>
+          <sl-radio value="3" id="user_name_3">Koichi Sasada</sl-radio>
         </sl-radio-group>
       HTML
     end
