@@ -430,6 +430,35 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#grouped_collection_select" do
+    users = [
+      OpenStruct.new(
+        group_name: "Main maintainers",
+        members: [
+          OpenStruct.new(id: 1, name: "Matz"),
+          OpenStruct.new(id: 2, name: "Koichi Sasada"),
+        ]
+      ),
+      OpenStruct.new(
+        group_name: "Default gem maintainers",
+        members: [OpenStruct.new(id: 3, name: "Yuki Nishijima")]
+      ),
+    ]
+
+    sl_form_for(User.new(name: "2"), url: "/") do |form|
+      assert_dom_equal <<~HTML, form.grouped_collection_select(:name, users, :members, :group_name, :id, :name)
+        <sl-select label="Name" name="user[name]" id="user_name" value="2">
+          <small>Main maintainers</small>
+          <sl-option value="1">Matz</sl-option>
+          <sl-option value="2" checked="checked">Koichi Sasada</sl-option>
+          <sl-divider></sl-divider>
+          <small>Default gem maintainers</small>
+          <sl-option value="3">Yuki Nishijima</sl-option>
+        </sl-select>
+      HTML
+    end
+  end
+
   test "#collection_radio_buttons" do
     users = {
       1 => "Yuki Nishijima",

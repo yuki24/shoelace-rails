@@ -104,6 +104,20 @@ module Shoelace
       end
     end
 
+    class ShoelaceGroupedCollectionSelect < ActionView::Helpers::Tags::GroupedCollectionSelect #:nodoc:
+      def option_groups_from_collection_for_select(collection, group_method, group_label_method, option_key_method, option_value_method, selected_key = nil)
+        @template_object.sl_option_groups_from_collection_for_select(collection, group_method, group_label_method, option_key_method, option_value_method, selected_key)
+      end
+
+      def select_content_tag(option_tags, _options, html_options)
+        html_options = html_options.stringify_keys
+        html_options['value'] ||= value
+        add_default_name_and_id(html_options)
+
+        @template_object.content_tag("sl-select", option_tags, html_options)
+      end
+    end
+
     class ShoelaceCheckBox < ActionView::Helpers::Tags::CheckBox #:nodoc:
       def render(&block)
         options = @options.stringify_keys
@@ -228,6 +242,10 @@ module Shoelace
         ShoelaceCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html_options.with_defaults(label: method.to_s.humanize), &block).render
       end
 
+      def grouped_collection_select(method, collection, group_method, group_label_method, option_key_method, option_value_method, options = {}, html_options = {})
+        ShoelaceGroupedCollectionSelect.new(object_name, method, @template, collection, group_method, group_label_method, option_key_method, option_value_method, options.with_defaults(object: @object), html_options.with_defaults(label: method.to_s.humanize)).render
+      end
+
       def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
         ShoelaceCollectionRadioButtons.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html_options).render(&block)
       end
@@ -305,6 +323,20 @@ module Shoelace
 
         tag_builder.content_tag_string('sl-option', text, html_attributes)
       end.join("\n").html_safe
+    end
+
+    def sl_option_groups_from_collection_for_select(collection, group_method, group_label_method, option_key_method, option_value_method, selected_key = nil)
+      body = "".html_safe
+
+      collection.each_with_index do |group, index|
+        option_tags = sl_options_from_collection_for_select(value_for_collection(group, group_method), option_key_method, option_value_method, selected_key)
+
+        body.safe_concat(DIVIDER_TAG) if index > 0
+        body.safe_concat(content_tag("small", value_for_collection(group, group_label_method)))
+        body.safe_concat(option_tags)
+      end
+
+      body
     end
 
     # Returns a string of +<sl-option>+ tags compiled by iterating over the collection and assigning the result of
