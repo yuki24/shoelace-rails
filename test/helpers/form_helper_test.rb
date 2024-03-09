@@ -412,7 +412,7 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
-  test "#collection_select with a defalut value" do
+  test "#collection_select with a default value" do
     users = {
       1 => "Yuki Nishijima",
       2 => "Matz",
