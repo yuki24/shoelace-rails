@@ -34,6 +34,14 @@ class TranslationTest < ActionView::TestCase
     end
   end
 
+  test "Form helpers should cast symbol object names to String" do
+    sl_form_for(User.new, as: :user, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.text_field(:name)
+        <sl-input label="Full Name" type="text" name="user[name]" id="user_name"></sl-input>
+      HTML
+    end
+  end
+
   test "#color_field should respect label translations" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.color_field(:name)

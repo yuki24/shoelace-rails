@@ -270,7 +270,7 @@ module Shoelace
       private
 
       def label_text(method, tag_value = nil)
-        ::ActionView::Helpers::Tags::Label::LabelBuilder.new(@template, object_name, method, object, tag_value).translation
+        ::ActionView::Helpers::Tags::Label::LabelBuilder.new(@template, object_name.to_s, method, object, tag_value).translation
       end
     end
 
