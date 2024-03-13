@@ -1,8 +1,10 @@
-## v0.6.1
+## [v0.6.1](https://github.com/yuki24/shoelace-rails/tree/v0.6.1)
+
+_<sup>released at 2024-03-13 03:05:20 UTC</sup>_
 
 #### 🐞Bug Fixes
 
-- Fixes a bug where form builders fail to render wtih a string `:as` option
+- Fixes a bug where form builders fail to render with a string `:as` option
 
 ## [v0.6.0](https://github.com/yuki24/shoelace-rails/tree/v0.6.0)
 
