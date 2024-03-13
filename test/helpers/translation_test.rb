@@ -7,6 +7,8 @@ class TranslationTest < ActionView::TestCase
   include ActionView::Helpers::TranslationHelper
   include Shoelace::FormHelper
 
+  AUTOCOMPLETE_ATTRIBUTE = ActionView::VERSION::STRING >= '6.1.0' ? 'autocomplete="off"' : ''
+
   setup do
     I18n.backend.store_translations :en,
                                     helpers: {
@@ -67,7 +69,7 @@ class TranslationTest < ActionView::TestCase
   test "#check_box should respect label translations" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.check_box(:name)
-        <input name="user[name]" type="hidden" value="0" autocomplete="off" />
+        <input name="user[name]" type="hidden" value="0" #{AUTOCOMPLETE_ATTRIBUTE} />
         <sl-checkbox value="1" name="user[name]" id="user_name">Full Name</sl-checkbox>
       HTML
     end
