@@ -57,7 +57,7 @@ module Shoelace
         options = @options.stringify_keys
         options["value"] = options.fetch("value") { value_before_type_cast }
         add_default_name_and_id(options)
-        label = options.delete('label').presence || @method_name.humanize
+        label = options.delete('label').presence || @method_name.to_s.humanize
 
         @template_object.content_tag('sl-switch', label, options, &block)
       end
@@ -124,7 +124,7 @@ module Shoelace
         options = @options.stringify_keys
         options["value"]   = @checked_value
         options["checked"] = true if input_checked?(options)
-        label = options.delete("label") || @method_name.humanize
+        label = options.delete("label") || @method_name.to_s.humanize
 
         if options["multiple"]
           add_default_name_and_id_for_value(@checked_value, options)
@@ -183,7 +183,7 @@ module Shoelace
         html_options = @html_options.stringify_keys
         html_options["value"] = value
         add_default_name_and_id(html_options)
-        html_options["label"] = @options[:label].presence || @method_name.humanize
+        html_options["label"] = @options[:label].presence || @method_name.to_s.humanize
 
         @template_object.content_tag('sl-radio-group', html_options) { super(&block) }
       end
@@ -270,7 +270,7 @@ module Shoelace
       private
 
       def label_text(method, tag_value = nil)
-        ::ActionView::Helpers::Tags::Label::LabelBuilder.new(@template, object_name.to_s, method, object, tag_value).translation
+        ::ActionView::Helpers::Tags::Label::LabelBuilder.new(@template, object_name.to_s, method.to_s, object, tag_value).translation
       end
     end
 

@@ -1,3 +1,9 @@
+## v0.6.2
+
+#### 🐞Bug Fixes
+
+- Fixes a bug where form builders fail to render when it falls back to humanize the given method name
+
 ## [v0.6.1](https://github.com/yuki24/shoelace-rails/tree/v0.6.1)
 
 _<sup>released at 2024-03-13 03:05:20 UTC</sup>_

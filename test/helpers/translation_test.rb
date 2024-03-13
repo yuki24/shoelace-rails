@@ -42,6 +42,16 @@ class TranslationTest < ActionView::TestCase
     end
   end
 
+  test "Form helpers should fall back to the humanize method when there is no matching translation" do
+    I18n.backend.reload!
+
+    sl_form_for(OpenStruct.new, as: :user, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.text_field(:name_eq)
+        <sl-input label="Name eq" type="text" name="user[name_eq]" id="user_name_eq"></sl-input>
+      HTML
+    end
+  end
+
   test "#color_field should respect label translations" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.color_field(:name)
