@@ -149,7 +149,7 @@ class FormHelperTest < ActionView::TestCase
   test "#color_field" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.color_field(:name)
-        <sl-color-picker name="user[name]" id="user_name"></sl-color-picker>
+        <sl-color-picker name="user[name]" id="user_name" label="Name"></sl-color-picker>
       HTML
     end
   end

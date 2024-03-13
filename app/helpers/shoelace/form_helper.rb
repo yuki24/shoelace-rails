@@ -57,8 +57,9 @@ module Shoelace
         options = @options.stringify_keys
         options["value"] = options.fetch("value") { value_before_type_cast }
         add_default_name_and_id(options)
+        label = options.delete('label').presence || @method_name.humanize
 
-        @template_object.content_tag('sl-switch', @method_name.to_s.humanize, options, &block)
+        @template_object.content_tag('sl-switch', label, options, &block)
       end
     end
 
@@ -123,6 +124,7 @@ module Shoelace
         options = @options.stringify_keys
         options["value"]   = @checked_value
         options["checked"] = true if input_checked?(options)
+        label = options.delete("label") || @method_name.humanize
 
         if options["multiple"]
           add_default_name_and_id_for_value(@checked_value, options)
@@ -136,7 +138,7 @@ module Shoelace
         sl_checkbox_tag = if block_given?
                             @template_object.content_tag('sl-checkbox', '', options, &block)
                           else
-                            @template_object.content_tag('sl-checkbox', @method_name.to_s.humanize, options)
+                            @template_object.content_tag('sl-checkbox', label || @method_name.to_s.humanize, options)
                           end
 
         if include_hidden
@@ -181,8 +183,9 @@ module Shoelace
         html_options = @html_options.stringify_keys
         html_options["value"] = value
         add_default_name_and_id(html_options)
+        html_options["label"] = @options[:label].presence || @method_name.humanize
 
-        @template_object.content_tag('sl-radio-group', html_options.with_defaults(label: @method_name.humanize)) { super(&block) }
+        @template_object.content_tag('sl-radio-group', html_options) { super(&block) }
       end
 
       def hidden_field
@@ -206,58 +209,68 @@ module Shoelace
         url: :url
       }.each do |field_type, field_class|
         # def email_field(method, **options, &block)
-        #   ShoelaceInputField.new(:email, object_name, method, @template, options.with_defaults(label: method.to_s.humanize)).render(&block)
+        #   ShoelaceInputField.new(:email, object_name, method, @template, options.with_defaults(label: label_text(method))).render(&block)
         # end
         eval <<-RUBY, nil, __FILE__, __LINE__ + 1
           def #{field_type}_field(method, **options, &block)
-            ShoelaceInputField.new(:#{field_class}, object_name, method, @template, options.with_defaults(object: @object, label: method.to_s.humanize)).render(&block)
+            ShoelaceInputField.new(:#{field_class}, object_name, method, @template, options.with_defaults(object: @object, label: label_text(method))).render(&block)
           end
         RUBY
       end
 
       def color_field(method, **options)
-        ShoelaceColorPicker.new(object_name, method, @template, options.with_defaults(object: @object)).render
+        ShoelaceColorPicker.new(object_name, method, @template, options.with_defaults(object: @object, label: label_text(method))).render
       end
       alias color_picker color_field
 
       def range_field(method, **options)
-        ShoelaceRange.new(object_name, method, @template, options.with_defaults(object: @object, label: method.to_s.humanize)).render
+        ShoelaceRange.new(object_name, method, @template, options.with_defaults(object: @object, label: label_text(method))).render
       end
       alias range range_field
 
       def switch_field(method, **options, &block)
-        ShoelaceSwitch.new(object_name, method, @template, options.with_defaults(object: @object)).render(&block)
+        if block_given?
+          ShoelaceSwitch.new(object_name, method, @template, options.with_defaults(object: @object)).render(&block)
+        else
+          ShoelaceSwitch.new(object_name, method, @template, options.with_defaults(object: @object, label: label_text(method))).render(&block)
+        end
       end
       alias switch switch_field
 
       def text_area(method, **options, &block)
-        ShoelaceTextArea.new(object_name, method, @template, options.with_defaults(object: @object, label: method.to_s.humanize, resize: 'auto')).render(&block)
+        ShoelaceTextArea.new(object_name, method, @template, options.with_defaults(object: @object, label: label_text(method), resize: 'auto')).render(&block)
       end
 
       def check_box(method, options = {}, checked_value = "1", unchecked_value = "0", &block)
-        ShoelaceCheckBox.new(object_name, method, @template, checked_value, unchecked_value, options.merge(object: @object)).render(&block)
+        ShoelaceCheckBox.new(object_name, method, @template, checked_value, unchecked_value, options.with_defaults(label: label_text(method)).merge(object: @object)).render(&block)
       end
 
       def select(method, choices = nil, options = {}, html_options = {}, &block)
-        ShoelaceSelect.new(object_name, method, @template, choices, options.with_defaults(object: @object), html_options.with_defaults(label: method.to_s.humanize), &block).render
+        ShoelaceSelect.new(object_name, method, @template, choices, options.with_defaults(object: @object), html_options.with_defaults(label: label_text(method)), &block).render
       end
 
       def collection_select(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-        ShoelaceCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html_options.with_defaults(label: method.to_s.humanize), &block).render
+        ShoelaceCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html_options.with_defaults(label: label_text(method)), &block).render
       end
 
       def grouped_collection_select(method, collection, group_method, group_label_method, option_key_method, option_value_method, options = {}, html_options = {})
-        ShoelaceGroupedCollectionSelect.new(object_name, method, @template, collection, group_method, group_label_method, option_key_method, option_value_method, options.with_defaults(object: @object), html_options.with_defaults(label: method.to_s.humanize)).render
+        ShoelaceGroupedCollectionSelect.new(object_name, method, @template, collection, group_method, group_label_method, option_key_method, option_value_method, options.with_defaults(object: @object), html_options.with_defaults(label: label_text(method))).render
       end
 
       def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-        ShoelaceCollectionRadioButtons.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html_options).render(&block)
+        ShoelaceCollectionRadioButtons.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object, label: label_text(method)), html_options).render(&block)
       end
 
       def submit(value = nil, options = {})
         value, options = nil, value if value.is_a?(Hash)
 
         @template.sl_submit_tag(value || submit_default_value, **options)
+      end
+
+      private
+
+      def label_text(method, tag_value = nil)
+        ::ActionView::Helpers::Tags::Label::LabelBuilder.new(@template, object_name, method, object, tag_value).to_s
       end
     end
 
