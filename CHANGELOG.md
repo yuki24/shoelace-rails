@@ -1,3 +1,9 @@
+## v0.6.0
+
+#### ⭐️ Features
+
+- Add the ability to use translations with form helpers
+
 ## [v0.5.0](https://github.com/yuki24/shoelace-rails/tree/v0.5.0)
 
 _<sup>released at 2024-03-09 08:54:30 UTC</sup>_
