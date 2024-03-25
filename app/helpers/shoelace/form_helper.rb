@@ -18,7 +18,7 @@ module Shoelace
 
         options["size"] = options["maxlength"] unless options.key?("size")
         options["type"] ||= field_type
-        options["class"] ||= [options["class"], Shoelace.invalid_input_class_name].compact.join(" ") if @object.respond_to?(:errors) && @object.errors[@method_name].present?
+        options["invalid"] = options["data-invalid"] = "" if object_has_errors?
 
         add_default_name_and_id(options)
 
@@ -27,12 +27,17 @@ module Shoelace
     end
 
     class ShoelaceColorPicker < ActionView::Helpers::Tags::ColorField #:nodoc:
-      RGB_VALUE_REGEX = /#[0-9a-fA-F]{6}/
+      RGB_VALUE_REGEX = /#[0-9a-fA-F]{6}/.freeze
 
       def field_type; nil; end
 
       def tag(tag_name, *args, &block)
         tag_name.to_s == 'input' ? content_tag('sl-color-picker', '', *args, &block) : super
+      end
+
+      def render
+        @options["invalid"] = @options["data-invalid"] = "" if object_has_errors?
+        super
       end
 
       private
@@ -44,6 +49,11 @@ module Shoelace
 
     class ShoelaceRange < ActionView::Helpers::Tags::NumberField #:nodoc:
       def field_type; nil; end
+
+      def render
+        @options["invalid"] = @options["data-invalid"] = "" if object_has_errors?
+        super
+      end
 
       def tag(tag_name, *args, &block)
         tag_name.to_s == 'input' ? content_tag('sl-range', '', *args, &block) : super
@@ -57,7 +67,8 @@ module Shoelace
         options = @options.stringify_keys
         options["value"] = options.fetch("value") { value_before_type_cast }
         add_default_name_and_id(options)
-        label = options.delete('label').presence || @method_name.to_s.humanize
+        label = options.delete('label').presence
+        options["invalid"] = options["data-invalid"] = "" if object_has_errors?
 
         @template_object.content_tag('sl-switch', label, options, &block)
       end
@@ -67,6 +78,7 @@ module Shoelace
       def render(&block)
         options = @options.stringify_keys
         options["value"] = options.fetch("value") { value_before_type_cast }
+        options["invalid"] = options["data-invalid"] = "" if object_has_errors?
         add_default_name_and_id(options)
 
         @template_object.content_tag("sl-textarea", '', options, &block)
@@ -85,6 +97,7 @@ module Shoelace
       def select_content_tag(option_tags, _options, html_options)
         html_options = html_options.stringify_keys
         html_options['value'] ||= value
+        html_options["invalid"] = html_options["data-invalid"] = "" if object_has_errors?
         add_default_name_and_id(html_options)
 
         @template_object.content_tag("sl-select", option_tags, html_options)
@@ -99,6 +112,7 @@ module Shoelace
       def select_content_tag(option_tags, _options, html_options)
         html_options = html_options.stringify_keys
         html_options['value'] ||= value
+        html_options["invalid"] = html_options["data-invalid"] = "" if object_has_errors?
         add_default_name_and_id(html_options)
 
         @template_object.content_tag("sl-select", option_tags, html_options)
@@ -113,6 +127,7 @@ module Shoelace
       def select_content_tag(option_tags, _options, html_options)
         html_options = html_options.stringify_keys
         html_options['value'] ||= value
+        html_options["invalid"] = html_options["data-invalid"] = "" if object_has_errors?
         add_default_name_and_id(html_options)
 
         @template_object.content_tag("sl-select", option_tags, html_options)
@@ -124,7 +139,8 @@ module Shoelace
         options = @options.stringify_keys
         options["value"]   = @checked_value
         options["checked"] = true if input_checked?(options)
-        label = options.delete("label") || @method_name.to_s.humanize
+        options["invalid"] = options["data-invalid"] = "" if object_has_errors?
+        label = options.delete("label")
 
         if options["multiple"]
           add_default_name_and_id_for_value(@checked_value, options)
@@ -138,7 +154,7 @@ module Shoelace
         sl_checkbox_tag = if block_given?
                             @template_object.content_tag('sl-checkbox', '', options, &block)
                           else
-                            @template_object.content_tag('sl-checkbox', label || @method_name.to_s.humanize, options)
+                            @template_object.content_tag('sl-checkbox', label, options)
                           end
 
         if include_hidden
@@ -183,7 +199,8 @@ module Shoelace
         html_options = @html_options.stringify_keys
         html_options["value"] = value
         add_default_name_and_id(html_options)
-        html_options["label"] = @options[:label].presence || @method_name.to_s.humanize
+        html_options["label"] = @options[:label].presence
+        html_options["invalid"] = html_options["data-invalid"] = "" if object_has_errors?
 
         @template_object.content_tag('sl-radio-group', html_options) { super(&block) }
       end

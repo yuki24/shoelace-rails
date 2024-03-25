@@ -82,6 +82,16 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#text_field with an invalid value" do
+    yuki = User.new.tap(&:validate)
+
+    sl_form_for(yuki, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.text_field(:name)
+        <sl-input label="Name" type="text" name="user[name]" id="user_name" data-invalid="" invalid=""></sl-input>
+      HTML
+    end
+  end
+
   test "#email_field" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.email_field(:name)
@@ -154,10 +164,30 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#color_field with an invalid value" do
+    yuki = User.new.tap(&:validate)
+
+    sl_form_for(yuki, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.color_field(:name)
+        <sl-color-picker name="user[name]" id="user_name" label="Name" data-invalid="" invalid=""></sl-color-picker>
+      HTML
+    end
+  end
+
   test "#range_field" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.range_field(:name)
         <sl-range label="Name" name="user[name]" id="user_name"></sl-range>
+      HTML
+    end
+  end
+
+  test "#range_field with an invalid value" do
+    yuki = User.new.tap(&:validate)
+
+    sl_form_for(yuki, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.range_field(:name)
+        <sl-range label="Name" name="user[name]" id="user_name" data-invalid="" invalid=""></sl-range>
       HTML
     end
   end
@@ -178,10 +208,30 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#switch_field with an invalid value" do
+    yuki = User.new.tap(&:validate)
+
+    sl_form_for(yuki, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.switch_field(:name)
+        <sl-switch name="user[name]" id="user_name" data-invalid="" invalid="">Name</sl-switch>
+      HTML
+    end
+  end
+
   test "#text_area" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.text_area(:name)
         <sl-textarea label="Name" resize="auto" name="user[name]" id="user_name"></sl-textarea>
+      HTML
+    end
+  end
+
+  test "#text_area with an invalid value" do
+    yuki = User.new.tap(&:validate)
+
+    sl_form_for(yuki, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.text_area(:name)
+        <sl-textarea label="Name" resize="auto" name="user[name]" id="user_name" data-invalid="" invalid=""></sl-textarea>
       HTML
     end
   end
@@ -234,33 +284,30 @@ class FormHelperTest < ActionView::TestCase
 
   test "#check_box" do
     sl_form_for(User.new, url: "/") do |form|
-      if ActionView::VERSION::STRING >= '6.1.0'
-        assert_dom_equal <<~HTML, form.check_box(:name)
-          <input name="user[name]" type="hidden" value="0" autocomplete="off" />
-          <sl-checkbox value="1" name="user[name]" id="user_name">Name</sl-checkbox>
-        HTML
-      else
-        assert_dom_equal <<~HTML, form.check_box(:name)
-          <input name="user[name]" type="hidden" value="0" />
-          <sl-checkbox value="1" name="user[name]" id="user_name">Name</sl-checkbox>
-        HTML
-      end
+      assert_dom_equal <<~HTML, form.check_box(:name)
+        <input name="user[name]" type="hidden" value="0" #{AUTOCOMPLETE_ATTRIBUTE} />
+        <sl-checkbox value="1" name="user[name]" id="user_name">Name</sl-checkbox>
+      HTML
+    end
+  end
+
+  test "#check_box with an invalid value" do
+    yuki = User.new.tap(&:validate)
+
+    sl_form_for(yuki, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.check_box(:name)
+        <input name="user[name]" type="hidden" value="0" #{AUTOCOMPLETE_ATTRIBUTE} />
+        <sl-checkbox value="1" name="user[name]" id="user_name" data-invalid="" invalid="">Name</sl-checkbox>
+      HTML
     end
   end
 
   test "#check_box with a block" do
     sl_form_for(User.new, url: "/") do |form|
-      if ActionView::VERSION::STRING >= '6.1.0'
-        assert_dom_equal <<~HTML, form.check_box(:name) { "Maintainer Name" }
-          <input name="user[name]" type="hidden" value="0" autocomplete="off" />
-          <sl-checkbox value="1" name="user[name]" id="user_name">Maintainer Name</sl-checkbox>
-        HTML
-      else
-        assert_dom_equal <<~HTML, form.check_box(:name) { "Maintainer Name" }
-          <input name="user[name]" type="hidden" value="0" />
-          <sl-checkbox value="1" name="user[name]" id="user_name">Maintainer Name</sl-checkbox>
-        HTML
-      end
+      assert_dom_equal <<~HTML, form.check_box(:name) { "Maintainer Name" }
+        <input name="user[name]" type="hidden" value="0" #{AUTOCOMPLETE_ATTRIBUTE} />
+        <sl-checkbox value="1" name="user[name]" id="user_name">Maintainer Name</sl-checkbox>
+      HTML
     end
   end
 
@@ -282,6 +329,25 @@ class FormHelperTest < ActionView::TestCase
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.select(:name, users)
         <sl-select label="Name" name="user[name]" id="user_name">
+          <sl-option value="1">Yuki Nishijima</sl-option>
+          <sl-option value="2">Matz</sl-option>
+          <sl-option value="3">Koichi Sasada</sl-option>
+        </sl-select>
+      HTML
+    end
+  end
+
+  test "#select with an invalid value" do
+    yuki = User.new.tap(&:validate)
+    users = {
+      "Yuki Nishijima" => 1,
+      "Matz" => 2,
+      "Koichi Sasada" => 3
+    }
+
+    sl_form_for(yuki, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.select(:name, users)
+        <sl-select label="Name" name="user[name]" id="user_name" data-invalid="" invalid="">
           <sl-option value="1">Yuki Nishijima</sl-option>
           <sl-option value="2">Matz</sl-option>
           <sl-option value="3">Koichi Sasada</sl-option>
@@ -412,6 +478,25 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#collection_select with an invalid value" do
+    yuki = User.new.tap(&:validate)
+    users = {
+      1 => "Yuki Nishijima",
+      2 => "Matz",
+      3 => "Koichi Sasada",
+    }
+
+    sl_form_for(yuki, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.collection_select(:name, users, :first, :last)
+        <sl-select label="Name" name="user[name]" id="user_name" data-invalid="" invalid="">
+          <sl-option value="1">Yuki Nishijima</sl-option>
+          <sl-option value="2">Matz</sl-option>
+          <sl-option value="3">Koichi Sasada</sl-option>
+        </sl-select>
+      HTML
+    end
+  end
+
   test "#collection_select with a default value" do
     users = {
       1 => "Yuki Nishijima",
@@ -459,6 +544,36 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  test "#grouped_collection_select with an invalid value" do
+    yuki = User.new.tap(&:validate)
+    users = [
+      OpenStruct.new(
+        group_name: "Main maintainers",
+        members: [
+          OpenStruct.new(id: 1, name: "Matz"),
+          OpenStruct.new(id: 2, name: "Koichi Sasada"),
+        ]
+      ),
+      OpenStruct.new(
+        group_name: "Default gem maintainers",
+        members: [OpenStruct.new(id: 3, name: "Yuki Nishijima")]
+      ),
+    ]
+
+    sl_form_for(yuki, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.grouped_collection_select(:name, users, :members, :group_name, :id, :name)
+        <sl-select label="Name" name="user[name]" id="user_name" data-invalid="" invalid="">
+          <small>Main maintainers</small>
+          <sl-option value="1">Matz</sl-option>
+          <sl-option value="2">Koichi Sasada</sl-option>
+          <sl-divider></sl-divider>
+          <small>Default gem maintainers</small>
+          <sl-option value="3">Yuki Nishijima</sl-option>
+        </sl-select>
+      HTML
+    end
+  end
+
   test "#collection_radio_buttons" do
     users = {
       1 => "Yuki Nishijima",
@@ -469,6 +584,25 @@ class FormHelperTest < ActionView::TestCase
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.collection_radio_buttons(:name, users, :first, :last)
         <sl-radio-group label="Name" name="user[name]" id="user_name">
+          <sl-radio value="1" id="user_name_1">Yuki Nishijima</sl-radio>
+          <sl-radio value="2" id="user_name_2">Matz</sl-radio>
+          <sl-radio value="3" id="user_name_3">Koichi Sasada</sl-radio>
+        </sl-radio-group>
+      HTML
+    end
+  end
+
+  test "#collection_radio_buttons with an invalid value" do
+    yuki = User.new.tap(&:validate)
+    users = {
+      1 => "Yuki Nishijima",
+      2 => "Matz",
+      3 => "Koichi Sasada",
+    }
+
+    sl_form_for(yuki, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.collection_radio_buttons(:name, users, :first, :last)
+        <sl-radio-group label="Name" name="user[name]" id="user_name" data-invalid="" invalid="">
           <sl-radio value="1" id="user_name_1">Yuki Nishijima</sl-radio>
           <sl-radio value="2" id="user_name_2">Matz</sl-radio>
           <sl-radio value="3" id="user_name_3">Koichi Sasada</sl-radio>

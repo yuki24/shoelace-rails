@@ -1,3 +1,13 @@
+## Unreleased
+
+#### ⭐🚨 Breaking Changes
+
+- Deprecate `config.shoelace.invalid_input_class_name` in favor of `data-invalid` and `data-use-invalid`
+
+#### ⭐️ Features
+
+- Add `data-invalid` and `data-use-invalid` to the `Shoelace::FormBuilder`
+
 ## v0.6.2
 
 #### 🐞Bug Fixes

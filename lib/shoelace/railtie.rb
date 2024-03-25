@@ -30,7 +30,7 @@ module Shoelace
     # Path to the shoelace assets.
     config.shoelace.dist_path = "node_modules/@shoelace-style/shoelace/dist"
 
-    # Class name that is added to a form input when the corresponding attribute has an `ActiveModel` error.
+    # Deprecated.
     config.shoelace.invalid_input_class_name = nil
 
     initializer "shoelace.use_rack_middleware" do |app|
@@ -45,9 +45,7 @@ module Shoelace
     end
 
     initializer "shoelace.form_helper" do |app|
-      ActiveSupport.on_load :action_view do
-        Shoelace.invalid_input_class_name = app.config.shoelace.invalid_input_class_name
-      end
+      # This exists only for maintaining backwards compatibility with the `invalid_input_class_name` option.
     end
 
     rake_tasks do
