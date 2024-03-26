@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 require 'test_helper'
 
-require_relative '../../app/helpers/shoelace/form_helper'
+require_relative '../../app/helpers/shoelace/sl_form_builder'
 
 class TranslationTest < ActionView::TestCase
   include ActionView::Helpers::TranslationHelper
-  include Shoelace::FormHelper
-
-  AUTOCOMPLETE_ATTRIBUTE = ActionView::VERSION::STRING >= '6.1.0' ? 'autocomplete="off"' : ''
+  include Shoelace::SlFormHelper
 
   setup do
     I18n.backend.store_translations :en,

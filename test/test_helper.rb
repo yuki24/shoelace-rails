@@ -9,8 +9,12 @@ require "action_view"
 require "action_view/testing/resolvers"
 require "active_model"
 
+require_relative '../app/helpers/shoelace/sl_form_builder'
+
 ActionView::TestCase.include(Rails::Dom::Testing::Assertions)
-ActionView::Base.field_error_proc = proc { |html_tag, _instance| html_tag }
+Shoelace::SlFormBuilder.field_error_proc = nil
+
+AUTOCOMPLETE_ATTRIBUTE = ActionView::VERSION::STRING >= '6.1.0' ? 'autocomplete="off"' : ''
 
 class User
   include ActiveModel::Model
