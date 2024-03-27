@@ -13,7 +13,7 @@ module Shoelace
         options["invalid"] = options["data-invalid"] = "" if object_has_errors?
         add_default_name_and_id(options)
 
-        content_tag("sl-textarea", '', options, &block)
+        @template_object.content_tag("sl-textarea", '', options, &block)
       end
     end
   end

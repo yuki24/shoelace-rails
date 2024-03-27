@@ -13,7 +13,7 @@ module Shoelace
         add_default_name_and_id_for_value(@tag_value, options)
         options.delete("name")
 
-        content_tag('sl-radio', '', options.except("type"), &block)
+        @template_object.content_tag('sl-radio', '', options.except("type"), &block)
       end
     end
   end

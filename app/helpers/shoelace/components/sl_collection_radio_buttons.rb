@@ -32,7 +32,7 @@ module Shoelace
         html_options["label"] = @options[:label].presence
         html_options["invalid"] = html_options["data-invalid"] = "" if object_has_errors?
 
-        content_tag('sl-radio-group', html_options) { super(&block) }
+        @template_object.content_tag('sl-radio-group', html_options) { super(&block) }
       end
 
       def hidden_field

@@ -24,9 +24,9 @@ module Shoelace
         include_hidden = options.delete("include_hidden") { true }
 
         sl_checkbox_tag = if block_given?
-                            content_tag('sl-checkbox', '', options, &block)
+                            @template_object.content_tag('sl-checkbox', '', options, &block)
                           else
-                            content_tag('sl-checkbox', label, options)
+                            @template_object.content_tag('sl-checkbox', label, options)
                           end
 
         if include_hidden

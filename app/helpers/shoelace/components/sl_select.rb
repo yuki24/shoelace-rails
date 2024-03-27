@@ -14,7 +14,7 @@ module Shoelace
         @template_object.content_tag("sl-select", html_options) do
           "".html_safe.tap do |html|
             html.safe_concat(option_tags)
-            html.safe_concat(capture(&slot)) if slot
+            html.safe_concat(@template_object.capture(&slot)) if slot
           end
         end
       end
