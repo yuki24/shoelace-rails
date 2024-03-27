@@ -49,10 +49,20 @@ class FormBuilderSlSelectTest < ActionView::TestCase
         assert_dom_equal <<~HTML, form.select(:name, "Yuki Nishijima" => 1)
           <sl-select label="Name" name="user[name]" id="user_name">
             <sl-option value="1">Yuki Nishijima</sl-option>
-            <div slot="help-text">Help text for name </div>
+            <div slot="help-text">Help text for name</div>
           </sl-select>
         HTML
       end
+    end
+  end
+
+  test "#select with a block that does not return anything" do
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.select(:name, "Yuki Nishijima" => 1) { }
+        <sl-select label="Name" name="user[name]" id="user_name">
+          <sl-option value="1">Yuki Nishijima</sl-option>
+        </sl-select>
+      HTML
     end
   end
 

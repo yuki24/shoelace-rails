@@ -5,6 +5,8 @@ require_relative './error_wrappable'
 module Shoelace
   module Components
     module SlSelectRenderable
+      EMPTY = "".html_safe.freeze
+
       def select_content_tag(option_tags, _options, html_options)
         html_options = html_options.stringify_keys
         html_options['value'] ||= value
@@ -14,7 +16,7 @@ module Shoelace
         @template_object.content_tag("sl-select", html_options) do
           "".html_safe.tap do |html|
             html.safe_concat(option_tags)
-            html.safe_concat(@template_object.capture(&slot)) if slot
+            html.safe_concat(@template_object.capture(&slot) || EMPTY) if slot
           end
         end
       end
