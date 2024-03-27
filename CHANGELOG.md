@@ -6,7 +6,8 @@
 
 #### ⭐️ Features
 
-- Add `data-invalid` and `data-use-invalid` to the `Shoelace::FormBuilder`
+- Add `invalid` and `data-invalid` to the `Shoelace::FormBuilder`
+- Add the ability to specify a method for rendering slot for input components
 
 ## v0.6.2
 

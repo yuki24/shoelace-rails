@@ -88,6 +88,26 @@ class FormBuilderSlInputTest < ActionView::TestCase
     end
   end
 
+  test "#text_field with a default help text block" do
+    with_default_input_slot_method do
+      sl_form_for(User.new(name: "Yuki"), url: "/") do |form|
+        assert_dom_equal <<~HTML, form.text_field(:name)
+          <sl-input label="Name" type="text" name="user[name]" id="user_name" value="Yuki">
+            <div slot="help-text">Help text for name Yuki</div>
+          </sl-input>
+        HTML
+      end
+
+      sl_form_for(User.new(name: "Yuki"), url: "/") do |form|
+        assert_dom_equal <<~HTML, form.text_field(:name) { "slot" }
+          <sl-input label="Name" type="text" name="user[name]" id="user_name" value="Yuki">
+            slot
+          </sl-input>
+        HTML
+      end
+    end
+  end
+
   test "#url_field" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.url_field(:name)

@@ -26,7 +26,7 @@ module Shoelace
 
         add_default_name_and_id(options)
 
-        content_tag('sl-input', '', options, &block)
+        @template_object.content_tag('sl-input', '', options, &block)
       end
     end
   end

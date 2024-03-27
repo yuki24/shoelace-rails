@@ -43,6 +43,19 @@ class FormBuilderSlSelectTest < ActionView::TestCase
     end
   end
 
+  test "#select with a default help text block" do
+    with_default_input_slot_method do
+      sl_form_for(User.new, url: "/") do |form|
+        assert_dom_equal <<~HTML, form.select(:name, "Yuki Nishijima" => 1)
+          <sl-select label="Name" name="user[name]" id="user_name">
+            <sl-option value="1">Yuki Nishijima</sl-option>
+            <div slot="help-text">Help text for name </div>
+          </sl-select>
+        HTML
+      end
+    end
+  end
+
   test "#select with a custom value" do
     users = {
       "Yuki Nishijima" => 1,
@@ -165,6 +178,19 @@ class FormBuilderSlSelectTest < ActionView::TestCase
     end
   end
 
+  test "#collection_select with a default help text block" do
+    with_default_input_slot_method do
+      sl_form_for(User.new, url: "/") do |form|
+        assert_dom_equal <<~HTML, form.collection_select(:name, { 1 => "Yuki Nishijima" }, :first, :last)
+          <sl-select label="Name" name="user[name]" id="user_name">
+            <sl-option value="1">Yuki Nishijima</sl-option>
+            <div slot="help-text">Help text for name </div>
+          </sl-select>
+        HTML
+      end
+    end
+  end
+
   test "#collection_select with an invalid value" do
     yuki = User.new.tap(&:validate)
     users = {
@@ -228,6 +254,27 @@ class FormBuilderSlSelectTest < ActionView::TestCase
           <sl-option value="3">Yuki Nishijima</sl-option>
         </sl-select>
       HTML
+    end
+  end
+
+  test "#grouped_collection_select with a default help text block" do
+    users = [
+      OpenStruct.new(
+        group_name: "Default gem maintainers",
+        members: [OpenStruct.new(id: 3, name: "Yuki Nishijima")]
+      ),
+    ]
+
+    with_default_input_slot_method do
+      sl_form_for(User.new(name: "2"), url: "/") do |form|
+        assert_dom_equal <<~HTML, form.grouped_collection_select(:name, users, :members, :group_name, :id, :name)
+          <sl-select label="Name" name="user[name]" id="user_name" value="2">
+            <small>Default gem maintainers</small>
+            <sl-option value="3">Yuki Nishijima</sl-option>
+            <div slot="help-text">Help text for name 2</div>
+          </sl-select>
+        HTML
+      end
     end
   end
 

@@ -15,6 +15,9 @@ module Shoelace
     # Shoelace components by default.
     cattr_accessor :field_error_proc
 
+    # Similar concept to the Rails field_error_proc, but for Shoelace's commonly used `help-text slot`.
+    cattr_accessor :default_input_slot_method
+
     {
       email: :email,
       number: :number,
@@ -26,11 +29,13 @@ module Shoelace
       url: :url
     }.each do |field_type, field_class|
       # def email_field(method, **options, &block)
+      #   slot = wrap_with_default_slot(method, &block)
       #   Components::SlInput.new(:email, object_name, method, @template, options.with_defaults(label: label_text(method))).render(&block)
       # end
       eval <<-RUBY, nil, __FILE__, __LINE__ + 1
         def #{field_type}_field(method, **options, &block)
-          Components::SlInput.new(:#{field_class}, object_name, method, @template, options.with_defaults(object: @object, label: label_text(method))).render(&block)
+          slot = wrap_with_default_slot(method, &block)
+          Components::SlInput.new(:#{field_class}, object_name, method, @template, options.with_defaults(object: @object, label: label_text(method))).render(&slot)
         end
       RUBY
     end
@@ -63,15 +68,18 @@ module Shoelace
     end
 
     def select(method, choices = nil, options = {}, html_options = {}, &block)
-      Components::SlSelect.new(object_name, method, @template, choices, options.with_defaults(object: @object), html_options.with_defaults(label: label_text(method)), &block).render
+      slot = wrap_with_default_slot(method, &block)
+      Components::SlSelect.new(object_name, method, @template, choices, options.with_defaults(object: @object), html_options.with_defaults(label: label_text(method)), slot).render
     end
 
     def collection_select(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-      Components::SlCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html_options.with_defaults(label: label_text(method)), &block).render
+      slot = wrap_with_default_slot(method, &block)
+      Components::SlCollectionSelect.new(object_name, method, @template, collection, value_method, text_method, options.with_defaults(object: @object), html_options.with_defaults(label: label_text(method)), slot).render
     end
 
-    def grouped_collection_select(method, collection, group_method, group_label_method, option_key_method, option_value_method, options = {}, html_options = {})
-      Components::SlGroupedCollectionSelect.new(object_name, method, @template, collection, group_method, group_label_method, option_key_method, option_value_method, options.with_defaults(object: @object), html_options.with_defaults(label: label_text(method))).render
+    def grouped_collection_select(method, collection, group_method, group_label_method, option_key_method, option_value_method, options = {}, html_options = {}, &block)
+      slot = wrap_with_default_slot(method, &block)
+      Components::SlGroupedCollectionSelect.new(object_name, method, @template, collection, group_method, group_label_method, option_key_method, option_value_method, options.with_defaults(object: @object), html_options.with_defaults(label: label_text(method)), slot).render
     end
 
     def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
@@ -88,6 +96,14 @@ module Shoelace
 
     def label_text(method, tag_value = nil)
       ::ActionView::Helpers::Tags::Label::LabelBuilder.new(@template, object_name.to_s, method.to_s, object, tag_value).translation
+    end
+
+    def wrap_with_default_slot(method_name, &user_defined_slot)
+      if default_input_slot_method && !block_given?
+        -> { @template.method(default_input_slot_method).call(object, method_name) }
+      else
+        user_defined_slot
+      end
     end
   end
 
