@@ -4,7 +4,7 @@ require_relative './error_wrappable'
 
 module Shoelace
   module Components
-    class SlCheckBox < ActionView::Helpers::Tags::CheckBox #:nodoc:
+    class SlCheckbox < ActionView::Helpers::Tags::CheckBox #:nodoc:
       include ErrorWrappable
 
       def render(&block)

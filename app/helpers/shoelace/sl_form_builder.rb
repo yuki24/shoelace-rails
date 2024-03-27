@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require_relative './components/sl_checkbox'
+require_relative './components/sl_collection_radio_buttons'
 require_relative './components/sl_color_picker'
 require_relative './components/sl_input'
-require_relative './components/sl_radio_group'
+require_relative './components/sl_radio_button'
 require_relative './components/sl_range'
 require_relative './components/sl_select'
 require_relative './components/sl_switch'
@@ -64,7 +65,7 @@ module Shoelace
     end
 
     def check_box(method, options = {}, checked_value = "1", unchecked_value = "0", &block)
-      Components::SlCheckBox.new(object_name, method, @template, checked_value, unchecked_value, options.with_defaults(label: label_text(method)).merge(object: @object)).render(&block)
+      Components::SlCheckbox.new(object_name, method, @template, checked_value, unchecked_value, options.with_defaults(label: label_text(method)).merge(object: @object)).render(&block)
     end
 
     def select(method, choices = nil, options = {}, html_options = {}, &block)

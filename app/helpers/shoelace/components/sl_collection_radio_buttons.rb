@@ -4,19 +4,6 @@ require_relative './error_wrappable'
 
 module Shoelace
   module Components
-    class SlRadioButton < ActionView::Helpers::Tags::RadioButton #:nodoc:
-      include ErrorWrappable
-
-      def render(&block)
-        options = @options.stringify_keys
-        options["value"]   = @tag_value
-        add_default_name_and_id_for_value(@tag_value, options)
-        options.delete("name")
-
-        content_tag('sl-radio', '', options.except("type"), &block)
-      end
-    end
-
     class SlCollectionRadioButtons < ActionView::Helpers::Tags::CollectionRadioButtons #:nodoc:
       include ErrorWrappable
 
