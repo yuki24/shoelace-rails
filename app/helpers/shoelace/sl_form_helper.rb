@@ -136,7 +136,4 @@ module Shoelace
       RUBY
     end
   end
-
-  FormHelper = SlFormHelper
-  deprecate_constant :FormHelper
 end

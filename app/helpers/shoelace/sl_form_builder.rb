@@ -107,7 +107,4 @@ module Shoelace
       end
     end
   end
-
-  FormBuilder = SlFormBuilder
-  deprecate_constant :FormBuilder
 end
