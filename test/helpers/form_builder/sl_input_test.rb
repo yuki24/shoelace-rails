@@ -32,6 +32,14 @@ class FormBuilderSlInputTest < ActionView::TestCase
     end
   end
 
+  test "#date_field" do
+    sl_form_for(User.new, url: "/") do |form|
+      assert_dom_equal <<~HTML, form.date_field(:name)
+        <sl-input label="Name" type="date" name="user[name]" id="user_name"></sl-input>
+      HTML
+    end
+  end
+
   test "#email_field" do
     sl_form_for(User.new, url: "/") do |form|
       assert_dom_equal <<~HTML, form.email_field(:name)

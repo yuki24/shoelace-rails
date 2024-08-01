@@ -20,6 +20,7 @@ module Shoelace
     cattr_accessor :default_input_slot_method
 
     {
+      date: :date,
       email: :email,
       number: :number,
       password: :password,
