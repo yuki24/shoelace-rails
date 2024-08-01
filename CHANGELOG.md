@@ -1,6 +1,6 @@
 ## Unreleased
 
-#### ⭐🚨 Breaking Changes
+#### 🚨 Breaking Changes
 
 - Deprecate `config.shoelace.invalid_input_class_name` in favor of `data-invalid` and `data-use-invalid`
 
@@ -8,6 +8,7 @@
 
 - Add `invalid` and `data-invalid` to the `Shoelace::FormBuilder`
 - Add the ability to specify a method for rendering slot for input components
+- Add `FormBuilder#date_field` method
 
 ## v0.6.2
 
