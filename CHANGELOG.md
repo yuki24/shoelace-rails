@@ -2,19 +2,35 @@
 
 #### 🚨 Breaking Changes
 
-- Deprecate `config.shoelace.invalid_input_class_name` in favor of `data-invalid` and `data-use-invalid`
+#### ⭐️ Features
+
+#### 🐞 Bug Fixes
+
+## [v0.7.0](https://github.com/yuki24/shoelace-rails/tree/v0.7.0)
+
+_<sup>released at 2024-08-01 04:47:41 UTC</sup>_
+
+#### 🚨 Breaking Changes
+
+- Deprecate `config.shoelace.invalid_input_class_name` in favor of `data-invalid` and `data-use-invalid` ([<tt>461b622</tt>](https://github.com/yuki24/shoelace-rails/commit/461b6229a3b1917fab6db49ddc9f10003b8a54f9))
 
 #### ⭐️ Features
 
-- Add `invalid` and `data-invalid` to the `Shoelace::FormBuilder`
-- Add the ability to specify a method for rendering slot for input components
-- Add `FormBuilder#date_field` method
+- Add `invalid` and `data-invalid` to the `Shoelace::FormBuilder` ([<tt>461b622</tt>](https://github.com/yuki24/shoelace-rails/commit/461b6229a3b1917fab6db49ddc9f10003b8a54f9))
+- Add the ability to specify a method for rendering slot for input components ([<tt>6b8b2d3</tt>](https://github.com/yuki24/shoelace-rails/commit/6b8b2d3537bea4fc779b25183be6b8b4ad6b8365))
+- Add `FormBuilder#date_field` method ([<tt>73b92be</tt>](https://github.com/yuki24/shoelace-rails/commit/73b92becbf44bc277202e4085201c035fed430bb))
 
-## v0.6.2
+#### 🐞 Bug Fixes
+
+- Fixes a bug where `FormBuilder#select` blows up with an empty block ([<tt>f0addb2</tt>](https://github.com/yuki24/shoelace-rails/commit/f0addb2315f03daa0a11a9c4227e427c0666cd3f))
+
+## [v0.6.2](https://github.com/yuki24/shoelace-rails/tree/v0.6.2)
+
+_<sup>released at 2024-08-01 04:38:17 UTC</sup>_
 
 #### 🐞Bug Fixes
 
-- Fixes a bug where form builders fail to render when it falls back to humanize the given method name
+- Fixes a bug where form builders fail to render when it falls back to humanize the given method name ([<tt>74b646e</tt>](https://github.com/yuki24/shoelace-rails/commit/74b646e3fa96768680dd1fda314b8367f98ee69a))
 
 ## [v0.6.1](https://github.com/yuki24/shoelace-rails/tree/v0.6.1)
 
@@ -22,7 +38,7 @@ _<sup>released at 2024-03-13 03:05:20 UTC</sup>_
 
 #### 🐞Bug Fixes
 
-- Fixes a bug where form builders fail to render with a string `:as` option
+- Fixes a bug where form builders fail to render with a string `:as` option ([<tt>d631025</tt>](https://github.com/yuki24/shoelace-rails/commit/d63102559fdcaaa79c01a210769667cac77b197d))
 
 ## [v0.6.0](https://github.com/yuki24/shoelace-rails/tree/v0.6.0)
 
