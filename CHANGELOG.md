@@ -1,8 +1,18 @@
-## v0.8.0
+## Unreleased
+
+#### 🚨 Breaking Changes
 
 #### ⭐️ Features
 
-- Add support for Rails 7.1 (5f934f10660dd79a5317205536edf7d18df2bb97)
+#### 🐞 Bug Fixes
+
+## [v0.8.0](https://github.com/yuki24/shoelace-rails/tree/v0.8.0)
+
+_<sup>released at 2024-08-16 05:46:10 UTC</sup>_
+
+#### ⭐️ Features
+
+- Add support for Rails 7.1 ([<tt>5f934f1</tt>](https://github.com/yuki24/shoelace-rails/commit/5f934f10660dd79a5317205536edf7d18df2bb97))
 
 ## [v0.7.0](https://github.com/yuki24/shoelace-rails/tree/v0.7.0)
 
